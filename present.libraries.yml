@@ -1,0 +1,33 @@
+library:
+  remote: https://github.com/hakimel/reveal.js/
+  license:
+    name: MIT
+    url: https://github.com/hakimel/reveal.js/blob/master/LICENSE
+    gpl-compatible: true
+  header: true
+  js:
+    /libraries/reveal.js/dist/reveal.js:
+      minified: true
+    /libraries/reveal.js/plugin/notes/notes.js:
+      minified: true
+    /libraries/reveal.js/plugin/markdown/markdown.js:
+      minified: true
+    /libraries/reveal.js/plugin/highlight/highlight.js:
+      minified: true
+  css:
+    base:
+      /libraries/reveal.js/dist/reveal.css: { minified: true }
+      /libraries/reveal.js/dist/theme/sky.css: { minified: true }
+
+reveal:
+  js:
+    js/reveal.drupal.js: {}
+  # css:
+  #   base:
+  #     css/reveal-extend.css: {}
+  dependencies:
+    - present/library
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+

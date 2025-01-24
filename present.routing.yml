@@ -1,0 +1,8 @@
+present.presentation:
+  path: '/present/test/{user}'
+  defaults:
+    _controller: '\Drupal\present\Controller\PresentationController::present'
+    _title: 'Reveal.js Presentation'
+    user: 0
+  requirements:
+    _permission: 'access content'

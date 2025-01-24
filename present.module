@@ -1,0 +1,28 @@
+<?php
+
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_theme().
+ */
+function present_theme() {
+  return [
+    'revealjs_presentation' => [
+      'render element' => 'presentation',
+    ],
+    'revealjs_slide' => [
+      'render element' => 'slide',
+    ],
+  ];
+}
+
+function template_preprocess_revealjs_presentation(&$variables) {
+  $presentation = $variables['presentation'];
+  $variables['attributes'] = new Attribute($presentation['#attributes']);
+  $variables['slides'] = $presentation['#slides'];
+}
+
+function template_preprocess_revealjs_slide(&$variables) {
+  $slide = $variables['slide'];
+  $variables['content'] = $slide['#content'];
+}

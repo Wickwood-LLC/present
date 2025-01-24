@@ -1,0 +1,4 @@
+type: module
+name: Present
+description: Create interactive and rich presentations.
+core_version_requirement: ^10 || ^11
