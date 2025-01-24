@@ -13,6 +13,9 @@ function present_theme() {
     'revealjs_slide' => [
       'render element' => 'slide',
     ],
+    'present_vimeo_player' => [
+      'render element' => 'vimeo',
+    ]
   ];
 }
 
@@ -25,4 +28,9 @@ function template_preprocess_revealjs_presentation(&$variables) {
 function template_preprocess_revealjs_slide(&$variables) {
   $slide = $variables['slide'];
   $variables['content'] = $slide['#content'];
+}
+
+function template_preprocess_present_vimeo_player(&$variables) {
+  $vimeo = $variables['vimeo'];
+  $variables['attributes'] = new Attribute($vimeo['#attributes']);
 }

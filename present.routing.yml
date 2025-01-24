@@ -6,3 +6,14 @@ present.presentation:
     user: 0
   requirements:
     _permission: 'access content'
+
+
+present.vimeo_even:
+  path: '/ajax/present/vimeo-event'
+  defaults:
+    _controller: '\Drupal\present\Controller\PresentationController::vimeoEvent'
+    _title: 'Vimeo Event'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
+    _method: 'POST'

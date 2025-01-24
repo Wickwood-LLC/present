@@ -2,13 +2,27 @@
 
 namespace Drupal\present\Controller;
 
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\present\Event\VimeoPlayerEvent;
 use Drupal\user\UserInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Controller for building reveal.js presentations.
  */
 class PresentationController extends ControllerBase {
+
+  public function __construct(
+    #[Autowire(service: 'event_dispatcher')]
+    protected EventDispatcherInterface $eventDispatcher
+  ) {
+    
+  }
+
 
   /**
    * Build the block instance add form.
@@ -39,11 +53,46 @@ class PresentationController extends ControllerBase {
           ->getViewBuilder('media');
 
     $media_1 = $media_storage->load(129);
-    $media_2 = $media_storage->load(134);
+    // $media_2 = $media_storage->load(134);
+
+    // $slides[] = [
+    //   '#type' => 'revealjs_slide',
+    //   '#content' => [
+    //     '#type' => 'present_vimeo_player',
+    //     '#options' => [
+    //       'url' => 'https://vimeo.com/1047002014/725dcc9318',
+    //       'width' => 640,
+    //     ],
+    //   ],
+    // ];
+
+    // $slides[] = [
+    //   '#type' => 'revealjs_slide',
+    //   '#content' => $media_view_builder->view($media_1, 'player'),
+    // ];
+
+    $vimeo_video = [
+      '#type' => 'present_vimeo_player',
+      '#options' => [
+        'url' => 'https://vimeo.com/913395668', // https://vimeo.com/1047002014/725dcc9318
+        // 'width' => 640,
+        'responsive' => true,
+        // 'autoplay' => true,
+        'play_button_position' => 'center',
+        'title' => false,
+        'portrait' => false,
+        'byline' => false,
+        'vimeo_logo' => false,
+      ],
+      '#events_to_fire' => ['ended'],
+    ];
 
     $slides[] = [
       '#type' => 'revealjs_slide',
-      '#content' => $media_view_builder->view($media_1, 'player'),
+      '#content' => $vimeo_video,
+      '#cache' => [
+        'max-age' => 0,
+      ],
     ];
 
     $slides[] = [
@@ -58,12 +107,41 @@ class PresentationController extends ControllerBase {
       ],
     ];
     return [
-      '#type' => 'revealjs_presentation',
-      '#slides' => $slides,
-      '#cache' => [
-        'max-age' => 0,
+      'presentation' => [
+        '#type' => 'revealjs_presentation',
+        '#slides' => $slides,
+        '#cache' => [
+          'max-age' => 0,
+        ],
       ],
+      // 'vimeo' => [
+      //   '#type' => 'revealjs_slide',
+      //   '#content' => $vimeo_video,
+      //   '#cache' => [
+      //     'max-age' => 0,
+      //   ],
+      // ],
     ];
+  }
+
+  /**
+   * Responds to the AJAX request.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The incoming request object.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The AJAX response containing the rendered entity content.
+   */
+  public function vimeoEvent(Request $request): Response {
+    // Get data from the POST request.
+    $data = $request->request->all();
+
+    $vimeo_event = new VimeoPlayerEvent($data['name'], $data['data'], $data['embed_options']);
+    $this->eventDispatcher->dispatch($vimeo_event, VimeoPlayerEvent::VIMEO_PLAYER_EVENT);
+
+    $response = new AjaxResponse();
+    return $response;
   }
 
 }
