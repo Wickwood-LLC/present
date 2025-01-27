@@ -40,13 +40,52 @@
         var attr_options = $this.attr('data-vimeo-options');
         var options = JSON.parse(attr_options);
 
-        const player_div = document.createElement('div');
-        player_div.setAttribute('class', 'vimeo-player');
-        this.appendChild(player_div);
-
         // Get list events to cpatured and passed to the server for processing.
         var events = JSON.parse($this.attr('data-vimeo-events') || []);
-        initVimeoPlayer(player_div, options, events)
+
+        const mediaQueryList = window.matchMedia("(orientation: landscape)");
+        if (typeof options.url === 'object') {
+          if (options.url.hasOwnProperty('landscape') && options.url.hasOwnProperty('portrait')) {
+            const landscape_options = Object.assign({}, options, {url: options.url.landscape});
+            const portrait_options = Object.assign({}, options, {url: options.url.portrait});
+
+            const landscape_player_div = document.createElement('div');
+            landscape_player_div.setAttribute('class', 'vimeo-player');
+            this.appendChild(landscape_player_div);
+            initVimeoPlayer(landscape_player_div, landscape_options, events);
+
+            const portrait_player_div = document.createElement('div');
+            portrait_player_div.setAttribute('class', 'vimeo-player');
+            this.appendChild(portrait_player_div);
+            initVimeoPlayer(portrait_player_div, portrait_options, events);
+
+            if (mediaQueryList.matches) {
+              $(portrait_player_div).hide();
+            }
+            else {
+              $(landscape_player_div).hide();
+            }
+
+            mediaQueryList.addEventListener("change", (e) => {
+              if (e.matches) {
+                $(portrait_player_div).hide();
+                $(landscape_player_div).show();
+              } else {
+                $(landscape_player_div).hide();
+                $(portrait_player_div).show();
+              }
+            });
+          }
+          else {
+
+          }
+        }
+        else {
+          const player_div = document.createElement('div');
+          player_div.setAttribute('class', 'vimeo-player');
+          this.appendChild(player_div);
+          initVimeoPlayer(player_div, options, events)
+        }
       })
     },
   };
