@@ -67,8 +67,13 @@ class UserCodeToEntityConverter implements ParamConverterInterface {
    * {@inheritdoc}
    */
   public function convert($value, $definition, $name, array $defaults) {
-    // Attempt to load the User entity using the provided user ID.
-    $uid = static::getUserID($value);
+    if ($value) {
+      // Attempt to load the User entity using the provided user ID.
+      $uid = static::getUserID($value);
+    }
+    else {
+      $uid = 0;
+    }
     $user = User::load($uid);
 
     // Return the User entity or NULL if not found.
