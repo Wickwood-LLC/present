@@ -105,7 +105,7 @@ class PresentationController extends ControllerBase {
         '#type' => 'inline_template',
         '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div><div><button>Call</button><button>Message</button></div>',
         '#context' => [
-          'img_src' => '/sites/default/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
+          'img_src' => '/sites/2025-01-28.a.2.dev.wickwood.biz/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
           'link' => 'https://calendly.com/wickwood/book-a-call-for-a-capstone-review',
         ],
       ],
