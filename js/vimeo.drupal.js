@@ -1,4 +1,4 @@
-(function ($, Drupal, once, Vimeo) {
+(function ($, Drupal, once, Vimeo, Reveal) {
 
   'use strict';
 
@@ -22,10 +22,9 @@
       });
     }
     player.ready().then(function() {
-      // var $iframe = $(":first-child", $this);
-      // $iframe.attr('style', $this.attr('style'));
-      // $iframe.removeAttr('width');
-      // $iframe.removeAttr('height');
+      // Emebdded vimeo cause some issue in the slide when the video is in the first slide.
+      // Force it to adjust the size.
+      Reveal.layout();
     });
     return player;
   }
@@ -109,4 +108,4 @@
       })
     },
   };
-})(jQuery, Drupal, once, Vimeo);
+})(jQuery, Drupal, once, Vimeo, Reveal);

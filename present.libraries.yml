@@ -49,3 +49,4 @@ vimeo:
     - core/drupal
     - core/drupalSettings
     - core/once
+    - present/library
