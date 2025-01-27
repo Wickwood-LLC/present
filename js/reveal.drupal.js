@@ -22,7 +22,7 @@
           // plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
         });
         Reveal.on('slidechanged', (event) => {
-          console.log(event);
+          // console.log(event);
         });
         // Reveal.on('slidetransitionend', (event) => {
         //   console.log(event);
