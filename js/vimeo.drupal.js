@@ -27,6 +27,22 @@
       // $iframe.removeAttr('width');
       // $iframe.removeAttr('height');
     });
+    return player;
+  }
+
+  function switchPlayer(player_from, player_to) {
+    player_from.getPaused().then(function(paused) {
+      player_from.getCurrentTime().then(function(seconds) {
+        player_to.setCurrentTime(seconds).then(function () {
+          if (!paused) {
+            player_from.pause();
+            player_to.play();
+          }
+        })
+      });
+    }).catch(function(error) {
+        console.error('Error occurred:', error);
+    });
   }
 
   /**
@@ -52,12 +68,12 @@
             const landscape_player_div = document.createElement('div');
             landscape_player_div.setAttribute('class', 'vimeo-player');
             this.appendChild(landscape_player_div);
-            initVimeoPlayer(landscape_player_div, landscape_options, events);
+            var landscape_player = initVimeoPlayer(landscape_player_div, landscape_options, events);
 
             const portrait_player_div = document.createElement('div');
             portrait_player_div.setAttribute('class', 'vimeo-player');
             this.appendChild(portrait_player_div);
-            initVimeoPlayer(portrait_player_div, portrait_options, events);
+            var portrait_player = initVimeoPlayer(portrait_player_div, portrait_options, events);
 
             if (mediaQueryList.matches) {
               $(portrait_player_div).hide();
@@ -66,18 +82,22 @@
               $(landscape_player_div).hide();
             }
 
+            // Listen for screen orientation changes.
             mediaQueryList.addEventListener("change", (e) => {
               if (e.matches) {
                 $(portrait_player_div).hide();
                 $(landscape_player_div).show();
+                switchPlayer(portrait_player, landscape_player);
+
               } else {
                 $(landscape_player_div).hide();
                 $(portrait_player_div).show();
+                switchPlayer(landscape_player, portrait_player);
               }
             });
           }
           else {
-
+            console.log('Video is not configured properly.');
           }
         }
         else {
