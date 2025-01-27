@@ -7,12 +7,17 @@
    */
   Drupal.behaviors.present_vimeo_player = {
     attach: function (context, settings) {
-      const elements = once('vimeo-player', '.vimeo-player', context);
+      const elements = once('vimeo-player', '.vimeo-player-wrapper', context);
       $(elements).each(function () {
         var $this = $(this);
         var attr_options = $this.attr('data-vimeo-options');
         var options = JSON.parse(attr_options);
-        var player = new Vimeo.Player(this, options);
+
+        const player_div = document.createElement('div');
+        player_div.setAttribute('class', 'vimeo-player');
+        this.appendChild(player_div);
+
+        var player = new Vimeo.Player(player_div, options);
         
         // Get list events to cpatured and passed to the server for processing.
         var events = JSON.parse($this.attr('data-vimeo-events') || []);
