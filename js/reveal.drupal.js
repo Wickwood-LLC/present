@@ -16,13 +16,14 @@
         // Reveal.js always runs on entire documetn and there is no way to select the element to target
         // So, we restrict it only once in a page.
         Reveal.initialize({
-          embedded: true
+          embedded: true,
+          scrollActivationWidth: null,
           // hash: true,
           // // Learn about plugins: https://revealjs.com/plugins/
           // plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
         });
         Reveal.on('slidechanged', (event) => {
-          // console.log(event);
+          console.log(event);
         });
         // Reveal.on('slidetransitionend', (event) => {
         //   console.log(event);
