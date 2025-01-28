@@ -1,5 +1,5 @@
 present.presentation:
-  path: '/present/test/{user}'
+  path: '/capstone-health/plus/generic-presentation/{user}'
   defaults:
     _controller: '\Drupal\present\Controller\PresentationController::present'
     _title: 'Reveal.js Presentation'
