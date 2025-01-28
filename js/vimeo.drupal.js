@@ -51,12 +51,12 @@
     attach: function (context, settings) {
       const elements = once('vimeo-player', '.vimeo-player-wrapper', context);
       $(elements).each(function () {
-        var $this = $(this);
-        var attr_options = $this.attr('data-vimeo-options');
-        var options = JSON.parse(attr_options);
+        let $this = $(this);
+        let attr_options = $this.attr('data-vimeo-options');
+        let options = JSON.parse(attr_options);
 
         // Get list events to cpatured and passed to the server for processing.
-        var events = JSON.parse($this.attr('data-vimeo-events') || []);
+        const events = JSON.parse($this.attr('data-vimeo-events') || []);
 
         const mediaQueryList = window.matchMedia("(orientation: landscape)");
         if (typeof options.url === 'object') {
@@ -67,12 +67,12 @@
             const landscape_player_div = document.createElement('div');
             landscape_player_div.setAttribute('class', 'vimeo-player');
             this.appendChild(landscape_player_div);
-            var landscape_player = initVimeoPlayer(landscape_player_div, landscape_options, events);
+            const landscape_player = initVimeoPlayer(landscape_player_div, landscape_options, events);
 
             const portrait_player_div = document.createElement('div');
             portrait_player_div.setAttribute('class', 'vimeo-player');
             this.appendChild(portrait_player_div);
-            var portrait_player = initVimeoPlayer(portrait_player_div, portrait_options, events);
+            const portrait_player = initVimeoPlayer(portrait_player_div, portrait_options, events);
 
             if (mediaQueryList.matches) {
               $(portrait_player_div).hide();
