@@ -75,8 +75,8 @@ class PresentationController extends ControllerBase {
       '#type' => 'present_vimeo_player',
       '#options' => [
         'url' => [
-          'landscape' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', // https://vimeo.com/1047002014/725dcc9318
-          'portrait' => 'https://player.vimeo.com/video/1047002053?h=8d6fd16ee5&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
+          'landscape' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479', // https://vimeo.com/1047002014/725dcc9318
+          'portrait' => 'https://player.vimeo.com/video/1047002053?h=8d6fd16ee5&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479',
         ],
         // 'url' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479',
         // 'width' => 640,
