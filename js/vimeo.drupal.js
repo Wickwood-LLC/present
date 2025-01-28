@@ -3,7 +3,7 @@
   'use strict';
 
   function initVimeoPlayer(player_div, options, events) {
-    var player = new Vimeo.Player(player_div, options);
+    const player = new Vimeo.Player(player_div, options);
 
     if (events) {
       $.each(events, function(index, event) {
