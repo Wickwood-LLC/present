@@ -103,7 +103,7 @@ class PresentationController extends ControllerBase {
       '#type' => 'revealjs_slide',
       '#content' => [
         '#type' => 'inline_template',
-        '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div><div><button>Call</button><button>Message</button></div>',
+        '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div>',
         '#context' => [
           'img_src' => '/sites/2025-01-28.a.2.dev.wickwood.biz/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
           'link' => 'https://calendly.com/wickwood/book-a-call-for-a-capstone-review',
@@ -117,6 +117,9 @@ class PresentationController extends ControllerBase {
         '#cache' => [
           'max-age' => 0,
         ],
+      ],
+      'footer' => [
+        '#markup' => '<div><a href="#">Call</a> <a href="#">Message</a></div>',
       ],
       // 'vimeo' => [
       //   '#type' => 'revealjs_slide',
