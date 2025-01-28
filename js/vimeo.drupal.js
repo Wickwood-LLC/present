@@ -8,6 +8,9 @@
     if (events) {
       $.each(events, function(index, event) {
         player.on(event, function(data) {
+          if (event == 'ended') {
+            Reveal.next();
+          }
           Drupal.ajax({
             url: Drupal.url('ajax/present/vimeo-event'),
             type: 'POST',
@@ -56,7 +59,10 @@
         let options = JSON.parse(attr_options);
 
         // Get list events to cpatured and passed to the server for processing.
-        const events = JSON.parse($this.attr('data-vimeo-events') || []);
+        let events = JSON.parse($this.attr('data-vimeo-events') || []);
+        if (!events.includes('ended')) {
+          events.push('ended');
+        }
 
         const mediaQueryList = window.matchMedia("(orientation: landscape)");
         if (typeof options.url === 'object') {
