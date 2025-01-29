@@ -29,12 +29,19 @@ class PresentationController extends ControllerBase {
   /**
    * Build the block instance add form.
    */
-  public function present(UserInterface $user) {
+  public function present(Request $request, UserInterface $user) {
 
     $slides = [];
 
     if ($user->isAnonymous()) {
-      return new RedirectResponse(Url::fromRoute('present.presentation_registration')->toString());
+      $user_code = $request->cookies->get('user_code');
+      if (!empty($user_code)) {
+        $url = Url::fromRoute('present.presentation', ['user' => $user_code]);
+      }
+      else {
+        $url = Url::fromRoute('present.presentation_registration');
+      }
+      return new RedirectResponse($url->toString());
     }
 
     $media_storage = $this->entityTypeManager()->getStorage('media');
