@@ -44,6 +44,10 @@ class PresentationController extends ControllerBase {
       return new RedirectResponse($url->toString());
     }
 
+
+    $user_code = $request->attributes->get('_raw_variables')->get('user');
+    setcookie('user_code', $user_code, time() + 7 * 24 * 60 * 60);
+
     $media_storage = $this->entityTypeManager()->getStorage('media');
     $media_view_builder = $this->entityTypeManager()->getViewBuilder('media');
 
