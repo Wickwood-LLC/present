@@ -28,6 +28,9 @@ class UserPresentationRegisterForm extends RegisterForm {
     $form['account']['pass']['#access'] = FALSE;
     $form['account']['pass']['#required'] = FALSE;
     $form['account']['name']['#access'] = FALSE;
+    $form['account']['status']['#access'] = FALSE;
+    $form['account']['roles']['#access'] = FALSE;
+    $form['account']['notify']['#access'] = FALSE;
 
     return $form;
   }
