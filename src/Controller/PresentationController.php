@@ -4,9 +4,11 @@ namespace Drupal\present\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Drupal\present\Event\VimeoPlayerEvent;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -32,6 +34,7 @@ class PresentationController extends ControllerBase {
     $slides = [];
 
     if ($user->isAnonymous()) {
+      return new RedirectResponse(Url::fromRoute('present.presentation_registration')->toString());
       // $user_storage = \Drupal::entityTypeManager()->getStorage('user');
       // /** @var \Drupal\Core\Password\DefaultPasswordGenerator */
       // $password_generator = \Drupal::service('password_generator');
@@ -48,9 +51,8 @@ class PresentationController extends ControllerBase {
       // ];
     }
 
-    $media_storage = \Drupal::entityTypeManager()->getStorage('media');
-    $media_view_builder = \Drupal::entityTypeManager()
-          ->getViewBuilder('media');
+    $media_storage = $this->entityTypeManager()->getStorage('media');
+    $media_view_builder = $this->entityTypeManager()->getViewBuilder('media');
 
     $media_1 = $media_storage->load(129);
     // $media_2 = $media_storage->load(134);
@@ -119,7 +121,7 @@ class PresentationController extends ControllerBase {
         ],
       ],
       'footer' => [
-        '#markup' => '<div><a href="#">Call</a> <a href="#">Message</a></div>',
+        '#markup' => '<div><a href="tel:+15189510656">Call</a> <a href="mailto:withus@wickwood.net?subject=Please%20Contact%20Me%20About%20Capstone%20Plus">Message</a></div>',
       ],
       // 'vimeo' => [
       //   '#type' => 'revealjs_slide',
@@ -128,6 +130,25 @@ class PresentationController extends ControllerBase {
       //     'max-age' => 0,
       //   ],
       // ],
+    ];
+  }
+
+  public function registration() {
+    $user_storage = $this->entityTypeManager()->getStorage('user');
+    /** @var \Drupal\Core\Password\DefaultPasswordGenerator */
+    $password_generator = \Drupal::service('password_generator');
+
+    /** @var \Drupal\user\UserInterface */
+    $new_user = $user_storage->create([]);
+    $new_user->setPassword($password_generator->generate(12));
+
+    $form_state_additions = [
+      'presentation_path' => '/capstone-health/plus/generic-presentation',
+    ];
+    $user_register_form = $this->entityFormBuilder()->getForm($new_user, 'presentation', $form_state_additions);
+
+    return [
+      'form' => $user_register_form,
     ];
   }
 

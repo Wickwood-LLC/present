@@ -2,7 +2,7 @@ present.presentation:
   path: '/capstone-health/plus/generic-presentation/{user}'
   defaults:
     _controller: '\Drupal\present\Controller\PresentationController::present'
-    _title: 'Reveal.js Presentation'
+    _title: 'Presentation'
     user: 0
   requirements:
     _permission: 'access content'
@@ -10,6 +10,14 @@ present.presentation:
     parameters:
       user:
         converter: 'present.user_code'
+
+present.presentation_registration:
+  path: '/capstone-health/presentation-registration'
+  defaults:
+    _controller: '\Drupal\present\Controller\PresentationController::registration'
+    _title: 'Register for Presentation'
+  requirements:
+    _permission: 'access content'
 
 present.vimeo_even:
   path: '/ajax/present/vimeo-event'
