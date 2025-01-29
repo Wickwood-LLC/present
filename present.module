@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Template\Attribute;
+use Drupal\present\Element\RevealJSPresentation;
 
 /**
  * Implements hook_theme().
@@ -43,4 +44,28 @@ function present_entity_type_alter(array &$entity_types) {
   if (isset($entity_types['user'])) {
     $entity_types['user']->setFormClass('presentation', 'Drupal\present\Form\UserPresentationRegisterForm');
   }
+}
+
+/**
+ * Implements hook_library_info_build()
+ */
+function present_library_info_build() {
+  $libraries = [];
+  // Add a library whose information changes depending on certain conditions.
+  $defaults = [
+    'header' => true,
+    'dependencies' => [
+      'present/library',
+    ],
+  ];
+  foreach (RevealJSPresentation::revealThemes() as $theme) {
+    $libraries['reveal-theme-' . $theme] = $defaults + [
+      'css' => [
+        'base' => [
+          '/libraries/reveal.js/dist/theme/' . $theme . '.css' => ['minified' => TRUE]
+        ],
+      ],
+    ];
+  }
+  return $libraries;
 }

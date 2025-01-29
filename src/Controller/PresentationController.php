@@ -109,12 +109,17 @@ class PresentationController extends ControllerBase {
         ],
       ],
     ];
+    $reveal_theme = $request->query->get('theme') ?? 'black';
     return [
       'presentation' => [
         '#type' => 'revealjs_presentation',
         '#slides' => $slides,
+        '#options' => [
+          'theme' => $reveal_theme,
+        ],
         '#cache' => [
           'max-age' => 0,
+          'contexts' => ['url.query_args:theme'],
         ],
       ],
       'footer' => [

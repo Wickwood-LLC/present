@@ -24,7 +24,7 @@ class RevealJSPresentation extends RenderElementBase {
       '#pre_render' => [
         [$class, 'preRender'],
       ],
-      '#value' => NULL,
+      '#options' => [],
       '#attributes' => [],
       // '#theme_wrappers' => ['fieldset'],
       '#theme' => 'revealjs_presentation',
@@ -34,12 +34,34 @@ class RevealJSPresentation extends RenderElementBase {
     ];
   }
 
+  public static function revealThemes() {
+    return [
+      'black',
+      'white',
+      'league',
+      'beige',
+      'night',
+      'serif',
+      'simple',
+      'solarized',
+      'moon',
+      'dracula',
+      'sky',
+      'blood',
+    ];
+  }
+
   public static function preRender($element) {
     if (!isset($element['#attributes']['class'])) {
       $element['#attributes']['class'] = [];
     }
     $element['#attributes']['class'][] = 'reveal';
     $element['#attributes']['style'] = "width: 100%; aspect-ratio: 4/3;";
+    $theme = $element['#options']['theme'] ?? 'black';
+    if (!in_array($theme, static::revealThemes())) {
+      $theme = 'black';
+    }
+    $element['#attached']['library'][] = 'present/reveal-theme-' . $theme;
     return $element;
   }
 

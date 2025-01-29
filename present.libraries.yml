@@ -17,7 +17,6 @@ library:
   css:
     base:
       /libraries/reveal.js/dist/reveal.css: { minified: true }
-      /libraries/reveal.js/dist/theme/sky.css: { minified: true }
 
 reveal:
   js:
