@@ -35,20 +35,6 @@ class PresentationController extends ControllerBase {
 
     if ($user->isAnonymous()) {
       return new RedirectResponse(Url::fromRoute('present.presentation_registration')->toString());
-      // $user_storage = \Drupal::entityTypeManager()->getStorage('user');
-      // /** @var \Drupal\Core\Password\DefaultPasswordGenerator */
-      // $password_generator = \Drupal::service('password_generator');
-
-      // /** @var \Drupal\user\UserInterface */
-      // $new_user = $user_storage->create([]);
-      // $new_user->setPassword($password_generator->generate(12));
-
-      // $user_register_form = \Drupal::service('entity.form_builder')->getForm($new_user, 'presentation');
-
-      // $slides[] = [
-      //   '#type' => 'revealjs_slide',
-      //   '#content' => $user_register_form,
-      // ];
     }
 
     $media_storage = $this->entityTypeManager()->getStorage('media');
