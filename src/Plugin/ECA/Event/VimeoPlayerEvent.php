@@ -36,12 +36,12 @@ class VimeoPlayerEvent extends EventBase {
    * {@inheritdoc}
    */
   #[Token(
-    name: 'name',
+    name: 'vimeo_event_name',
     description: 'The name of the vimeo player event.',
     classes: [PlayerEvent::class],
   )]
   #[Token(
-    name: 'data',
+    name: 'vimeo_event_data',
     description: 'The Vimeo Player event data.',
     classes: [PlayerEvent::class],
     properties: [
@@ -51,7 +51,7 @@ class VimeoPlayerEvent extends EventBase {
     ],
   )]
   #[Token(
-    name: 'embed_options',
+    name: 'vimeo_embed_options',
     description: 'The Vimeo Player embed options used.',
     classes: [PlayerEvent::class],
     properties: [
@@ -62,13 +62,13 @@ class VimeoPlayerEvent extends EventBase {
   public function getData(string $key): mixed {
     /** @var \Drupal\present\Event\VimeoPlayerEvent */
     $event = $this->event;
-    if ($key == 'name') {
+    if ($key == 'vimeo_event_name') {
       return $event->getName();
     }
-    else if ($key == 'data') {
+    else if ($key == 'vimeo_event_data') {
       return $event->getData();
     }
-    else if ($key == 'embed_options') {
+    else if ($key == 'vimeo_embed_options') {
       return $event->getEmbedOptions();
     }
     return parent::getData($key);
