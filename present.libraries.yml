@@ -21,9 +21,9 @@ library:
 reveal:
   js:
     js/reveal.drupal.js: {}
-  # css:
-  #   base:
-  #     css/reveal-extend.css: {}
+  css:
+    base:
+      css/reveal.drupal.css: {}
   dependencies:
     - present/library
     - core/drupal

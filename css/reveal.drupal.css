@@ -1,0 +1,10 @@
+.reveal {
+  width: 100%;
+  aspect-ratio: 4/3;
+}
+
+@media (orientation: portrait) {
+  .reveal {
+    aspect-ratio: 1/3;
+  }
+}

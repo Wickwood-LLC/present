@@ -56,7 +56,6 @@ class RevealJSPresentation extends RenderElementBase {
       $element['#attributes']['class'] = [];
     }
     $element['#attributes']['class'][] = 'reveal';
-    $element['#attributes']['style'] = "width: 100%; aspect-ratio: 4/3;";
     $theme = $element['#options']['theme'] ?? 'black';
     if (!in_array($theme, static::revealThemes())) {
       $theme = 'black';
