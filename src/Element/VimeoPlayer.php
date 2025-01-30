@@ -17,10 +17,6 @@ class VimeoPlayer extends RenderElementBase {
   public function getInfo() {
     $class = static::class;
     return [
-      '#process' => [
-        // [$class, 'processGroup'],
-        // [$class, 'processAjaxForm'],
-      ],
       '#pre_render' => [
         [$class, 'preRender'],
       ],
