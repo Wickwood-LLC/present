@@ -36,18 +36,18 @@ class RevealJSPresentation extends RenderElementBase {
 
   public static function revealThemes() {
     return [
-      'black',
-      'white',
-      'league',
-      'beige',
-      'night',
-      'serif',
-      'simple',
-      'solarized',
-      'moon',
-      'dracula',
-      'sky',
-      'blood',
+      'black' => t('Black'),
+      'white' => t('White'),
+      'league' => t('League'),
+      'beige' => t('Beige'),
+      'night' => t('Night'),
+      'serif' => t('Serif'),
+      'simple' => t('Simple'),
+      'solarized' => t('Solarized'),
+      'moon' => t('Moon'),
+      'dracula' => t('Dracula'),
+      'sky' => t('Sky'),
+      'blood' => t('Blood'),
     ];
   }
 
@@ -57,7 +57,7 @@ class RevealJSPresentation extends RenderElementBase {
     }
     $element['#attributes']['class'][] = 'reveal';
     $theme = $element['#options']['theme'] ?? 'black';
-    if (!in_array($theme, static::revealThemes())) {
+    if (!in_array($theme, array_keys(static::revealThemes()))) {
       $theme = 'black';
     }
     $element['#attached']['library'][] = 'present/reveal-theme-' . $theme;

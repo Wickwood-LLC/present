@@ -58,7 +58,7 @@ function present_library_info_build() {
       'present/library',
     ],
   ];
-  foreach (RevealJSPresentation::revealThemes() as $theme) {
+  foreach (array_keys(RevealJSPresentation::revealThemes()) as $theme) {
     $libraries['reveal-theme-' . $theme] = $defaults + [
       'css' => [
         'base' => [
