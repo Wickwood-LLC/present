@@ -19,6 +19,7 @@
           embedded: true,
           scrollActivationWidth: null,
           controls: false,
+          controlsLayout: 'edges',
           // hash: true,
           // // Learn about plugins: https://revealjs.com/plugins/
           // plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
