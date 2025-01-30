@@ -1,0 +1,5 @@
+present.settings:
+  title: 'Present'
+  description: 'Configure the Presebt module.'
+  route_name: present.settings
+  parent: system.admin_config_ui

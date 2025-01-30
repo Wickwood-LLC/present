@@ -1,3 +1,11 @@
+present.settings:
+  path: '/admin/config/user-interface/present'
+  defaults:
+    _form: '\Drupal\present\Form\SettingsForm'
+    _title: 'Present settings'
+  requirements:
+    _permission: 'administer site configuration'
+
 present.presentation:
   path: '/capstone-health/plus/generic-presentation/{user}'
   defaults:

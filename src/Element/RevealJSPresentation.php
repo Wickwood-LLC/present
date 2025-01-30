@@ -56,7 +56,7 @@ class RevealJSPresentation extends RenderElementBase {
       $element['#attributes']['class'] = [];
     }
     $element['#attributes']['class'][] = 'reveal';
-    $theme = $element['#options']['theme'] ?? 'black';
+    $theme = $element['#options']['theme'] ?? \Drupal::config('present.settings')->get('revealjs_theme');
     if (!in_array($theme, array_keys(static::revealThemes()))) {
       $theme = 'black';
     }
