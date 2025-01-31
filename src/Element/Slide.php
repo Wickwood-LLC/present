@@ -2,10 +2,8 @@
 
 namespace Drupal\present\Element;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Attribute\FormElement;
-use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Element\FormElementBase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,23 +20,13 @@ class Slide extends FormElementBase {
     $class = static::class;
     return [
       '#input' => TRUE,
-      // '#multiple' => FALSE,
-      // '#sort_options' => FALSE,
-      // '#sort_start' => NULL,
       '#process' => [
         [$class, 'processSlide'],
-        // [$class, 'processGroup'],
       ],
       '#element_validate' => [
         [$class, 'validateSlide'],
       ],
-      // '#pre_render' => [
-      //   [$class, 'preRenderSelect'],
-      // ],
-      // '#theme' => 'present_slide',
-      // '#theme' => 'fieldset',
       '#theme_wrappers' => ['fieldset'],
-      // '#options' => [],
     ];
   }
 
@@ -59,40 +47,18 @@ class Slide extends FormElementBase {
    *   Thrown when #field_overrides is malformed.
    */
   public static function processSlide(array &$element, FormStateInterface $form_state, array &$complete_form) {
-    // Validate and parse #field_overrides.
-    // if (!is_array($element['#field_overrides'])) {
-    //   throw new \InvalidArgumentException('The #field_overrides property must be an array.');
-    // }
-    // $element['#parsed_field_overrides'] = new FieldOverrides($element['#field_overrides']);
-
-    // $id_prefix = implode('-', $element['#parents']);
-    // $wrapper_id = Html::getUniqueId($id_prefix . '-ajax-wrapper');
-    // The #value has the new values on #ajax, the #default_value otherwise.
     $value = $element['#value'];
 
     $element = [
       '#tree' => TRUE,
-      // '#prefix' => '<div id="' . $wrapper_id . '">',
-      // '#suffix' => '</div>',
-      // Pass the id along to other methods.
-      // '#wrapper_id' => $wrapper_id,
-      // '#collapsible' => TRUE,
     ] + $element;
     $element['content'] = [
       '#type' => 'textarea',
       '#title' => t('Content'),
       '#default_value' => $element['#default_value']['content'],
-      // '#required' => $element['#required'],
       '#limit_validation_errors' => [],
       '#attributes' => ['data-yaml-editor' => 'true'],
-      // '#ajax' => [
-      //   'callback' => [get_called_class(), 'ajaxRefresh'],
-      //   'wrapper' => $wrapper_id,
-      // ],
     ];
-    // if (!empty($value['country_code'])) {
-    //   $element = static::addressElements($element, $value);
-    // }
 
     return $element;
   }
