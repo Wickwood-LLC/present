@@ -6,18 +6,18 @@ present.settings:
   requirements:
     _permission: 'administer site configuration'
 
-present.presentation:
-  path: '/capstone-health/plus/generic-presentation/{user}'
-  defaults:
-    _controller: '\Drupal\present\Controller\PresentationController::present'
-    _title: 'Presentation'
-    user: 0
-  requirements:
-    _permission: 'access content'
-  options:
-    parameters:
-      user:
-        converter: 'present.user_code'
+# present.presentation:
+#   path: '/capstone-health/plus/generic-presentation/{user}'
+#   defaults:
+#     _controller: '\Drupal\present\Controller\PresentationController::present'
+#     _title: 'Presentation'
+#     user: 0
+#   requirements:
+#     _permission: 'access content'
+#   options:
+#     parameters:
+#       user:
+#         converter: 'present.user_code'
 
 present.presentation_registration:
   path: '/capstone-health/presentation-registration'
@@ -36,3 +36,38 @@ present.vimeo_even:
     _access: 'TRUE'
     _format: 'json'
     _method: 'POST'
+
+route_callbacks:
+  - 'present.route_subscriber:routes'
+
+entity.presentation.collection:
+  path: '/admin/structure/presentation'
+  defaults:
+    _entity_list: 'presentation'
+    _title: 'Presentation'
+  requirements:
+    _permission: 'administer presentations'
+
+entity.presentation.add_form:
+  path: '/admin/structure/presentation/add'
+  defaults:
+    _entity_form: 'presentation.add'
+    _title: 'Add My Configuration Entity'
+  requirements:
+    _permission: 'administer presentations'
+
+entity.presentation.edit_form:
+  path: '/admin/structure/presentation/{presentation}/edit'
+  defaults:
+    _entity_form: 'presentation.edit'
+    _title: 'Edit Presentaiton'
+  requirements:
+    _permission: 'administer presentations'
+
+entity.presentation.delete_form:
+  path: '/admin/structure/presentation/{presentation}/delete'
+  defaults:
+    _entity_form: 'presentation.delete'
+    _title: 'Delete Presentations'
+  requirements:
+    _permission: 'administer presentations'
