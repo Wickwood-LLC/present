@@ -42,7 +42,11 @@ function template_preprocess_present_vimeo_player(&$variables) {
 function present_entity_type_alter(array &$entity_types) {
   // Check if the user entity type exists.
   if (isset($entity_types['user'])) {
-    $entity_types['user']->setFormClass('presentation', 'Drupal\present\Form\UserPresentationRegisterForm');
+    $config = \Drupal::config('present.settings');
+    $form_mode = $config->get('registration_form_mode');
+    if ($form_mode != 'default') {
+      $entity_types['user']->setFormClass($form_mode, 'Drupal\present\Form\UserPresentationRegisterForm');
+    }
   }
 }
 

@@ -69,6 +69,16 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $this->config->get('user_code_cookied_validity') ?? 30,
       '#description' => $this->t('Validity of the user code cookied in number of days.'),
     ];
+    $entity_display_repo = \Drupal::service('entity_display.repository');
+    $form_modes = $entity_display_repo->getFormModeOptionsByBundle('user', 'user');
+    $form['registration_form_mode'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Registration Form Mode'),
+      '#default_value' => $this->config->get('registration_form_mode'),
+      '#options' => $form_modes,
+      '#empty_option' => $this->t('- Select a form mode -'),
+      '#description' => $this->t('Choose a form mode to use for the registration form.'),
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -81,6 +91,7 @@ class SettingsForm extends ConfigFormBase {
     $this->config
       ->set('revealjs_theme', $values['revealjs_theme'])
       ->set('user_code_cookied_validity', $values['user_code_cookied_validity'])
+      ->set('registration_form_mode', $values['registration_form_mode'])
       ->save();
 
     parent::submitForm($form, $form_state);

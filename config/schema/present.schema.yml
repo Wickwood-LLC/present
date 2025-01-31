@@ -10,6 +10,9 @@ present.settings:
     user_code_cookied_validity:
       type: string
       label: 'Valid for Days'
+    registration_form_mode:
+      type: string
+      label: 'Registration Form Mode'
 
 present.presentation.*:
   type: config_entity

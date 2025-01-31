@@ -131,7 +131,13 @@ class PresentationController extends ControllerBase {
     $form_state_additions = [
       'presentation_id' => $presentation->id(),
     ];
-    $user_register_form = $this->entityFormBuilder()->getForm($new_user, 'presentation', $form_state_additions);
+
+    $config = \Drupal::config('present.settings');
+    $form_mode = $config->get('registration_form_mode');
+    if (empty($form_mode)) {
+      $form_mode = 'default';
+    }
+    $user_register_form = $this->entityFormBuilder()->getForm($new_user, $form_mode, $form_state_additions);
 
     return [
       'form' => $user_register_form,
