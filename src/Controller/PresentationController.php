@@ -50,12 +50,16 @@ class PresentationController extends ControllerBase {
     $config = \Drupal::config('present.settings');
 
     $user_code = $request->attributes->get('_raw_variables')->get('user');
-    setcookie('user_code', $user_code, time() + $config->get('user_code_cookied_validity'));
+    setcookie('user_code', $user_code, time() + $config->get('user_code_cookied_validity'), '/');
 
     foreach ($presentation->getSlides() as $slide_data) {
+
       $slide = [
         '#type' => 'revealjs_slide',
       ];
+      if ($slide_data['auto_animate']) {
+        $slide['#attributes']['data-auto-animate'] = TRUE;
+      }
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }

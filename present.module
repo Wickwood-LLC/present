@@ -28,6 +28,7 @@ function template_preprocess_revealjs_presentation(&$variables) {
 
 function template_preprocess_revealjs_slide(&$variables) {
   $slide = $variables['slide'];
+  $variables['attributes'] = new Attribute($slide['#attributes']);
   $variables['content'] = $slide['#content'];
 }
 

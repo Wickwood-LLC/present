@@ -46,3 +46,6 @@ present.presentation.*:
           type:
             type: string
             label: 'Type of Content'
+          auto_animate:
+            type: boolean
+            label: 'Auto Animate'

@@ -88,6 +88,14 @@ class Slide extends FormElementBase {
       $element['content']['#attributes']['data-yaml-editor'] = 'true';
     }
 
+    $element['auto_animate'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Auto-Animate'),
+      '#default_value' => $element['#default_value']['auto_animate'] ?? FALSE,
+      '#limit_validation_errors' => [],
+      '#description' => t('Enable Auto-Animate in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
+    ];
+
     return $element;
   }
 

@@ -19,7 +19,18 @@ class RevealJSSlide extends RenderElementBase {
     return [
       '#content' => '',
       '#theme' => 'revealjs_slide',
+      '#attributes' => [],
+      '#pre_render' => [
+        [$class, 'preRender'],
+      ],
     ];
+  }
+
+  public static function preRender($element) {
+    if (!isset($element['#attributes'])) {
+      $element['#attributes'] = [];
+    }
+    return $element;
   }
 
 }
