@@ -14,7 +14,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 #[FormElement('present_slide')]
 class Slide extends FormElementBase {
-
+  const TYPE_RENDER_ARRAY = 'render_array';
+  const TYPE_HTML_RAW = 'html';
   /**
    * {@inheritdoc}
    */
@@ -65,10 +66,10 @@ class Slide extends FormElementBase {
       '#type' => 'select',
       '#title' => t('Type'),
       '#options' => [
-        'render_array' => t('Render Array'),
-        'html' => t('HTML'),
+        static::TYPE_RENDER_ARRAY => t('Render Array'),
+        static::TYPE_HTML_RAW => t('Raw HTML'),
       ],
-      '#default_value' => $element['#default_value']['type'] ?? 'render_array',
+      '#default_value' => $element['#default_value']['type'] ?? static::TYPE_RENDER_ARRAY,
       '#description' => t('Select type of content you are entering below. Render Array should be entered in YAML format.'),
       '#ajax' => [
         'callback' => [get_called_class(), 'ajaxRefresh'],
@@ -82,7 +83,7 @@ class Slide extends FormElementBase {
       '#limit_validation_errors' => [],
     ];
     $type = $value['type'] ?? $element['#default_value']['type'];
-    if ($type == 'render_array') {
+    if ($type == static::TYPE_RENDER_ARRAY) {
       // To get support from the https://www.drupal.org/project/yaml_editor module.
       $element['content']['#attributes']['data-yaml-editor'] = 'true';
     }
@@ -96,7 +97,7 @@ class Slide extends FormElementBase {
   public static function validateSlide(&$element, FormStateInterface $form_state, &$complete_form) {
     $value = $element['#value'];
 
-    if ($value['type'] == 'render_array') {
+    if ($value['type'] == static::TYPE_RENDER_ARRAY) {
       try {
         $test = Yaml::parse($value['content']);
       }

@@ -6,6 +6,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
+use Drupal\present\Element\Slide;
 use Drupal\present\Entity\Presentation;
 use Drupal\present\Event\VimeoPlayerEvent;
 use Drupal\user\UserInterface;
@@ -55,7 +56,7 @@ class PresentationController extends ControllerBase {
       $slide = [
         '#type' => 'revealjs_slide',
       ];
-      if ($slide_data['type'] == 'render_array') {
+      if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }
       else {
