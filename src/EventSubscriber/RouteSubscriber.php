@@ -3,7 +3,6 @@
 namespace Drupal\present\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -30,44 +29,6 @@ class RouteSubscriber {
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->presentationStorage = $entity_type_manager->getStorage('presentation');
   }
-
-  /**
-   * Resets the internal state of the route subscriber.
-   */
-  // public function reset() {
-  //   $this->viewsDisplayPairs = NULL;
-  // }
-
-  /**
-   * {@inheritdoc}
-   */
-  // public static function getSubscribedEvents(): array {
-  //   $events = parent::getSubscribedEvents();
-  //   $events[RoutingEvents::FINISHED] = ['routeRebuildFinished'];
-  //   // Ensure to run after the entity resolver subscriber
-  //   // @see \Drupal\Core\EventSubscriber\EntityRouteAlterSubscriber
-  //   $events[RoutingEvents::ALTER] = ['onAlterRoutes', -175];
-
-  //   return $events;
-  // }
-
-  // /**
-  //  * Gets all the views and display IDs using a route.
-  //  */
-  // protected function getViewsDisplayIDsWithRoute() {
-  //   if (!isset($this->viewsDisplayPairs)) {
-  //     $this->viewsDisplayPairs = [];
-
-  //     // @todo Convert this method to some service.
-  //     $views = $this->getApplicableViews();
-  //     foreach ($views as $data) {
-  //       [$view_id, $display_id] = $data;
-  //       $this->viewsDisplayPairs[] = $view_id . '.' . $display_id;
-  //     }
-  //     $this->viewsDisplayPairs = array_combine($this->viewsDisplayPairs, $this->viewsDisplayPairs);
-  //   }
-  //   return $this->viewsDisplayPairs;
-  // }
 
   /**
    * Returns a set of route objects.
@@ -100,57 +61,6 @@ class RouteSubscriber {
       ]);
       $collection->add($route_name, $route);
     }
-
-    // $this->state->set('views.view_route_names', $this->viewRouteNames);
     return $collection;
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  // protected function alterRoutes(RouteCollection $collection) {
-  //   foreach ($this->getViewsDisplayIDsWithRoute() as $pair) {
-  //     [$view_id, $display_id] = explode('.', $pair);
-  //     $view = $this->viewStorage->load($view_id);
-  //     // @todo This should have an executable factory injected.
-  //     if (($view = $view->getExecutable()) && $view instanceof ViewExecutable) {
-  //       if ($view->setDisplay($display_id) && $display = $view->displayHandlers->get($display_id)) {
-  //         if ($display instanceof DisplayRouterInterface) {
-  //           // If the display returns TRUE a route item was found, so it does not
-  //           // have to be added.
-  //           $view_route_names = $display->alterRoutes($collection);
-  //           $this->viewRouteNames = $view_route_names + $this->viewRouteNames;
-  //           foreach ($view_route_names as $id_display => $route_name) {
-  //             $view_route_name = $this->viewsDisplayPairs[$id_display];
-  //             unset($this->viewsDisplayPairs[$id_display]);
-  //             $collection->remove("views.$view_route_name");
-  //           }
-  //         }
-  //       }
-  //       $view->destroy();
-  //     }
-  //   }
-  // }
-
-  /**
-   * Stores the new route names after they have been rebuilt.
-   *
-   * Callback for the RoutingEvents::FINISHED event.
-   *
-   * @see \Drupal\views\EventSubscriber::getSubscribedEvents()
-   */
-  // public function routeRebuildFinished() {
-  //   $this->reset();
-  //   $this->state->set('views.view_route_names', $this->viewRouteNames);
-  // }
-
-  /**
-   * Returns all views/display combinations with routes.
-   *
-   * @see \Drupal\views\Views::getApplicableViews()
-   */
-  // protected function getApplicableViews() {
-  //   return Views::getApplicableViews('uses_route');
-  // }
-
 }
