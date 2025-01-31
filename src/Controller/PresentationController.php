@@ -54,51 +54,6 @@ class PresentationController extends ControllerBase {
     $media_view_builder = $this->entityTypeManager()->getViewBuilder('media');
 
     $media_1 = $media_storage->load(129);
-    // $media_2 = $media_storage->load(134);
-
-    // $slides[] = [
-    //   '#type' => 'revealjs_slide',
-    //   '#content' => [
-    //     '#type' => 'present_vimeo_player',
-    //     '#options' => [
-    //       'url' => 'https://vimeo.com/1047002014/725dcc9318',
-    //       'width' => 640,
-    //     ],
-    //   ],
-    // ];
-
-    // $slides[] = [
-    //   '#type' => 'revealjs_slide',
-    //   '#content' => $media_view_builder->view($media_1, 'player'),
-    // ];
-
-    // $vimeo_video = [
-    //   '#type' => 'present_vimeo_player',
-    //   '#options' => [
-    //     'url' => [
-    //       'landscape' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479', // https://vimeo.com/1047002014/725dcc9318
-    //       'portrait' => 'https://player.vimeo.com/video/1047002053?h=8d6fd16ee5&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479',
-    //     ],
-    //     // 'url' => 'https://vimeo.com/65226146',
-    //     // 'width' => 640,
-    //     'responsive' => true,
-    //     // 'autoplay' => true,
-    //     'play_button_position' => 'center',
-    //     'title' => false,
-    //     'portrait' => false,
-    //     'byline' => false,
-    //     'vimeo_logo' => false,
-    //   ],
-    //   '#events_to_fire' => ['ended'],
-    // ];
-
-    // $slides[] = [
-    //   '#type' => 'revealjs_slide',
-    //   '#content' => $vimeo_video,
-    //   '#cache' => [
-    //     'max-age' => 0,
-    //   ],
-    // ];
 
     foreach ($presentation->getSlides() as $slide) {
       $slides[] = [
@@ -106,18 +61,6 @@ class PresentationController extends ControllerBase {
         '#content' => Yaml::parse($slide['content']),
       ];
     }
-
-    // $slides[] = [
-    //   '#type' => 'revealjs_slide',
-    //   '#content' => [
-    //     '#type' => 'inline_template',
-    //     '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div>',
-    //     '#context' => [
-    //       'img_src' => '/sites/2025-01-28.a.2.dev.wickwood.biz/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
-    //       'link' => 'https://calendly.com/wickwood/book-a-call-for-a-capstone-review',
-    //     ],
-    //   ],
-    // ];
     $reveal_theme = $request->query->get('theme');
     return [
       'presentation' => [
@@ -135,13 +78,6 @@ class PresentationController extends ControllerBase {
       'footer' => [
         '#markup' => '<div><a href="tel:+15189510656">Call</a> <a href="mailto:withus@wickwood.net?subject=Please%20Contact%20Me%20About%20Capstone%20Plus">Message</a></div>',
       ],
-      // 'vimeo' => [
-      //   '#type' => 'revealjs_slide',
-      //   '#content' => $vimeo_video,
-      //   '#cache' => [
-      //     'max-age' => 0,
-      //   ],
-      // ],
     ];
   }
 
