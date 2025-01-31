@@ -45,8 +45,10 @@ class PresentationController extends ControllerBase {
       return new RedirectResponse($url->toString());
     }
 
+    $config = \Drupal::config('present.settings');
+
     $user_code = $request->attributes->get('_raw_variables')->get('user');
-    setcookie('user_code', $user_code, time() + 400 * 24 * 60 * 60);
+    setcookie('user_code', $user_code, time() + $config->get('user_code_cookied_validity'));
 
     foreach ($presentation->getSlides() as $slide) {
       $slides[] = [

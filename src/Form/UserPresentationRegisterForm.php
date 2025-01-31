@@ -76,11 +76,12 @@ class UserPresentationRegisterForm extends RegisterForm {
   }
 
   protected function setPresentationRedirection($user_id, FormStateInterface $form_state) {
+    $config = \Drupal::config('present.settings');
     $presentation_id = $form_state->get('presentation_id');
     /** @var \Drupal\present\ParamConverter\UserCodeToEntityConverter */
     $user_code_service = \Drupal::service('present.user_code');
     $user_code = $user_code_service->getUserCode($user_id);
-    setcookie('user_code', $user_code, time() + 400 * 24 * 60 * 60);
+    setcookie('user_code', $user_code, time() + $config->get('user_code_cookied_validity'));
     $presentation_redirect = Url::fromRoute('present.presentation.' . $presentation_id, ['user' => $user_code, 'presentation' => $presentation_id])
       ->toString();
     $form_state->set('presentation_redirect', $presentation_redirect);

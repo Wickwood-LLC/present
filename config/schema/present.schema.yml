@@ -7,6 +7,9 @@ present.settings:
     revealjs_theme:
       type: string
       label: 'Reveal.js Theme'
+    user_code_cookied_validity:
+      type: string
+      label: 'Valid for Days'
 
 present.presentation.*:
   type: config_entity

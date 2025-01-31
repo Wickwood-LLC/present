@@ -59,6 +59,16 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Select theme to be used by default. Theme previews can be <a href="https://revealjs.com/themes/">seen at</a>.'),
     ];
 
+    $form['user_code_cookied_validity'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Validity of Uer Code Cookie'),
+      '#field_suffix' => $this->t('days'),
+      '#size' => 4,
+      '#min' => 0,
+      '#max' => 1825, // 5 years.
+      '#default_value' => $this->config->get('user_code_cookied_validity') ?? 30,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -69,6 +79,7 @@ class SettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $this->config
       ->set('revealjs_theme', $values['revealjs_theme'])
+      ->set('user_code_cookied_validity', $values['user_code_cookied_validity'])
       ->save();
 
     parent::submitForm($form, $form_state);
