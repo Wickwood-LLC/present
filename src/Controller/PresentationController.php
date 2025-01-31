@@ -5,6 +5,7 @@ namespace Drupal\present\Controller;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\present\Entity\Presentation;
 use Drupal\present\Event\VimeoPlayerEvent;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Controller for building reveal.js presentations.
@@ -29,14 +31,14 @@ class PresentationController extends ControllerBase {
   /**
    * Build the block instance add form.
    */
-  public function present(Request $request, UserInterface $user) {
+  public function present(Request $request, UserInterface $user, Presentation $presentation) {
 
     $slides = [];
 
     if ($user->isAnonymous()) {
       $user_code = $request->cookies->get('user_code');
       if (!empty($user_code)) {
-        $url = Url::fromRoute('present.presentation', ['user' => $user_code]);
+        $url = Url::fromRoute('present.presentation.' . $presentation->id(), ['user' => $user_code, 'presentation' => $presentation->id()]);
       }
       else {
         $url = Url::fromRoute('present.presentation_registration');
@@ -70,45 +72,52 @@ class PresentationController extends ControllerBase {
     //   '#content' => $media_view_builder->view($media_1, 'player'),
     // ];
 
-    $vimeo_video = [
-      '#type' => 'present_vimeo_player',
-      '#options' => [
-        'url' => [
-          'landscape' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479', // https://vimeo.com/1047002014/725dcc9318
-          'portrait' => 'https://player.vimeo.com/video/1047002053?h=8d6fd16ee5&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479',
-        ],
-        // 'url' => 'https://vimeo.com/65226146',
-        // 'width' => 640,
-        'responsive' => true,
-        // 'autoplay' => true,
-        'play_button_position' => 'center',
-        'title' => false,
-        'portrait' => false,
-        'byline' => false,
-        'vimeo_logo' => false,
-      ],
-      '#events_to_fire' => ['ended'],
-    ];
+    // $vimeo_video = [
+    //   '#type' => 'present_vimeo_player',
+    //   '#options' => [
+    //     'url' => [
+    //       'landscape' => 'https://player.vimeo.com/video/1047002014?h=725dcc9318&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479', // https://vimeo.com/1047002014/725dcc9318
+    //       'portrait' => 'https://player.vimeo.com/video/1047002053?h=8d6fd16ee5&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479',
+    //     ],
+    //     // 'url' => 'https://vimeo.com/65226146',
+    //     // 'width' => 640,
+    //     'responsive' => true,
+    //     // 'autoplay' => true,
+    //     'play_button_position' => 'center',
+    //     'title' => false,
+    //     'portrait' => false,
+    //     'byline' => false,
+    //     'vimeo_logo' => false,
+    //   ],
+    //   '#events_to_fire' => ['ended'],
+    // ];
 
-    $slides[] = [
-      '#type' => 'revealjs_slide',
-      '#content' => $vimeo_video,
-      '#cache' => [
-        'max-age' => 0,
-      ],
-    ];
+    // $slides[] = [
+    //   '#type' => 'revealjs_slide',
+    //   '#content' => $vimeo_video,
+    //   '#cache' => [
+    //     'max-age' => 0,
+    //   ],
+    // ];
 
-    $slides[] = [
-      '#type' => 'revealjs_slide',
-      '#content' => [
-        '#type' => 'inline_template',
-        '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div>',
-        '#context' => [
-          'img_src' => '/sites/2025-01-28.a.2.dev.wickwood.biz/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
-          'link' => 'https://calendly.com/wickwood/book-a-call-for-a-capstone-review',
-        ],
-      ],
-    ];
+    foreach ($presentation->getSlides() as $slide) {
+      $slides[] = [
+        '#type' => 'revealjs_slide',
+        '#content' => Yaml::parse($slide['content']),
+      ];
+    }
+
+    // $slides[] = [
+    //   '#type' => 'revealjs_slide',
+    //   '#content' => [
+    //     '#type' => 'inline_template',
+    //     '#template' => '<div><a href="{{ link }}"><img src="{{ img_src }}" /></a></div>',
+    //     '#context' => [
+    //       'img_src' => '/sites/2025-01-28.a.2.dev.wickwood.biz/files/media/images/crop-duplicate-1-for-p-16723-44766-413540-fs.png',
+    //       'link' => 'https://calendly.com/wickwood/book-a-call-for-a-capstone-review',
+    //     ],
+    //   ],
+    // ];
     $reveal_theme = $request->query->get('theme');
     return [
       'presentation' => [
@@ -120,6 +129,7 @@ class PresentationController extends ControllerBase {
         '#cache' => [
           'max-age' => 0,
           'contexts' => ['url.query_args:theme'],
+          'tags' => [$presentation->getEntityTypeId() . ':' . $presentation->id()],
         ],
       ],
       'footer' => [
@@ -133,6 +143,19 @@ class PresentationController extends ControllerBase {
       //   ],
       // ],
     ];
+  }
+
+  /**
+   * The _title_callback for the presentaiton page
+   *
+   * @param \Drupal\present\Entity\Presentation $presentation
+   *   The presentation.
+   *
+   * @return string
+   *   The presentation title.
+   */
+  public function presentationTitle(Presentation $presentation) {
+    return $presentation->label();
   }
 
   public function registration() {
