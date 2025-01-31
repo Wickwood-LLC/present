@@ -52,13 +52,26 @@ class Slide extends FormElementBase {
     $element = [
       '#tree' => TRUE,
     ] + $element;
+    $element['type'] = [
+      '#type' => 'select',
+      '#title' => t('Type'),
+      '#options' => [
+        'render_array' => t('Render Array'),
+        'html' => t('HTML'),
+      ],
+      '#default_value' => $element['#default_value']['type'] ?? 'render_array',
+      '#description' => t('Select type of content you are entering below. Render Array should be entered in YAML format.'),
+    ];
     $element['content'] = [
       '#type' => 'textarea',
       '#title' => t('Content'),
       '#default_value' => $element['#default_value']['content'],
       '#limit_validation_errors' => [],
-      '#attributes' => ['data-yaml-editor' => 'true'],
     ];
+    if ($element['#default_value']['type'] == 'render_array') {
+      // To get support from the https://www.drupal.org/project/yaml_editor module.
+      $element['content']['#attributes']['data-yaml-editor'] = 'true';
+    }
 
     return $element;
   }
@@ -69,20 +82,22 @@ class Slide extends FormElementBase {
   public static function validateSlide(&$element, FormStateInterface $form_state, &$complete_form) {
     $value = $element['#value'];
 
-    try {
-      Yaml::parse($value['content']);
-    }
-    catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-        $form_state->setError(
-        $element['content'], 
-        t(
-          'Not in a valid YAML format: %message',
-          [
-            '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
-            '%message' => $e->getMessage(),
-          ]
-        )
-      );
+    if ($value['type'] == 'render_array') {
+      try {
+        $test = Yaml::parse($value['content']);
+      }
+      catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+          $form_state->setError(
+          $element['content'],
+          t(
+            'Not in a valid YAML format: %message',
+            [
+              '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
+              '%message' => $e->getMessage(),
+            ]
+          )
+        );
+      }
     }
   }
 

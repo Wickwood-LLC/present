@@ -4,6 +4,7 @@ namespace Drupal\present\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\present\Entity\Presentation;
 use Drupal\present\Event\VimeoPlayerEvent;
@@ -24,7 +25,7 @@ class PresentationController extends ControllerBase {
     #[Autowire(service: 'event_dispatcher')]
     protected EventDispatcherInterface $eventDispatcher
   ) {
-    
+
   }
 
   /**
@@ -50,11 +51,19 @@ class PresentationController extends ControllerBase {
     $user_code = $request->attributes->get('_raw_variables')->get('user');
     setcookie('user_code', $user_code, time() + $config->get('user_code_cookied_validity'));
 
-    foreach ($presentation->getSlides() as $slide) {
-      $slides[] = [
+    foreach ($presentation->getSlides() as $slide_data) {
+      $slide = [
         '#type' => 'revealjs_slide',
-        '#content' => Yaml::parse($slide['content']),
       ];
+      if ($slide_data['type'] == 'render_array') {
+        $slide['#content'] = Yaml::parse($slide_data['content']);
+      }
+      else {
+        $slide['#content'] = [
+          '#markup' => Markup::create($slide_data['content']),
+        ];
+      }
+      $slides[] = $slide;
     }
     $reveal_theme = $request->query->get('theme');
     return [

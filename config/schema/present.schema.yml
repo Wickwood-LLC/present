@@ -37,3 +37,6 @@ present.presentation.*:
           content:
             type: string
             label: 'Content'
+          type:
+            type: string
+            label: 'Type of Content'
