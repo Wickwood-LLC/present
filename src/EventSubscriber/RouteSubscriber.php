@@ -43,8 +43,10 @@ class RouteSubscriber {
     foreach ($presentations  as $presentation) {
       /** @var \Drupal\present\Entity\Presentation $presentation */
       $route_name = 'present.presentation.' . $presentation->id();
+      $base_path = rtrim($presentation->getPath(), '/') . '/' ;
+      $base_path = '/' . ltrim($base_path, '/');
       $route = new Route(
-        rtrim($presentation->getPath(), '/') . '/' . '{user}',
+        $base_path . '{user}',
         [
           '_controller' => '\Drupal\present\Controller\PresentationController::present',
           '_title_callback' => '\Drupal\present\Controller\PresentationController::presentationTitle',
@@ -62,7 +64,7 @@ class RouteSubscriber {
       $collection->add($route_name, $route);
 
       $registration_route = new Route(
-        rtrim($presentation->getPath(), '/') . '/registration',
+        $base_path . 'registration',
         [
           '_controller' => '\Drupal\present\Controller\PresentationController::registration',
           '_title_callback' => '\Drupal\present\Controller\PresentationController::registrationTitle',
