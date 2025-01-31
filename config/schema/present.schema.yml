@@ -27,6 +27,9 @@ present.presentation.*:
     path:
       type: string
       label: 'Path'
+    revealjs_theme:
+      type: string
+      label: 'Theme'
     slides:
       type: sequence
       label: 'Slides'

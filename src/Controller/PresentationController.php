@@ -67,6 +67,13 @@ class PresentationController extends ControllerBase {
       $slides[] = $slide;
     }
     $reveal_theme = $request->query->get('theme');
+
+    if (!$reveal_theme) {
+      $reveal_theme = $presentation->getTheme();
+      if ($reveal_theme == '__none') {
+        $reveal_theme = NULL;
+      }
+    }
     return [
       'presentation' => [
         '#type' => 'revealjs_presentation',

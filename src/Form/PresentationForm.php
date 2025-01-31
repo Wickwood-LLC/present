@@ -5,6 +5,7 @@ namespace Drupal\present\Form;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\present\Element\RevealJSPresentation;
 
 /**
  * Form for adding/editing Presentation entities.
@@ -22,7 +23,7 @@ class PresentationForm extends EntityForm {
       $form_state->set('presentation', $presentation);
     }
 
-    /** @var \Drupal\present\Entity\Presentation */
+    /** @var \Drupal\present\Entity\Presentation $presentation */
 
     $form['#attributes']['id'] = 'presentation-' . $presentation->isNew() ? 'new' : $presentation->id();
     $form_state->set('presentation', $presentation);
@@ -51,6 +52,14 @@ class PresentationForm extends EntityForm {
       '#required' => TRUE,
       '#maxlength' => 255,
       '#description' => $this->t('Specify the path of this presentation.'),
+    ];
+
+    $form['revealjs_theme'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Theme'),
+      '#default_value' => $presentation->getTheme(),
+      '#options' => ['__none' => $this->t('Global default')] + RevealJSPresentation::revealThemes(),
+      '#description' => $this->t('Select theme to be used by default. Theme previews can be <a href="https://revealjs.com/themes/">seen at</a>.'),
     ];
 
     $slides = $presentation->getSlides();

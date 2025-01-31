@@ -46,6 +46,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "label",
  *     "status",
  *     "path",
+ *     "revealjs_theme",
  *     "slides",
  *   },
  *   cache = {
@@ -80,6 +81,11 @@ class Presentation extends ConfigEntityBase {
    * The path of the presentation.
    */
   protected $path;
+
+  /**
+   * The theme to use for the presentation.
+   */
+  protected $revealjs_theme;
 
   /**
    * The slides of the presentation.
@@ -121,6 +127,13 @@ class Presentation extends ConfigEntityBase {
    */
   public function getPath() {
     return $this->path;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTheme() {
+    return $this->revealjs_theme;
   }
 
   /**
