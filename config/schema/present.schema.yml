@@ -7,3 +7,30 @@ present.settings:
     revealjs_theme:
       type: string
       label: 'Reveal.js Theme'
+
+present.presentation.*:
+  type: config_entity
+  label: 'Presentation'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    status:
+      type: boolean
+      label: 'Status'
+    path:
+      type: string
+      label: 'Path'
+    slides:
+      type: sequence
+      label: 'Slides'
+      sequence:
+        type: mapping
+        label: 'Slide'
+        mapping:
+          content:
+            type: string
+            label: 'Content'
