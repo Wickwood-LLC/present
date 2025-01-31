@@ -2,6 +2,7 @@
 
 namespace Drupal\present\Form;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -120,6 +121,28 @@ class PresentationForm extends EntityForm {
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
+  }
+
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    $path = $form_state->getValue('path');
+    $errors = [];
+    if (strpos($path, '%') !== FALSE) {
+      $form_state->setErrorByName('path', $this->t('"%" may not be used in the path.'));
+    }
+
+    $parsed_url = UrlHelper::parse($path);
+    if (empty($parsed_url['path'])) {
+      $form_state->setErrorByName('path', $this->t('Path is empty.'));
+    }
+
+    if (!empty($parsed_url['query'])) {
+      $form_state->setErrorByName('path', $this->t('No query allowed.'));
+    }
+
+    if (!parse_url('internal:/' . $path)) {
+      $form_state->setErrorByName('path', $this->t('Invalid path. Valid characters are alphanumerics as well as "-", ".", "_" and "~".'));
+    }
   }
 
   /**
