@@ -23,7 +23,7 @@ entity.presentation.collection:
   path: '/admin/structure/presentation'
   defaults:
     _entity_list: 'presentation'
-    _title: 'Presentation'
+    _title: 'Presentations'
   requirements:
     _permission: 'administer presentations'
 
