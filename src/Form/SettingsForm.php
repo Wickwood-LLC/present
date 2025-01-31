@@ -67,6 +67,7 @@ class SettingsForm extends ConfigFormBase {
       '#min' => 0,
       '#max' => 1825, // 5 years.
       '#default_value' => $this->config->get('user_code_cookied_validity') ?? 30,
+      '#description' => $this->t('Validity of the user code cookied in number of days.'),
     ];
 
     return parent::buildForm($form, $form_state);
