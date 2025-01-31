@@ -121,6 +121,7 @@ class Slide extends FormElementBase {
   public static function ajaxRefresh(array $form, FormStateInterface $form_state) {
     $triggering_element = $form_state->getTriggeringElement();
     $parents = $triggering_element['#array_parents'];
+    array_pop($parents);
     $slide_element = NestedArray::getValue($form, $parents);
 
     return $slide_element;
