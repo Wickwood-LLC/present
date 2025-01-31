@@ -3,3 +3,9 @@ present.settings:
   description: 'Configure the Presebt module.'
   route_name: present.settings
   parent: system.admin_config_ui
+
+entity.presentation.collection:
+  title: 'Presentations'
+  route_name: entity.presentation.collection
+  description: 'Manage Presentations.'
+  parent: system.admin_structure

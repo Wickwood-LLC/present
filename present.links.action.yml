@@ -1,0 +1,5 @@
+entity.presentation.add_form:
+  route_name: entity.presentation.add_form
+  title: 'Add Presentation'
+  appears_on:
+    - entity.presentation.collection
