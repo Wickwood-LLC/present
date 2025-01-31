@@ -2,6 +2,8 @@
 
 namespace Drupal\present\Element;
 
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Attribute\FormElement;
 use Drupal\Core\Render\Element\FormElementBase;
@@ -49,8 +51,15 @@ class Slide extends FormElementBase {
   public static function processSlide(array &$element, FormStateInterface $form_state, array &$complete_form) {
     $value = $element['#value'];
 
+    $id_prefix = implode('-', $element['#parents']);
+    $wrapper_id = Html::getUniqueId($id_prefix . '-ajax-wrapper');
+
     $element = [
       '#tree' => TRUE,
+      '#prefix' => '<div id="' . $wrapper_id . '">',
+      '#suffix' => '</div>',
+      // Pass the id along to other methods.
+      '#wrapper_id' => $wrapper_id,
     ] + $element;
     $element['type'] = [
       '#type' => 'select',
@@ -61,6 +70,10 @@ class Slide extends FormElementBase {
       ],
       '#default_value' => $element['#default_value']['type'] ?? 'render_array',
       '#description' => t('Select type of content you are entering below. Render Array should be entered in YAML format.'),
+      '#ajax' => [
+        'callback' => [get_called_class(), 'ajaxRefresh'],
+        'wrapper' => $wrapper_id,
+      ],
     ];
     $element['content'] = [
       '#type' => 'textarea',
@@ -68,7 +81,8 @@ class Slide extends FormElementBase {
       '#default_value' => $element['#default_value']['content'],
       '#limit_validation_errors' => [],
     ];
-    if ($element['#default_value']['type'] == 'render_array') {
+    $type = $value['type'] ?? $element['#default_value']['type'];
+    if ($type == 'render_array') {
       // To get support from the https://www.drupal.org/project/yaml_editor module.
       $element['content']['#attributes']['data-yaml-editor'] = 'true';
     }
@@ -99,6 +113,17 @@ class Slide extends FormElementBase {
         );
       }
     }
+  }
+
+  /**
+   * Ajax callback.
+   */
+  public static function ajaxRefresh(array $form, FormStateInterface $form_state) {
+    $triggering_element = $form_state->getTriggeringElement();
+    $parents = $triggering_element['#array_parents'];
+    $slide_element = NestedArray::getValue($form, $parents);
+
+    return $slide_element;
   }
 
 }
