@@ -3,3 +3,6 @@ services:
     class: Drupal\present\ParamConverter\UserCodeToEntityConverter
     tags:
       - { name: paramconverter }
+  present.route_subscriber:
+    class: Drupal\present\EventSubscriber\RouteSubscriber
+    arguments: ['@entity_type.manager']
