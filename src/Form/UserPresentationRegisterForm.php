@@ -19,12 +19,6 @@ class UserPresentationRegisterForm extends RegisterForm {
     // Build the form using the parent class.
     $form = parent::buildForm($form, $form_state);
 
-    // // Add custom changes for the custom_register form mode.
-    // $form['custom_message'] = [
-    //   '#type' => 'markup',
-    //   '#markup' => '<p>This is the custom registration form.</p>',
-    // ];
-
     // Presentation registration does not require password and username to set.
     $form['account']['pass']['#access'] = FALSE;
     $form['account']['pass']['#required'] = FALSE;

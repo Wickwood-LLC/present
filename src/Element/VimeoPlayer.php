@@ -35,7 +35,6 @@ class VimeoPlayer extends RenderElementBase {
       $element['#attributes']['class'] = [];
     }
     $element['#attributes']['class'][] = 'vimeo-player-wrapper';
-    // $element['#attributes']['style'] = "width: 100%; aspect-ratio: 4/3;";
     $element['#attributes']['data-vimeo-options'] = json_encode($element['#options']);
     if (isset($element['#events_to_fire'])) {
       $element['#attributes']['data-vimeo-events'] = json_encode($element['#events_to_fire']); 

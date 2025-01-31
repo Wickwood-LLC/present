@@ -17,16 +17,11 @@ class RevealJSPresentation extends RenderElementBase {
   public function getInfo() {
     $class = static::class;
     return [
-      '#process' => [
-        // [$class, 'processGroup'],
-        // [$class, 'processAjaxForm'],
-      ],
       '#pre_render' => [
         [$class, 'preRender'],
       ],
       '#options' => [],
       '#attributes' => [],
-      // '#theme_wrappers' => ['fieldset'],
       '#theme' => 'revealjs_presentation',
       '#attached' => [
         'library' => ['present/reveal'],

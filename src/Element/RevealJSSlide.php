@@ -17,15 +17,7 @@ class RevealJSSlide extends RenderElementBase {
   public function getInfo() {
     $class = static::class;
     return [
-      '#process' => [
-        // [$class, 'processGroup'],
-        // [$class, 'processAjaxForm'],
-      ],
-      '#pre_render' => [
-        // [$class, 'preRenderGroup'],
-      ],
       '#content' => '',
-      // '#theme_wrappers' => ['fieldset'],
       '#theme' => 'revealjs_slide',
     ];
   }

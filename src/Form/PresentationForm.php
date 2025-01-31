@@ -119,10 +119,6 @@ class PresentationForm extends EntityForm {
   protected function copyFormValuesToEntity(EntityInterface $entity, array $form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
 
-    // foreach ($values['tab_order'] ?? [] as $key => $order_data) {
-    //   $values['tabs'][$key]['weight'] = $order_data['weight'];
-    // }
-
     unset(
       $values['add_slide'],
     );
