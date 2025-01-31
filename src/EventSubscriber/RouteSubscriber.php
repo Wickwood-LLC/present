@@ -60,6 +60,23 @@ class RouteSubscriber {
         ],
       ]);
       $collection->add($route_name, $route);
+
+      $registration_route = new Route(
+        rtrim($presentation->getPath(), '/') . '/registration',
+        [
+          '_controller' => '\Drupal\present\Controller\PresentationController::registration',
+          '_title_callback' => '\Drupal\present\Controller\PresentationController::registrationTitle',
+          'presentation' => $presentation->id(),
+        ]
+      );
+      $registration_route->addRequirements(['_permission' => 'access content']);
+      $registration_route->addOptions([
+        'parameters' => [
+          'presentation' => ['type' => 'entity:presentation'],
+        ],
+      ]);
+
+      $collection->add('present.presentation_registration.' . $presentation->id(), $registration_route);
     }
     return $collection;
   }

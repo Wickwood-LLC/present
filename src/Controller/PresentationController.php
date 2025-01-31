@@ -27,7 +27,6 @@ class PresentationController extends ControllerBase {
     
   }
 
-
   /**
    * Build the block instance add form.
    */
@@ -41,7 +40,7 @@ class PresentationController extends ControllerBase {
         $url = Url::fromRoute('present.presentation.' . $presentation->id(), ['user' => $user_code, 'presentation' => $presentation->id()]);
       }
       else {
-        $url = Url::fromRoute('present.presentation_registration');
+        $url = Url::fromRoute('present.presentation_registration.' . $presentation->id(), ['presentation' => $presentation]);
       }
       return new RedirectResponse($url->toString());
     }
@@ -88,7 +87,20 @@ class PresentationController extends ControllerBase {
     return $presentation->label();
   }
 
-  public function registration() {
+  /**
+   * The _title_callback for the presentaiton registration page
+   *
+   * @param \Drupal\present\Entity\Presentation $presentation
+   *   The presentation.
+   *
+   * @return string
+   *   The presentation registration title.
+   */
+  public function registrationTitle(Presentation $presentation) {
+    return $this->t('Register the %presentation presentation', ['%presentation' => $presentation->label()]);
+  }
+
+  public function registration(Presentation $presentation) {
     $user_storage = $this->entityTypeManager()->getStorage('user');
     /** @var \Drupal\Core\Password\DefaultPasswordGenerator */
     $password_generator = \Drupal::service('password_generator');
@@ -98,7 +110,7 @@ class PresentationController extends ControllerBase {
     $new_user->setPassword($password_generator->generate(12));
 
     $form_state_additions = [
-      'presentation_path' => '/capstone-health/plus/generic-presentation',
+      'presentation_id' => $presentation->id(),
     ];
     $user_register_form = $this->entityFormBuilder()->getForm($new_user, 'presentation', $form_state_additions);
 

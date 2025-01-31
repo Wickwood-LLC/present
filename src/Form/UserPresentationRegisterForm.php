@@ -4,6 +4,7 @@ namespace Drupal\present\Form;
 
 use Drupal\user\RegisterForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -81,13 +82,13 @@ class UserPresentationRegisterForm extends RegisterForm {
   }
 
   protected function setPresentationRedirection($user_id, FormStateInterface $form_state) {
-    $presentation_path = $form_state->get('presentation_path');
+    $presentation_id = $form_state->get('presentation_id');
     /** @var \Drupal\present\ParamConverter\UserCodeToEntityConverter */
     $user_code_service = \Drupal::service('present.user_code');
     $user_code = $user_code_service->getUserCode($user_id);
     setcookie('user_code', $user_code, time() + 400 * 24 * 60 * 60);
-    $presentation_redirect = $presentation_path . '/' . $user_code;
-    // $form_state->setResponse(new RedirectResponse($presentation_path));
+    $presentation_redirect = Url::fromRoute('present.presentation.' . $presentation_id, ['user' => $user_code, 'presentation' => $presentation_id])
+      ->toString();
     $form_state->set('presentation_redirect', $presentation_redirect);
     $form_state->setResponse(new RedirectResponse($presentation_redirect));
   }
