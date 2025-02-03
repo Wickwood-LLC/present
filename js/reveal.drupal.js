@@ -6,11 +6,6 @@
    * Initialize reveal.js! with custom settings.
    */
   Drupal.behaviors.present = {
-    config: false,
-    manager: false,
-    observing: false,
-    needCallBehaviors: false,
-    ready: false,
     attach: function (context, settings) {
       once('revealjs', '.reveal').forEach(function (element) {
         let config = JSON.parse(element.getAttribute('data-config-options'));
