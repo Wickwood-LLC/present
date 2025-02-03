@@ -26,6 +26,9 @@
         // });
         reveal_deck.initialize();
         reveal_deck.on('slidechanged', (event) => {
+          let a = 'w';
+          let config_override = JSON.parse(event.currentSlide.getAttribute('data-config-options'));
+          reveal_deck.configure(config_override);
           // // Check if we're on the last slide
           // const currentSlideIndex = reveal_deck.getIndices(event.currentSlide);
           // const isLastSlide =

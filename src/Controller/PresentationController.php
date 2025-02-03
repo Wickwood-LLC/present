@@ -56,6 +56,9 @@ class PresentationController extends ControllerBase {
 
       $slide = [
         '#type' => 'revealjs_slide',
+        '#attributes' => [
+          'data-config-options' => json_encode(Yaml::parse($slide_data['revealjs_config_options'])),
+        ],
       ];
       if ($slide_data['auto_animate']) {
         $slide['#attributes']['data-auto-animate'] = TRUE;

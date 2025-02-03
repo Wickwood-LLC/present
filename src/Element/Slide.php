@@ -112,6 +112,14 @@ class Slide extends FormElementBase {
       '#description' => t('Enable Auto-Animate Restart in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
     ];
 
+    $element['revealjs_config_options'] = [
+      '#type' => 'textarea',
+      '#title' => t('Configuration Options'),
+      '#default_value' => $element['#default_value']['revealjs_config_options'] ?? '',
+      '#limit_validation_errors' => [],
+      '#description' => t('Specify configuration options to be used for this slide. This will be applicable to just this slide. This should be entered in YAML format. Dcoumentation about all possible options can be <a href="https://revealjs.com/config/">found at</a>.'),
+    ];
+
     return $element;
   }
 
@@ -137,6 +145,22 @@ class Slide extends FormElementBase {
           )
         );
       }
+    }
+
+    try {
+      Yaml::parse($value['revealjs_config_options']);
+    }
+    catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+        $form_state->setError(
+        $element['revealjs_config_options'],
+        t(
+          'Not in a valid YAML format: %message',
+          [
+            '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
+            '%message' => $e->getMessage(),
+          ]
+        )
+      );
     }
   }
 
