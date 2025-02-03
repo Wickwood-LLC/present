@@ -43,6 +43,14 @@ entity.presentation.edit_form:
   requirements:
     _permission: 'administer presentations'
 
+entity.presentation.duplicate_form:
+  path: '/admin/structure/presentation/{presentation}/duplicate'
+  defaults:
+    _entity_form: 'presentation.duplicate'
+    _title: 'Duplicate Presentaiton'
+  requirements:
+    _permission: 'administer presentations'
+
 entity.presentation.delete_form:
   path: '/admin/structure/presentation/{presentation}/delete'
   defaults:

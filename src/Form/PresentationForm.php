@@ -17,6 +17,19 @@ class PresentationForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
+  public function setEntity(EntityInterface $entity) {
+    /** @var \Drupal\present\Entity\Presentation $entity */
+    if ($this->operation == 'duplicate') {
+      $entity = $entity->createDuplicate();
+      $entity->setLabel($this->t('Clone of @label', ['@label' => $entity->label()]));
+    }
+    $this->entity = $entity;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 

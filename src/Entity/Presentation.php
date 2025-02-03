@@ -24,6 +24,7 @@ use Symfony\Component\Yaml\Yaml;
  *       "add" = "Drupal\present\Form\PresentationForm",
  *       "edit" = "Drupal\present\Form\PresentationForm",
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm",
+ *       "duplicate" = "Drupal\present\Form\PresentationForm"
  *     },
  *     "route_provider" = {
  *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
@@ -40,6 +41,7 @@ use Symfony\Component\Yaml\Yaml;
  *     "add-form" = "/admin/structure/presentation/add",
  *     "edit-form" = "/admin/structure/presentation/{presentation}/edit",
  *     "delete-form" = "/admin/structure/presentation/{presentation}/delete",
+ *     "duplicate-form" = "/admin/structure/presentation/{presentation}/duplicate",
  *     "collection" = "/admin/structure/presentation",
  *   },
  *   config_export = {
