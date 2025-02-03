@@ -165,7 +165,12 @@ class Presentation extends ConfigEntityBase {
     $key = time();
     $this->slides[$key] = [
       'content' => '',
+      'type' => 'html',
     ];
+  }
+
+  public function removeSlide($key) {
+    unset($this->slides[$key]);
   }
 
   public function getSlides() {

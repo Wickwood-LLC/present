@@ -73,10 +73,13 @@ class PresentationForm extends EntityForm {
 
     $slides = $presentation->getSlides();
 
+    $slides_wrapper_id = $form['#attributes']['id'] . '-wrapper';
     $form['slides'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Slides'),
       '#tree' => TRUE,
+      '#prefix' => '<div id="' . $slides_wrapper_id . '">',
+      '#suffix' => '</div>',
     ];
 
     $slide_number = 1;
@@ -85,6 +88,19 @@ class PresentationForm extends EntityForm {
         '#type' => 'present_slide',
         '#title' => $this->t('Slide #%number', ['%number' => $slide_number]),
         '#default_value' => $slide,
+      ];
+      $form['slides'][$key]['remove'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Remove'),
+        '#name' => 'remove_slide_' . $key,
+        '#limit_validation_errors' => [],
+        '#ajax' => [
+          'callback' => '::removeSlideCallback', // AJAX callback method.
+          'wrapper' => $slides_wrapper_id,
+          'event' => 'click', // The event triggering the AJAX request.
+        ],
+        '#submit' => [[static::class, 'removeSlideSubmit']],
+        '#weight' => 100,
       ];
       $slide_number++;
     }
@@ -95,7 +111,7 @@ class PresentationForm extends EntityForm {
       '#limit_validation_errors' => [],
       '#ajax' => [
         'callback' => '::addSlideCallback', // AJAX callback method.
-        'wrapper' => $form['#attributes']['id'],
+        'wrapper' => $slides_wrapper_id,
         'event' => 'click', // The event triggering the AJAX request.
       ],
       '#submit' => [[static::class, 'addSlideSubmit']],
@@ -114,7 +130,7 @@ class PresentationForm extends EntityForm {
    * AJAX callback method.
    */
   public function addSlideCallback(array &$form, FormStateInterface $form_state) {
-    return $form;
+    return $form['slides'];
   }
 
   /**
@@ -126,6 +142,31 @@ class PresentationForm extends EntityForm {
     /** @var \Drupal\present\Entity\Presentation */
     $presentation = $form_state->get('presentation');
     $presentation->addSlide();
+    $form_state->set('presentation', $presentation);
+
+    $form_state->setRebuild();
+  }
+
+  /**
+   * AJAX callback method.
+   */
+  public function removeSlideCallback(array &$form, FormStateInterface $form_state) {
+    return $form['slides'];
+  }
+
+  /**
+   * Submission handler for the "Add Slide" button.
+   */
+  public static function removeSlideSubmit(array $form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+
+    /** @var \Drupal\present\Entity\Presentation */
+    $presentation = $form_state->get('presentation');
+
+    end($button['#parents']);
+    $slode_to_remove = prev($button['#parents']);
+
+    $presentation->removeSlide($slode_to_remove);
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
