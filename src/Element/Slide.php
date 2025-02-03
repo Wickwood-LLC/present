@@ -114,10 +114,13 @@ class Slide extends FormElementBase {
 
     $element['revealjs_config_options'] = [
       '#type' => 'textarea',
-      '#title' => t('Configuration Options'),
+      '#title' => t('Override Configuration Options on Event'),
       '#default_value' => $element['#default_value']['revealjs_config_options'] ?? '',
       '#limit_validation_errors' => [],
-      '#description' => t('Specify configuration options to be used for this slide. This will be applicable to just this slide. This should be entered in YAML format. Dcoumentation about all possible options can be <a href="https://revealjs.com/config/">found at</a>.'),
+      '#description' => t('Specify configuration options to be overriden for this slide on slidechanged and/or slidetransitionend events. So, configs to be changed should be either under these event names.'),
+      '#attributes' => [
+        'data-yaml-editor' => 'true',
+      ],
     ];
 
     return $element;
@@ -148,10 +151,18 @@ class Slide extends FormElementBase {
     }
 
     try {
-      Yaml::parse($value['revealjs_config_options']);
+      $revealjs_config_options = Yaml::parse($value['revealjs_config_options']);
+      foreach ($revealjs_config_options as $index => $value) {
+        if (!in_array($index, ['slidechanged', 'slidetransitionend'])) {
+          $form_state->setError(
+            $element['revealjs_config_options'],
+            t('Only slidechanged and slidetransitionend are valid first leve indexes.')
+          );
+        }
+      }
     }
     catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-        $form_state->setError(
+      $form_state->setError(
         $element['revealjs_config_options'],
         t(
           'Not in a valid YAML format: %message',

@@ -18,7 +18,15 @@
         reveal_deck.initialize();
         reveal_deck.on('slidechanged', (event) => {
           let config_override = JSON.parse(event.currentSlide.getAttribute('data-config-options'));
-          reveal_deck.configure(config_override);
+          if ('slidechanged' in config_override) {
+            reveal_deck.configure(config_override.slidechanged);
+          }
+        });
+        reveal_deck.on('slidetransitionend', (event) => {
+          let config_override = JSON.parse(event.currentSlide.getAttribute('data-config-options'));
+          if ('slidetransitionend' in config_override) {
+            reveal_deck.configure(config_override.slidetransitionend);
+          }
         });
       })
     },
