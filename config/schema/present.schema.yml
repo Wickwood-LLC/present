@@ -49,3 +49,9 @@ present.presentation.*:
           auto_animate:
             type: boolean
             label: 'Auto Animate'
+          auto_animate_id:
+            type: string
+            label: 'Auto Animate ID'
+          auto_animate_restart:
+            type: boolean
+            label: 'Auto Animate Restart'

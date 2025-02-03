@@ -60,6 +60,12 @@ class PresentationController extends ControllerBase {
       if ($slide_data['auto_animate']) {
         $slide['#attributes']['data-auto-animate'] = TRUE;
       }
+      if (!empty($slide_data['auto_animate_id'])) {
+        $slide['#attributes']['data-auto-animate-id'] = $slide_data['auto_animate_id'];
+      }
+      if ($slide_data['auto_animate_restart']) {
+        $slide['#attributes']['data-auto-animate-restart'] = TRUE;
+      }
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }
