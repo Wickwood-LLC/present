@@ -6,16 +6,6 @@ present.settings:
   requirements:
     _permission: 'administer site configuration'
 
-present.vimeo_even:
-  path: '/ajax/present/vimeo-event'
-  defaults:
-    _controller: '\Drupal\present\Controller\PresentationController::vimeoEvent'
-    _title: 'Vimeo Event'
-  requirements:
-    _access: 'TRUE'
-    _format: 'json'
-    _method: 'POST'
-
 route_callbacks:
   - 'present.route_subscriber:routes'
 

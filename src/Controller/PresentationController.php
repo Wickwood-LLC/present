@@ -2,32 +2,20 @@
 
 namespace Drupal\present\Controller;
 
-use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\present\Element\Slide;
 use Drupal\present\Entity\Presentation;
-use Drupal\present\Event\VimeoPlayerEvent;
 use Drupal\user\UserInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Controller for building reveal.js presentations.
  */
 class PresentationController extends ControllerBase {
-
-  public function __construct(
-    #[Autowire(service: 'event_dispatcher')]
-    protected EventDispatcherInterface $eventDispatcher
-  ) {
-
-  }
 
   /**
    * Build the block instance add form.
@@ -163,25 +151,4 @@ class PresentationController extends ControllerBase {
       'form' => $user_register_form,
     ];
   }
-
-  /**
-   * Responds to the AJAX request.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The incoming request object.
-   *
-   * @return \Symfony\Component\HttpFoundation\Response
-   *   The AJAX response containing the rendered entity content.
-   */
-  public function vimeoEvent(Request $request): Response {
-    // Get data from the POST request.
-    $data = $request->request->all();
-
-    $vimeo_event = new VimeoPlayerEvent($data['name'], $data['data'], $data['embed_options']);
-    $this->eventDispatcher->dispatch($vimeo_event, VimeoPlayerEvent::VIMEO_PLAYER_EVENT);
-
-    $response = new AjaxResponse();
-    return $response;
-  }
-
 }

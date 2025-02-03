@@ -14,9 +14,6 @@ function present_theme() {
     'revealjs_slide' => [
       'render element' => 'slide',
     ],
-    'present_vimeo_player' => [
-      'render element' => 'vimeo',
-    ]
   ];
 }
 
@@ -30,11 +27,6 @@ function template_preprocess_revealjs_slide(&$variables) {
   $slide = $variables['slide'];
   $variables['attributes'] = new Attribute($slide['#attributes']);
   $variables['content'] = $slide['#content'];
-}
-
-function template_preprocess_present_vimeo_player(&$variables) {
-  $vimeo = $variables['vimeo'];
-  $variables['attributes'] = new Attribute($vimeo['#attributes']);
 }
 
 /**
@@ -73,47 +65,4 @@ function present_library_info_build() {
     ];
   }
   return $libraries;
-}
-
-/**
- * Implements hook_token_info()
- */
-function present_token_info() {
-  // Core tokens for nodes.
-  $vimeo_embed_options['url'] = [
-    'name' => t("URL"),
-    'description' => t("URL used to embed the video"),
-  ];
-
-  return [
-    'types' => [
-      'vimeo_embed_options' => [
-        'name' => t('Vimeo Emebd Options'),
-        'description' => t('Embed options used for initializing the vimeo player.'),
-        'needs-data' => 'vimeo_embed_options',
-      ]
-    ],
-    'tokens' => ['vimeo_embed_options' => $vimeo_embed_options],
-  ];
-}
-
-/**
- * Implements hook_tokens()
- */
-function present_tokens($type, $tokens, array $data, array $options) {
-  $replacements = [];
-
-  if ($type == 'vimeo_embed_options') {
-    if (!empty($data['vimeo_embed_options'])) {
-      foreach ($tokens as $name => $original) {
-        switch ($name) {
-          case 'url':
-            $replacements[$original] = $data['vimeo_embed_options']['url'];
-            break;
-        }
-      }
-    }
-  }
-
-  return $replacements;
 }
