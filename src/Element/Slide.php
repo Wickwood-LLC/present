@@ -115,7 +115,6 @@ class Slide extends FormElementBase {
     $element['ovrride_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),
-      '#collapsible' => TRUE,
     ];
 
     $slide_events = static::slideEvents();
@@ -130,6 +129,9 @@ class Slide extends FormElementBase {
           'data-yaml-editor' => 'true',
         ],
       ];
+      if (!empty($element['#default_value']['ovrride_revealjs_config_options'][$event_name])) {
+        $element['ovrride_revealjs_config_options']['#open'] = TRUE;
+      }
     }
 
     return $element;
