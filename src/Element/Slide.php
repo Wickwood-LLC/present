@@ -112,16 +112,25 @@ class Slide extends FormElementBase {
       '#description' => t('Enable Auto-Animate Restart in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
     ];
 
-    $element['revealjs_config_options'] = [
-      '#type' => 'textarea',
-      '#title' => t('Override Configuration Options on Event'),
-      '#default_value' => $element['#default_value']['revealjs_config_options'] ?? '',
-      '#limit_validation_errors' => [],
-      '#description' => t('Specify configuration options to be overriden for this slide on slidechanged and/or slidetransitionend events. So, configs to be changed should be either under these event names.'),
-      '#attributes' => [
-        'data-yaml-editor' => 'true',
-      ],
+    $element['ovrride_revealjs_config_options'] = [
+      '#type' => 'details',
+      '#title' => t('Override Configuration Options on Events'),
+      '#collapsible' => TRUE,
     ];
+
+    $slide_events = static::slideEvents();
+    foreach ($slide_events as $event_name => $event_label) {
+      $element['ovrride_revealjs_config_options'][$event_name] = [
+        '#type' => 'textarea',
+        '#title' => t('Override Configuration Options on %event_label Event', ['%event_label' => $event_label]),
+        '#default_value' => $element['#default_value']['ovrride_revealjs_config_options'][$event_name] ?? '',
+        '#limit_validation_errors' => [],
+        '#description' => t('Specify configuration options to be overriden for this slide on %event_label event.', ['%event_label' => $event_label]),
+        '#attributes' => [
+          'data-yaml-editor' => 'true',
+        ],
+      ];
+    }
 
     return $element;
   }
@@ -150,28 +159,21 @@ class Slide extends FormElementBase {
       }
     }
 
-    try {
-      $revealjs_config_options = Yaml::parse($value['revealjs_config_options']);
-      foreach ($revealjs_config_options as $index => $value) {
-        if (!in_array($index, ['slidechanged', 'slidetransitionend'])) {
-          $form_state->setError(
-            $element['revealjs_config_options'],
-            t('Only slidechanged and slidetransitionend are valid first leve indexes.')
-          );
-        }
+    foreach ($value['ovrride_revealjs_config_options'] as $event_name => $config_options_string) {
+      try {
+        $revealjs_config_options = Yaml::parse($config_options_string);
       }
-    }
-    catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
-      $form_state->setError(
-        $element['revealjs_config_options'],
-        t(
-          'Not in a valid YAML format: %message',
-          [
-            '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
-            '%message' => $e->getMessage(),
-          ]
-        )
-      );
+      catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+        $form_state->setError(
+          $element['ovrride_revealjs_config_options'][$event_name],
+          t(
+            'Not in a valid YAML format: %message',
+            [
+              '%message' => $e->getMessage(),
+            ]
+          )
+        );
+      }
     }
   }
 
@@ -185,6 +187,13 @@ class Slide extends FormElementBase {
     $slide_element = NestedArray::getValue($form, $parents);
 
     return $slide_element;
+  }
+
+  public static function slideEvents() {
+    return [
+      'slidechanged' => t('Slide Changed'),
+      'slidetransitionend' => t('Slide Transition End'),
+    ];
   }
 
 }

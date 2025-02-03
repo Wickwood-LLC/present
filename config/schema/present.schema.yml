@@ -58,6 +58,9 @@ present.presentation.*:
           auto_animate_restart:
             type: boolean
             label: 'Auto Animate Restart'
-          revealjs_config_options:
-            type: string
-            label: 'Config Options of Slide'
+          ovrride_revealjs_config_options:
+            type: sequence
+            label: 'Override Config Options of Slide on Events'
+            sequence:
+              type: string
+              label: 'Override Config Options of Slide on Event'

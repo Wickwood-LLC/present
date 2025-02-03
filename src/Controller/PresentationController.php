@@ -54,10 +54,15 @@ class PresentationController extends ControllerBase {
 
     foreach ($presentation->getSlides() as $slide_data) {
 
+      $override_config_options = [];
+      foreach (Slide::slideEvents() as $event_name => $event_label) {
+        $override_config_options[$event_name] = Yaml::parse($slide_data['ovrride_revealjs_config_options'][$event_name]);
+      }
+
       $slide = [
         '#type' => 'revealjs_slide',
         '#attributes' => [
-          'data-config-options' => json_encode(Yaml::parse($slide_data['revealjs_config_options'])),
+          'data-config-options' => json_encode($override_config_options),
         ],
       ];
       if ($slide_data['auto_animate']) {
