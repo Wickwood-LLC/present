@@ -27,7 +27,7 @@
     player.ready().then(function() {
       // Emebdded vimeo cause some issue in the slide when the video is in the first slide.
       // Force it to adjust the size.
-      Reveal.layout();
+      // Reveal.layout();
     });
     return player;
   }
