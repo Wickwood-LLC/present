@@ -1,4 +1,4 @@
-(function ($, Drupal, once, Vimeo, Reveal) {
+(function ($, Drupal, once, Vimeo) {
 
   'use strict';
 
@@ -9,7 +9,7 @@
       $.each(events, function(index, event) {
         player.on(event, function(data) {
           if (event == 'ended') {
-            Reveal.next();
+            window.postMessage( JSON.stringify({ method: 'next', args: [] }));
           }
           Drupal.ajax({
             url: Drupal.url('ajax/present/vimeo-event'),
@@ -115,4 +115,4 @@
       })
     },
   };
-})(jQuery, Drupal, once, Vimeo, Reveal);
+})(jQuery, Drupal, once, Vimeo);
