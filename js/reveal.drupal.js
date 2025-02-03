@@ -12,30 +12,31 @@
     needCallBehaviors: false,
     ready: false,
     attach: function (context, settings) {
-      once('revealjs', 'html').forEach(function (element) {
-        // Reveal.js always runs on entire documetn and there is no way to select the element to target
-        // So, we restrict it only once in a page.
-        Reveal.initialize({
-          embedded: true,
-          scrollActivationWidth: null,
-          controls: false,
-          controlsLayout: 'edges',
-          // hash: true,
-          // // Learn about plugins: https://revealjs.com/plugins/
-          // plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-        });
-        Reveal.on('slidechanged', (event) => {
-          // Check if we're on the last slide
-          const currentSlideIndex = Reveal.getIndices(event.currentSlide);
-          const isLastSlide =
-            currentSlideIndex.h === Reveal.getTotalSlides() - 1;
+      once('revealjs', '.reveal').forEach(function (element) {
+        let config = JSON.parse(element.getAttribute('data-config-options'));
+        let reveal_deck = new Reveal(element, config);
+        // let reveal_deck = new Reveal(element, {
+        //   embedded: true,
+        //   scrollActivationWidth: null,
+        //   controls: false,
+        //   controlsLayout: 'edges',
+        //   // hash: true,
+        //   // // Learn about plugins: https://revealjs.com/plugins/
+        //   // plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        // });
+        reveal_deck.initialize();
+        reveal_deck.on('slidechanged', (event) => {
+          // // Check if we're on the last slide
+          // const currentSlideIndex = reveal_deck.getIndices(event.currentSlide);
+          // const isLastSlide =
+          //   currentSlideIndex.h === reveal_deck.getTotalSlides() - 1;
 
-          // Show controls only on the last slide.
-          if (isLastSlide) {
-            Reveal.configure({ controls: true });
-          } else {
-            Reveal.configure({ controls: false });
-          }
+          // // Show controls only on the last slide.
+          // if (isLastSlide) {
+          //   reveal_deck.configure({ controls: true });
+          // } else {
+          //   reveal_deck.configure({ controls: false });
+          // }
         });
         // Reveal.on('slidetransitionend', (event) => {
         //   console.log(event);

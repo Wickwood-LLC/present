@@ -56,6 +56,8 @@ class RevealJSPresentation extends RenderElementBase {
       $theme = 'black';
     }
     $element['#attached']['library'][] = 'present/reveal-theme-' . $theme;
+
+    $element['#attributes']['data-config-options'] = $element['#config_options'];
     return $element;
   }
 

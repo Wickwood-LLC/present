@@ -3,6 +3,7 @@
 namespace Drupal\present\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines the Presentation configuration entity.
@@ -47,6 +48,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "status",
  *     "path",
  *     "revealjs_theme",
+ *     "revealjs_config_options",
  *     "slides",
  *   },
  *   cache = {
@@ -86,6 +88,13 @@ class Presentation extends ConfigEntityBase {
    * The theme to use for the presentation.
    */
   protected $revealjs_theme;
+
+  /**
+   * The configuration options in YAML format.
+   *
+   * @var string
+   */
+  protected $revealjs_config_options;
 
   /**
    * The slides of the presentation.
@@ -134,6 +143,14 @@ class Presentation extends ConfigEntityBase {
    */
   public function getTheme() {
     return $this->revealjs_theme;
+  }
+
+  public function getConfigOptions() {
+    return $this->revealjs_config_options;
+  }
+
+  public function getConfigOptionsArray(): array {
+    return Yaml::parse($this->revealjs_config_options) ?? [];
   }
 
   /**

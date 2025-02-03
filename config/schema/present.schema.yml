@@ -33,6 +33,9 @@ present.presentation.*:
     revealjs_theme:
       type: string
       label: 'Theme'
+    revealjs_config_options:
+      type: string
+      label: 'Config Options'
     slides:
       type: sequence
       label: 'Slides'

@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\present\Element\RevealJSPresentation;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Form for adding/editing Presentation entities.
@@ -61,6 +62,13 @@ class PresentationForm extends EntityForm {
       '#default_value' => $presentation->getTheme(),
       '#options' => ['__none' => $this->t('Global default')] + RevealJSPresentation::revealThemes(),
       '#description' => $this->t('Select theme to be used by default. Theme previews can be <a href="https://revealjs.com/themes/">seen at</a>.'),
+    ];
+
+    $form['revealjs_config_options'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Configuration Options'),
+      '#default_value' => $presentation->getConfigOptions(),
+      '#description' => $this->t('Specify configuration options to be used for initializing the slides. This should be entered in YAML format. Dcoumentation about all possible options can be <a href="https://revealjs.com/config/">found at</a>.'),
     ];
 
     $slides = $presentation->getSlides();
@@ -142,6 +150,22 @@ class PresentationForm extends EntityForm {
 
     if (!parse_url('internal:/' . $path)) {
       $form_state->setErrorByName('path', $this->t('Invalid path. Valid characters are alphanumerics as well as "-", ".", "_" and "~".'));
+    }
+
+    $revealjs_config_options = $form_state->getValue('revealjs_config_options');
+    try {
+      $test = Yaml::parse($revealjs_config_options);
+    }
+    catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+      $form_state->setErrorByName(
+        'revealjs_config_options',
+        t(
+          'Not in a valid YAML format: %message',
+          [
+            '%message' => $e->getMessage(),
+          ]
+        )
+      );
     }
   }
 

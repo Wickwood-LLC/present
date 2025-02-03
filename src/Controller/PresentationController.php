@@ -91,6 +91,7 @@ class PresentationController extends ControllerBase {
         '#options' => [
           'theme' => $reveal_theme,
         ],
+        '#config_options' => json_encode(['embedded' => TRUE] + $presentation->getConfigOptionsArray()),
         '#cache' => [
           'max-age' => 0,
           'contexts' => ['url.query_args:theme'],
