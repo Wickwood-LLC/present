@@ -1,4 +1,4 @@
-(function (Drupal, drupalSettings, Reveal) {
+(function (Drupal, Reveal, once) {
 
   'use strict';
 
@@ -26,4 +26,4 @@
       })
     },
   };
-})(Drupal, drupalSettings, Reveal, once);
+})(Drupal, Reveal, once);
