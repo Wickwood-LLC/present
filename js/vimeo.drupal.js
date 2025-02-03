@@ -27,7 +27,8 @@
     player.ready().then(function() {
       // Emebdded vimeo cause some issue in the slide when the video is in the first slide.
       // Force it to adjust the size.
-      // Reveal.layout();
+      // Make the presentation on this windwos layout with https://revealjs.com/postmessage/
+      window.postMessage( JSON.stringify({ method: 'layout', args: [] }));
     });
     return player;
   }
