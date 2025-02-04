@@ -114,6 +114,10 @@ class PresentationBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     if ($presentation = $this->getPresentation()) {
+      if (!$presentation->getStatus()) {
+        // Not to display if the presentation is disabled.
+        return [];
+      }
 
       $config = \Drupal::config('present.settings');
 
