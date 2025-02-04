@@ -48,7 +48,6 @@ use Symfony\Component\Yaml\Yaml;
  *     "id",
  *     "label",
  *     "status",
- *     "path",
  *     "revealjs_theme",
  *     "revealjs_config_options",
  *     "slides",
@@ -80,11 +79,6 @@ class Presentation extends ConfigEntityBase {
    * @var bool
    */
   protected $status = TRUE;
-
-  /**
-   * The path of the presentation.
-   */
-  protected $path;
 
   /**
    * The theme to use for the presentation.
@@ -131,13 +125,6 @@ class Presentation extends ConfigEntityBase {
   public function setStatus($status) {
     $this->status = $status;
     return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPath() {
-    return $this->path;
   }
 
   /**

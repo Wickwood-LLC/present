@@ -60,15 +60,6 @@ class PresentationForm extends EntityForm {
       '#disabled' => !$presentation->isNew(),
     ];
 
-    $form['path'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Path'),
-      '#default_value' => $presentation->getPath(),
-      '#required' => TRUE,
-      '#maxlength' => 255,
-      '#description' => $this->t('Specify the path of this presentation.'),
-    ];
-
     $form['revealjs_theme'] = [
       '#type' => 'select',
       '#title' => $this->t('Theme'),
@@ -186,25 +177,6 @@ class PresentationForm extends EntityForm {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
-
-    $path = $form_state->getValue('path');
-    $errors = [];
-    if (strpos($path, '%') !== FALSE) {
-      $form_state->setErrorByName('path', $this->t('"%" may not be used in the path.'));
-    }
-
-    $parsed_url = UrlHelper::parse($path);
-    if (empty($parsed_url['path'])) {
-      $form_state->setErrorByName('path', $this->t('Path is empty.'));
-    }
-
-    if (!empty($parsed_url['query'])) {
-      $form_state->setErrorByName('path', $this->t('No query allowed.'));
-    }
-
-    if (!parse_url('internal:/' . $path)) {
-      $form_state->setErrorByName('path', $this->t('Invalid path. Valid characters are alphanumerics as well as "-", ".", "_" and "~".'));
-    }
 
     $revealjs_config_options = $form_state->getValue('revealjs_config_options');
     try {

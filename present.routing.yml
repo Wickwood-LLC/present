@@ -6,9 +6,6 @@ present.settings:
   requirements:
     _permission: 'administer site configuration'
 
-route_callbacks:
-  - 'present.route_subscriber:routes'
-
 entity.presentation.collection:
   path: '/admin/structure/presentation'
   defaults:
