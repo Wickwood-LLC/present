@@ -47,6 +47,7 @@
                 name: event_data.type,
                 data: data,
                 presentation_id: presentation_id,
+                url: window.location.href
               }
             })
             .execute();
