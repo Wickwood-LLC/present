@@ -10,10 +10,10 @@ use Drupal\present\Entity\Presentation;
  */
 class PresentationEvent extends Event {
 
-  const READY = 'presentatin.ready';
-  const SLIDE_CHANGED = 'presentatin.slidechanged';
-  const SLIDE_TRANSITION_END = 'presentatin.slidetransitionend';
-  const RESIZE = 'presentatin.resize';
+  const READY = 'presentation.ready';
+  const SLIDE_CHANGED = 'presentation.slidechanged';
+  const SLIDE_TRANSITION_END = 'presentation.slidetransitionend';
+  const RESIZE = 'presentation.resize';
 
   /**
    * Name of the event
