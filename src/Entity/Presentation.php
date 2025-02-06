@@ -50,6 +50,7 @@ use Symfony\Component\Yaml\Yaml;
  *     "status",
  *     "revealjs_theme",
  *     "revealjs_config_options",
+ *     "events_to_track",
  *     "slides",
  *   },
  *   cache = {
@@ -91,6 +92,13 @@ class Presentation extends ConfigEntityBase {
    * @var string
    */
   protected $revealjs_config_options;
+
+  /**
+   * Events to track
+   *
+   * @var array
+   */
+  protected $events_to_track = [];
 
   /**
    * The slides of the presentation.
@@ -150,6 +158,13 @@ class Presentation extends ConfigEntityBase {
     return $this;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getEventsToTrack() {
+    return $this->events_to_track;
+  }
+
   public function addSlide() {
     $key = time();
     $this->slides[$key] = [
@@ -164,5 +179,14 @@ class Presentation extends ConfigEntityBase {
 
   public function getSlides() {
     return $this->slides;
+  }
+
+  public static function events(): array {
+    return [
+      'ready' => t('Ready'),
+      'slidechanged' => t('Slide Changed'),
+      'slidetransitionend' => t('Slide Transition End'),
+      'resize' => t('Resize'),
+    ];
   }
 }

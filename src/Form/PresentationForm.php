@@ -2,11 +2,11 @@
 
 namespace Drupal\present\Form;
 
-use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\present\Element\RevealJSPresentation;
+use Drupal\present\Entity\Presentation;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -79,6 +79,14 @@ class PresentationForm extends EntityForm {
       '#title' => $this->t('Configuration Options'),
       '#default_value' => $presentation->getConfigOptions(),
       '#description' => $this->t('Specify configuration options to be used for initializing the slides. This should be entered in YAML format. Dcoumentation about all possible options can be <a href="https://revealjs.com/config/">found at</a>.'),
+    ];
+
+    $form['events_to_track'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Events to Track'),
+      '#default_value' => $presentation->getEventsToTrack(),
+      '#options' => Presentation::events(),
+      '#description' => $this->t('Select events to be tracked. These Reveal.js events will be passed to Drupal side where you can utilize for various purposes. Documentation about Reveal.js events can be <a href="https://revealjs.com/events/">seen at</a>.'),
     ];
 
     $slides = $presentation->getSlides();

@@ -64,7 +64,10 @@ class RevealJSPresentation extends RenderElementBase {
     /** @var \Drupal\present\Entity\Presentation $presentation */
 
     $slides = [];
-    foreach ($presentation->getSlides() as $slide_data) {
+    $slide_number = 0;
+    foreach ($presentation->getSlides() as  $slide_data) {
+      // Slide number to be starting from 1.
+      $slide_number++;
 
       $override_config_options = [];
       foreach (Slide::slideEvents() as $event_name => $event_label) {
@@ -75,6 +78,7 @@ class RevealJSPresentation extends RenderElementBase {
         '#type' => 'revealjs_slide',
         '#attributes' => [
           'data-config-options' => json_encode($override_config_options),
+          'data-slide-number' => $slide_number,
         ],
       ];
       if ($slide_data['auto_animate']) {
@@ -123,6 +127,10 @@ class RevealJSPresentation extends RenderElementBase {
     if (!in_array($theme, array_keys(static::revealThemes()))) {
       $theme = 'black';
     }
+
+    $element['#attributes']['data-events-to-track'] = json_encode(array_values(array_filter($presentation->getEventsToTrack())));
+    $element['#attributes']['data-presentation-id'] = $presentation->id();
+
     $element['#attached']['library'][] = 'present/reveal-theme-' . $theme;
 
     $element['#attributes']['data-config-options'] = $element['#config_options'];

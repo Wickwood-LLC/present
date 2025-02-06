@@ -27,6 +27,12 @@ present.presentation.*:
     revealjs_config_options:
       type: string
       label: 'Config Options'
+    events_to_track:
+      type: sequence
+      label: 'Events to Track'
+      sequence:
+        type: string
+        label: 'Event'
     slides:
       type: sequence
       label: 'Slides'

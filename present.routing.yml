@@ -45,3 +45,13 @@ entity.presentation.delete_form:
     _title: 'Delete Presentations'
   requirements:
     _permission: 'administer presentations'
+
+present.presentation_event:
+  path: '/ajax/presentation/event'
+  defaults:
+    _controller: '\Drupal\present\Controller\PresentationController::event'
+    _title: 'Presentation Event'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
+    _method: 'POST'
