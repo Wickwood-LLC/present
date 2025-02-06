@@ -24,8 +24,9 @@ class PresentationListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
+    /** @var \Drupal\present\Entity\Presentation $entity */
     $row['id'] = $entity->id();
-    $row['title'] = $entity->getLabel();
+    $row['title'] = $entity->toLink(NULL, 'edit-form')->toString();
     $row['status'] = $entity->getStatus() ? $this->t('Enabled') : $this->t('Disabled');
     return $row + parent::buildRow($entity);
   }
