@@ -29,24 +29,28 @@ class PresentationEvent extends EventBase {
         'event_name' => Event::READY,
         'event_class' => Event::class,
         'tags' => Tag::CONTENT | Tag::VIEW,
+        'description' => t('Fires when the presentation is loaded and ready. Make sure you enabled to track Ready event in the presentation edit page.'),
       ],
       Event::SLIDE_CHANGED => [
         'label' => 'Presentation Slide Changed',
         'event_name' => Event::SLIDE_CHANGED,
         'event_class' => Event::class,
         'tags' => Tag::CONTENT | Tag::VIEW,
+        'description' => t('Fires when the presentation changes from one slide to another. Make sure you enabled to track Slide Changed event in the presentation edit page.'),
       ],
       Event::SLIDE_TRANSITION_END => [
         'label' => 'Presentation Slide Transition End',
         'event_name' => Event::SLIDE_TRANSITION_END,
         'event_class' => Event::class,
         'tags' => Tag::CONTENT | Tag::VIEW,
+        'description' => t('Fires when the presentation slide change is finished. Make sure you enabled to track Slide Transition End event in the presentation edit page.'),
       ],
       Event::RESIZE => [
         'label' => 'Presentation Resize',
         'event_name' => Event::RESIZE,
         'event_class' => Event::class,
         'tags' => Tag::CONTENT | Tag::VIEW,
+        'description' => t('Fires when the presentation is resized. Make sure you enabled to track Resize event in the presentation edit page.'),
       ],
     ];
   }
