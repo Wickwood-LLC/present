@@ -18,7 +18,7 @@ entity.presentation.add_form:
   path: '/admin/structure/presentation/add'
   defaults:
     _entity_form: 'presentation.add'
-    _title: 'Add My Configuration Entity'
+    _title: 'Add Presentation'
   requirements:
     _permission: 'administer presentations'
 
