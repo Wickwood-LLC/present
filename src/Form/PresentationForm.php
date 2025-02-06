@@ -40,6 +40,12 @@ class PresentationForm extends EntityForm {
 
     /** @var \Drupal\present\Entity\Presentation $presentation */
 
+    if ($this->operation == 'edit') {
+      $form['#title'] = $this->t('<em>Edit Presentation</em> @title', [
+        '@title' => $presentation->label(),
+      ]);
+    }
+
     $form['#attributes']['id'] = 'presentation-' . $presentation->isNew() ? 'new' : $presentation->id();
     $form_state->set('presentation', $presentation);
 
