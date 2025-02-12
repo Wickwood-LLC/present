@@ -63,3 +63,4 @@ present.presentation.*:
               label: 'Override Config Options of Slide on Event'
           autoslide:
             type: number
+            label: 'Auto-Slide Duration'
