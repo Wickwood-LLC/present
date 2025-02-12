@@ -9,6 +9,13 @@
     attach: function (context, settings) {
       once('revealjs', '.reveal').forEach(function (element) {
         let config = JSON.parse(element.getAttribute('data-config-options'));
+        if ('plugins' in config) {
+          let plugins = [];
+          config.plugins.forEach((item, index) => {
+              plugins.push(window[item]);
+          });
+          config.plugins = plugins;
+        }
         let reveal_deck = new Reveal(element, config);
         let presentation_id = element.getAttribute('data-presentation-id');
         reveal_deck.initialize();

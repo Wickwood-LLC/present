@@ -117,7 +117,26 @@ class RevealJSPresentation extends RenderElementBase {
     $element['#cache']['contexts'][] = 'url.query_args:theme';
     $element['#cache']['tags'][] = $presentation->getEntityTypeId() . ':' . $presentation->id();
 
-    $element['#config_options'] = json_encode(['embedded' => TRUE] + $presentation->getConfigOptionsArray());
+    $config_options = $presentation->getConfigOptionsArray();
+
+    if (!isset($config_options['plugins'])) {
+      $config_options['plugins'] = [];
+    }
+
+    /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
+    $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
+
+    $plugin_libraries = [];
+    foreach ($presentation->getPlugins() as $plugin_id) {
+      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
+      $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
+      $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
+      $plugin_libraries[] = $plugin->getLibraryName();
+      $config_options['plugins'][] = $plugin_def['revealjs_plugin_name'];
+    }
+
+
+    $element['#config_options'] = json_encode(['embedded' => TRUE] + $config_options);
 
     if (!isset($element['#attributes']['class'])) {
       $element['#attributes']['class'] = [];
@@ -132,6 +151,8 @@ class RevealJSPresentation extends RenderElementBase {
     $element['#attributes']['data-presentation-id'] = $presentation->id();
 
     $element['#attached']['library'][] = 'present/reveal-theme-' . $theme;
+
+    $element['#attached']['library'] = array_merge($plugin_libraries, $element['#attached']['library']);
 
     $element['#attributes']['data-config-options'] = $element['#config_options'];
     return $element;
