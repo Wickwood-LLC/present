@@ -24,6 +24,12 @@ present.presentation.*:
     revealjs_theme:
       type: string
       label: 'Theme'
+    revealjs_plugins:
+      type: sequence
+      label: 'RevealJS Plugins'
+      sequence:
+        type: string
+        label: 'RevealJS Plugin'
     revealjs_config_options:
       type: string
       label: 'Config Options'

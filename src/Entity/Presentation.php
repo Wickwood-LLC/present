@@ -49,6 +49,7 @@ use Symfony\Component\Yaml\Yaml;
  *     "label",
  *     "status",
  *     "revealjs_theme",
+ *     "revealjs_plugins",
  *     "revealjs_config_options",
  *     "events_to_track",
  *     "slides",
@@ -85,6 +86,11 @@ class Presentation extends ConfigEntityBase {
    * The theme to use for the presentation.
    */
   protected $revealjs_theme;
+
+  /**
+   * Reveal.js plugins to load for this presentaiton.
+   */
+  protected $revealjs_plugins = [];
 
   /**
    * The configuration options in YAML format.
@@ -140,6 +146,10 @@ class Presentation extends ConfigEntityBase {
    */
   public function getTheme() {
     return $this->revealjs_theme;
+  }
+
+  public function getPlugins(): array {
+    return $this->revealjs_plugins;
   }
 
   public function getConfigOptions() {

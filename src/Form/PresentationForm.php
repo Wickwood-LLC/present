@@ -74,6 +74,19 @@ class PresentationForm extends EntityForm {
       '#description' => $this->t('Select theme to be used by default. Theme previews can be <a href="https://revealjs.com/themes/">seen at</a>.'),
     ];
 
+    /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
+    $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
+
+    $plugin_options = $revealjs_plugin_manager->options();
+
+    $form['revealjs_plugins'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Reveal.js Plugins'),
+      '#default_value' => $presentation->getPlugins(),
+      '#options' => $plugin_options,
+      '#description' => $this->t('Select additional Reveal.js plugins to load for this presentation.'),
+    ];
+
     $form['revealjs_config_options'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Configuration Options'),
@@ -218,6 +231,7 @@ class PresentationForm extends EntityForm {
     unset(
       $values['add_slide'],
     );
+    $values['revealjs_plugins'] = array_values(array_filter($values['revealjs_plugins']));
 
     $form_state->setValues($values);
     parent::copyFormValuesToEntity($entity, $form, $form_state);
