@@ -31,10 +31,12 @@ class RevealJSPlugin extends Plugin {
    *   The plugin ID.
    * @param \Drupal\Core\StringTranslation\TranslatableMarkup $label
    *   The label of the action.
-   * @param \Drupal\Core\StringTranslation\TranslatableMarkup $action_label
+   * @param string $revealjs_plugin_name
+   *   Java Script name of the Reveal.js plugin.
    */
   public function __construct(
     public readonly string $id,
     public readonly TranslatableMarkup $label,
+    public readonly string $revealjs_plugin_name,
   ) {}
 }
