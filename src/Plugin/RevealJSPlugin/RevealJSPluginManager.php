@@ -33,4 +33,16 @@ class RevealJSPluginManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'revealjs_plugin_info');
   }
 
+  /**
+   * Provide option array to use in checkboxes and select form elements.
+   */
+  public function options(): array {
+    $plugins = $this->getDefinitions();
+    $options = [];
+
+    foreach ($plugins as $plugin) {
+      $options[$plugin['id']] = $plugin['label'];
+    }
+    return $options;
+  }
 }
