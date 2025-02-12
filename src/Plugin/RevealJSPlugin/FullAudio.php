@@ -7,5 +7,11 @@ use Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface;
 
 #[RevealJSPlugin("full_audio")]
 class FullAudio implements RevealJSPluginInterface {
-    
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLibraryName(): string {
+    return 'present/reveal-bg-audio';
+  }
 }
