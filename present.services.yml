@@ -1,0 +1,4 @@
+services:
+  plugin.manager.revealjs_plugins:
+    class: Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager
+    arguments: ['@container.namespaces', '@cache.discovery', '@module_handler']
