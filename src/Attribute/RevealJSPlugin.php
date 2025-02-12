@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\present\Attribute;
 
 use Drupal\Component\Plugin\Attribute\Plugin;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Defines a RevealJS plugin attribute object.
@@ -23,4 +24,17 @@ use Drupal\Component\Plugin\Attribute\Plugin;
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class RevealJSPlugin extends Plugin {
+  /**
+   * Constructs an RevealJSPlugin attribute.
+   *
+   * @param string $id
+   *   The plugin ID.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup $label
+   *   The label of the action.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup $action_label
+   */
+  public function __construct(
+    public readonly string $id,
+    public readonly TranslatableMarkup $label,
+  ) {}
 }
