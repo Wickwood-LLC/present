@@ -61,3 +61,5 @@ present.presentation.*:
             sequence:
               type: string
               label: 'Override Config Options of Slide on Event'
+          autoslide:
+            type: number

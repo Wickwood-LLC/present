@@ -112,6 +112,14 @@ class Slide extends FormElementBase {
       '#description' => t('Enable Auto-Animate Restart in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
     ];
 
+    $element['autoslide'] = [
+      '#type' => 'textfield',
+      '#title' => t('Auto-Slide Druation'),
+      '#default_value' => $element['#default_value']['autoslide'] ?? '',
+      '#limit_validation_errors' => [],
+      '#description' => t('Number of milliseconds to run this slide in Auto-Slide mode. Read more about this feature in <a href="https://revealjs.com/auto-slide/">this page</a>.'),
+    ];
+
     $element['ovrride_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),
