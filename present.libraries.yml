@@ -29,3 +29,7 @@ reveal:
     - core/drupal
     - core/drupalSettings
     - core/once
+
+reveal-bg-audio:
+  js:
+    js/revealjs.bg-audio.js: {}
