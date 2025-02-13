@@ -9,4 +9,9 @@ interface RevealJSPluginInterface {
    */
   public function getLibraryName(): string;
 
+  /**
+   * Manipulate the presentation element before the rendering process.
+   */
+  public function prenderPresentation($element): array;
+
 }

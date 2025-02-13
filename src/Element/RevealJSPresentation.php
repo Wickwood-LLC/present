@@ -130,12 +130,14 @@ class RevealJSPresentation extends RenderElementBase {
     $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
 
     $plugin_libraries = [];
+    $plugins = [];
     foreach ($presentation->getPlugins() as $plugin_id) {
       /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
       $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
       $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
       $plugin_libraries[] = $plugin->getLibraryName();
       $config_options['plugins'][] = $plugin_def['revealjs_plugin_name'];
+      $plugin[$plugin_id] = $plugin;
     }
 
 
@@ -158,6 +160,11 @@ class RevealJSPresentation extends RenderElementBase {
     $element['#attached']['library'] = array_merge($plugin_libraries, $element['#attached']['library']);
 
     $element['#attributes']['data-config-options'] = $element['#config_options'];
+
+    foreach ($plugins as $plugin) {
+      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface $plugin */
+      $element = $plugin->prenderPresentation($element);
+    }
     return $element;
   }
 

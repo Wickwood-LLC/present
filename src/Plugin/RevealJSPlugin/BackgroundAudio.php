@@ -18,4 +18,11 @@ class BackgroundAudio extends RevealJSPluginBase {
   public function getLibraryName(): string {
     return 'present/reveal-bg-audio';
   }
+
+  /**
+     * {@inheritdoc}
+     */
+  public function prenderPresentation($element): array {
+    return $element;
+  }
 }
