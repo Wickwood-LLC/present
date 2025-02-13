@@ -10,8 +10,6 @@ library:
       minified: true
     /libraries/reveal.js/plugin/notes/notes.js:
       minified: true
-    /libraries/reveal.js/plugin/markdown/markdown.js:
-      minified: true
     /libraries/reveal.js/plugin/highlight/highlight.js:
       minified: true
   css:
@@ -29,6 +27,10 @@ reveal:
     - core/drupal
     - core/drupalSettings
     - core/once
+
+reveal-markdown:
+  js:
+    /libraries/reveal.js/plugin/markdown/markdown.js: {}
 
 reveal-bg-audio:
   js:
