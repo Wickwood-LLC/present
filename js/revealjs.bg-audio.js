@@ -19,14 +19,14 @@ window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
         });
     },
     backupConfigs: function(configs_items) {
-        let plugin = this;
+        const plugin = this;
         let config = plugin.deck.getConfig();
         configs_items.forEach((property, index) => {
             plugin.backup_config[property] = config[property];
         });
     },
     restoreConfigs: function(configs_items) {
-        let plugin = this;
+        const plugin = this;
         let config = {};
         configs_items.forEach((property, index) => {
             config[property] = plugin.backup_config[property];
@@ -34,7 +34,7 @@ window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
         plugin.deck.configure(config);
     },
     startAudio: function(button) {
-        let plugin = this;
+        const plugin = this;
         let config = plugin.deck.getConfig();
         let audio_source;
         if (button.hasAttribute('data-bg-audio-src')) {
