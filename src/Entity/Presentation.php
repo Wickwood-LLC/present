@@ -192,6 +192,21 @@ class Presentation extends ConfigEntityBase {
     return $this->slides;
   }
 
+  /**
+   * Move a slide to new positon.
+   *
+   * @param sttring $key
+   *  Key of the slide
+   * @param int $new_position
+   *  New position to move slide to
+   */
+  public function moveSlide(string $key, int $new_position) {
+    $existing_position = array_search($key, array_keys($this->slides));
+    $part_1 = array_splice($this->slides, $existing_position, 1);
+    $part_2 = array_splice($this->slides, 0, $new_position);
+    $this->slides = array_merge($part_2, $part_1, $this->slides);
+  }
+
   public static function events(): array {
     return [
       'ready' => t('Ready'),

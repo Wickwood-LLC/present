@@ -114,6 +114,7 @@ class PresentationForm extends EntityForm {
     ];
 
     $slide_number = 1;
+    $num_slides = count($slides);
     foreach ($slides as $key => $slide) {
       $form['slides'][$key] = [
         '#type' => 'present_slide',
@@ -133,6 +134,37 @@ class PresentationForm extends EntityForm {
         '#submit' => [[static::class, 'removeSlideSubmit']],
         '#weight' => 100,
       ];
+
+      if ($slide_number != $num_slides) {
+        $form['slides'][$key]['move_down'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Move Down ↓'),
+          '#name' => 'move_down_' . $key,
+          '#limit_validation_errors' => [],
+          '#ajax' => [
+            'callback' => '::moveSlideCallback', // AJAX callback method.
+            'wrapper' => $slides_wrapper_id,
+            'event' => 'click', // The event triggering the AJAX request.
+          ],
+          '#submit' => [[static::class, 'moveSlideSubmit']],
+          '#weight' => 101,
+        ];
+      }
+      if ($slide_number != 1) {
+        $form['slides'][$key]['move_up'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Move Up ↑'),
+          '#name' => 'move_up_' . $key,
+          '#limit_validation_errors' => [],
+          '#ajax' => [
+            'callback' => '::moveSlideCallback', // AJAX callback method.
+            'wrapper' => $slides_wrapper_id,
+            'event' => 'click', // The event triggering the AJAX request.
+          ],
+          '#submit' => [[static::class, 'moveSlideSubmit']],
+          '#weight' => 102,
+        ];
+      }
       $slide_number++;
     }
 
@@ -198,6 +230,39 @@ class PresentationForm extends EntityForm {
     $slode_to_remove = prev($button['#parents']);
 
     $presentation->removeSlide($slode_to_remove);
+    $form_state->set('presentation', $presentation);
+
+    $form_state->setRebuild();
+  }
+
+  /**
+   * AJAX callback method.
+   */
+  public function moveSlideCallback(array &$form, FormStateInterface $form_state) {
+    return $form['slides'];
+  }
+
+  /**
+   * Submission handler for the "Move Down" and "Move Up" buttons.
+   */
+  public static function moveSlideSubmit(array $form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+
+    /** @var \Drupal\present\Entity\Presentation */
+    $presentation = $form_state->get('presentation');
+
+    $button_name = end($button['#parents']);
+    $slide_to_move = prev($button['#parents']);
+
+    $existing_position = array_search($slide_to_move, array_keys($presentation->getSlides()));
+    if ($button_name == 'move_up') {
+      $new_postion = $existing_position - 1;
+    }
+    else {
+      $new_postion = $existing_position + 1;
+    }
+
+    $presentation->moveSlide($slide_to_move, $new_postion);
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
