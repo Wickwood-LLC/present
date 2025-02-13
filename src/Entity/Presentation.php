@@ -175,13 +175,24 @@ class Presentation extends ConfigEntityBase {
     return $this->events_to_track;
   }
 
-  public function addSlide() {
+  public function addSlide($slide_data = [], int $position = NULL) {
     $uuid_service = \Drupal::service('uuid');
     $key = $uuid_service->generate();
-    $this->slides[$key] = [
+    $slide = $slide_data + [
       'content' => '',
       'type' => 'html',
-    ];
+    ] ;
+    if (isset($position)) {
+      $existing_position = array_search($key, array_keys($this->slides));
+      // $part_1 = array_splice($this->slides, $existing_position, 1);
+      $part_1 = array_splice($this->slides, 0, $position);
+      $part_2 = [$key => $slide];
+      $this->slides = array_merge($part_1, $part_2, $this->slides);
+    }
+    else {
+      $this->slides[$key] = $slide;
+    }
+    return $key;
   }
 
   public function removeSlide($key) {

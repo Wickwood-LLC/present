@@ -135,6 +135,20 @@ class PresentationForm extends EntityForm {
         '#weight' => 100,
       ];
 
+      $form['slides'][$key]['duplicate'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Duplicate'),
+        '#name' => 'duplicate_' . $key,
+        '#limit_validation_errors' => [],
+        '#ajax' => [
+          'callback' => '::duplicateSlideCallback', // AJAX callback method.
+          'wrapper' => $slides_wrapper_id,
+          'event' => 'click', // The event triggering the AJAX request.
+        ],
+        '#submit' => [[static::class, 'duplicateSlideSubmit']],
+        '#weight' => 100,
+      ];
+
       if ($slide_number != $num_slides) {
         $form['slides'][$key]['move_down'] = [
           '#type' => 'submit',
@@ -227,9 +241,44 @@ class PresentationForm extends EntityForm {
     $presentation = $form_state->get('presentation');
 
     end($button['#parents']);
-    $$slode_to_remove = prev($button['#parents']);
+    $slide_to_remove = prev($button['#parents']);
 
     $presentation->removeSlide($slide_to_remove);
+    $form_state->set('presentation', $presentation);
+
+    $form_state->setRebuild();
+  }
+
+  /**
+   * AJAX callback method.
+   */
+  public function duplicateSlideCallback(array &$form, FormStateInterface $form_state) {
+    return $form['slides'];
+  }
+
+  /**
+   * Submission handler for the "Add Slide" button.
+   */
+  public static function duplicateSlideSubmit(array $form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+
+    /** @var \Drupal\present\Entity\Presentation */
+    $presentation = $form_state->get('presentation');
+
+    end($button['#parents']);
+    $slide_to_uplicate = prev($button['#parents']);
+
+    $slides = $presentation->getSlides();
+    $position = array_search($slide_to_uplicate, array_keys($presentation->getSlides())) + 1;
+
+    $slide_data = $slides[$slide_to_uplicate];
+    $new_slide_key = $presentation->addSlide($slide_data, $position);
+
+    // Copy input values as well.
+    $input = $form_state->getUserInput();
+    $input['slides'][$new_slide_key] = $input['slides'][$slide_to_uplicate];
+    $form_state->setUserInput($input);
+
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
