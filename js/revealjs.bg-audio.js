@@ -14,7 +14,7 @@ window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
         bg_start_buttons.forEach(child => {
             child.classList.add('background-audio-start-button');
             child.addEventListener('click', function (event){
-                plugin.startAudio(deck);
+                plugin.startAudio(this);
             });
         });
     },
@@ -33,11 +33,18 @@ window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
         });
         plugin.deck.configure(config);
     },
-    startAudio: function() {
+    startAudio: function(button) {
         let plugin = this;
         let config = plugin.deck.getConfig();
-        if ('background_audio' in config) {
-            let audio = new Audio(config.background_audio);
+        let audio_source;
+        if (button.hasAttribute('data-bg-audio-src')) {
+            audio_source = button.getAttribute('data-bg-audio-src');
+        }
+        else if ('background_audio' in config) {
+            audio_source = config.background_audio;
+        }
+        if (audio_source) {
+            let audio = new Audio(audio_source);
             if (audio) {
                 plugin.backupConfigs(['autoSlide', 'autoSlideStoppable', 'controls'], config);
                 plugin.deck.configure({autoSlide: 0, autoSlideStoppable: false, controls: false});
