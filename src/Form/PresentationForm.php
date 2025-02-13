@@ -227,9 +227,9 @@ class PresentationForm extends EntityForm {
     $presentation = $form_state->get('presentation');
 
     end($button['#parents']);
-    $slode_to_remove = prev($button['#parents']);
+    $$slode_to_remove = prev($button['#parents']);
 
-    $presentation->removeSlide($slode_to_remove);
+    $presentation->removeSlide($slide_to_remove);
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
