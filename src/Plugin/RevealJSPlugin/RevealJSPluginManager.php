@@ -6,6 +6,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\present\Attribute\RevealJSPlugin;
+use Drupal\present\Entity\Presentation;
 
 /**
  * Provides a plugin manager for RevealJS plugins.
@@ -44,5 +45,30 @@ class RevealJSPluginManager extends DefaultPluginManager {
       $options[$plugin['id']] = $plugin['label'];
     }
     return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPlugin(string $plugin_id, ?Presentation $presentation): RevealJSPluginInterface {
+    $configuration = $presentation
+      ? self::getPluginConfiguration($presentation, $plugin_id)
+      : [];
+    return $this->createInstance($plugin_id, $configuration);
+  }
+
+  /**
+   * Gets the plugin configuration (if any) from a text editor config entity.
+   *
+   * @param \Drupal\present\Entity\Presentation $presentation
+   *   A presentation config entity.
+   * @param string $plugin_id
+   *   A RevalJS plugin ID.
+   *
+   * @return array
+   *   The RevealJS plugin configuration, if any.
+   */
+  protected static function getPluginConfiguration(Presentation $presentation, string $plugin_id): array {
+    return $presentation->getPluginSettings()[$plugin_id] ?? [];
   }
 }

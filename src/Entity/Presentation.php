@@ -50,6 +50,7 @@ use Symfony\Component\Yaml\Yaml;
  *     "status",
  *     "revealjs_theme",
  *     "revealjs_plugins",
+ *     "revealjs_plugin_settings",
  *     "revealjs_config_options",
  *     "events_to_track",
  *     "slides",
@@ -91,6 +92,11 @@ class Presentation extends ConfigEntityBase {
    * Reveal.js plugins to load for this presentaiton.
    */
   protected $revealjs_plugins = [];
+
+  /**
+   * Reveal.js plugin settings.
+   */
+  protected $revealjs_plugin_settings = [];
 
   /**
    * The configuration options in YAML format.
@@ -150,6 +156,10 @@ class Presentation extends ConfigEntityBase {
 
   public function getPlugins(): array {
     return $this->revealjs_plugins;
+  }
+
+  public function getPluginSettings(): array {
+    return $this->revealjs_plugin_settings;
   }
 
   public function getConfigOptions() {
@@ -225,5 +235,19 @@ class Presentation extends ConfigEntityBase {
       'slidetransitionend' => t('Slide Transition End'),
       'resize' => t('Resize'),
     ];
+  }
+
+  public function getPluginInstances() {
+    /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
+    $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
+
+    $plugins = [];
+    foreach ($this->revealjs_plugins as $plugin_id) {
+      // $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
+      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
+      $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
+      $plugins[$plugin_id] = $plugin;
+    }
+    return $plugins;
   }
 }

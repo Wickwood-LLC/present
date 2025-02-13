@@ -132,14 +132,18 @@ class RevealJSPresentation extends RenderElementBase {
     $plugin_libraries = [];
     $plugins = [];
     foreach ($presentation->getPlugins() as $plugin_id) {
-      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
-      $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
-      $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
+      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface $plugin */
+      // $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
+      $plugin = $revealjs_plugin_manager->getPlugin($plugin_id, $presentation);
       $plugin_libraries[] = $plugin->getLibraryName();
-      $config_options['plugins'][] = $plugin_def['revealjs_plugin_name'];
+      $config_options['plugins'][] = $plugin->getRevealJSPluginName();
       $plugins[$plugin_id] = $plugin;
     }
 
+    foreach ($plugins as $plugin) {
+      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface $plugin */
+      $plugin->alterRevealJSConfig($config_options);
+    }
 
     $element['#config_options'] = json_encode(['embedded' => TRUE] + $config_options);
 

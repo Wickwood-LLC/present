@@ -2,17 +2,45 @@
 
 namespace Drupal\present\Form;
 
+use Drupal\Component\Plugin\ConfigurableInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\SubformState;
 use Drupal\present\Element\RevealJSPresentation;
 use Drupal\present\Entity\Presentation;
+use Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Form for adding/editing Presentation entities.
  */
 class PresentationForm extends EntityForm {
+
+  /**
+   * @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager
+   */
+  protected $pluginManager;
+
+  /**
+   * Constructs a PresentationForm instance.
+   *
+   * @param \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager $revealjs_plugin_manager
+   *   The RevealJS plugin manager.
+   */
+  public function __construct(RevealJSPluginManager $revealjs_plugin_manager) {
+    $this->pluginManager = $revealjs_plugin_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('plugin.manager.revealjs_plugins')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -193,6 +221,15 @@ class PresentationForm extends EntityForm {
       ],
       '#submit' => [[static::class, 'addSlideSubmit']],
     ];
+    
+    $form['plugin_settings'] = [
+      '#type' => 'vertical_tabs',
+      '#title' => $this->t('Plugin settings'),
+      '#attributes' => [
+        'id' => 'reveal-plugin-settings',
+      ],
+    ];
+    $this->injectPluginSettingsForm($form, $form_state, $presentation);
 
     $form['status'] = [
       '#type' => 'checkbox',
@@ -318,6 +355,29 @@ class PresentationForm extends EntityForm {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+    /** @var \Drupal\present\Entity\Presentation */
+    $presentation = $form_state->get('presentation');
+    
+    $definitions = $this->pluginManager->getDefinitions();
+
+    $revealjs_plugin_settings = [];
+    foreach ($definitions as $plugin_id => $definition) {
+      $plugin = $this->pluginManager->getPlugin($plugin_id, $presentation);
+      if ($plugin instanceof ConfigurableInterface) {
+        /** @var \Drupal\present\Plugin\RevealJSPlugin\ConfigurableRevealJSPluginBase $plugin */
+
+        if ($form_state->hasValue(['revealjs_plugin_settings', $plugin_id])) {
+          $subform = $form['revealjs_plugin_settings'][$plugin_id];
+          $subform_state = SubformState::createForSubform($subform, $form, $form_state);
+          $plugin->validateConfigurationForm($subform, $subform_state);
+          $plugin->submitConfigurationForm($subform, $subform_state);
+  
+          $revealjs_plugin_settings[$plugin_id] = $plugin->getConfiguration();
+        }
+      }
+    }
+    $form_state->setValue('revealjs_plugin_settings', $revealjs_plugin_settings);
 
     $revealjs_config_options = $form_state->getValue('revealjs_config_options');
     try {
@@ -370,6 +430,42 @@ class PresentationForm extends EntityForm {
     }
 
     $form_state->setRedirectUrl($entity->toUrl('collection'));
+  }
+
+  /**
+   * Injects the RevealJS plugins settings forms as a vertical tabs subform.
+   *
+   * @param array &$form
+   *   A reference to an associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   * @param \Drupal\editor\EditorInterface $editor
+   *   A presentation object.
+   */
+  private function injectPluginSettingsForm(array &$form, FormStateInterface $form_state, Presentation $presentation): void {
+    $form['revealjs_plugin_settings'] = [
+      '#type' => 'container',
+      '#tree' => TRUE,
+    ];
+    foreach ($presentation->getPlugins() as $plugin_id) {
+      $plugin = $this->pluginManager->getPlugin($plugin_id, $presentation);
+      $definition = $this->pluginManager->getDefinition($plugin_id);
+      if ($plugin instanceof ConfigurableInterface) {
+        /** @var \Drupal\present\Plugin\RevealJSPlugin\ConfigurableRevealJSPluginBase $plugin */
+        
+        $plugin_settings_form = [];
+        $form['revealjs_plugin_settings'][$plugin_id] = [
+          '#type' => 'details',
+          '#title' => $definition['label'],
+          '#open' => TRUE,
+          '#group' => 'plugin_settings',
+          '#attributes' => [
+            'data-revealjs-plugin-id' => $plugin_id,
+          ],
+        ];
+        $form['revealjs_plugin_settings'][$plugin_id] += $plugin->buildConfigurationForm($plugin_settings_form, $form_state);
+      }
+    }
   }
 
 }

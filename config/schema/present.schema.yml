@@ -30,6 +30,12 @@ present.presentation.*:
       sequence:
         type: string
         label: 'RevealJS Plugin'
+    revealjs_plugin_settings:
+      type: sequence
+      label: 'RevealJS Plugin Settings'
+      sequence:
+        type: config_object
+        label: 'Plugin Settings'
     revealjs_config_options:
       type: string
       label: 'Config Options'
