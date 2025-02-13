@@ -8,7 +8,7 @@ use Drupal\present\Attribute\RevealJSPlugin;
 #[RevealJSPlugin(
   id: 'background_audio',
   label: new TranslatableMarkup('Background Auido'),
-  revealjs_plugin_name: 'BackgroundAudio',
+  revealjs_plugin_name: 'RevealBackgroundAudio',
 )]
 class BackgroundAudio extends RevealJSPluginBase {
 

@@ -1,5 +1,5 @@
-window.BackgroundAudio = window.BackgroundAudio || {
-    id: 'BackgroundAudio',
+window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
+    id: 'RevealBackgroundAudio',
     playing: false,
     backup_config: {},
     deck: null,
