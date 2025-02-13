@@ -137,7 +137,7 @@ class RevealJSPresentation extends RenderElementBase {
       $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
       $plugin_libraries[] = $plugin->getLibraryName();
       $config_options['plugins'][] = $plugin_def['revealjs_plugin_name'];
-      $plugin[$plugin_id] = $plugin;
+      $plugins[$plugin_id] = $plugin;
     }
 
 
