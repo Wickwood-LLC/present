@@ -12,6 +12,7 @@ window.RevealBackgroundAudio = window.RevealBackgroundAudio || {
 
         // Loop through the buttons and attach click event listener
         bg_start_buttons.forEach(child => {
+            child.classList.add('background-audio-start-button');
             child.addEventListener('click', function (event){
                 plugin.startAudio(deck);
             });
