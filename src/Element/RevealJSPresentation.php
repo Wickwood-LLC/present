@@ -90,6 +90,9 @@ class RevealJSPresentation extends RenderElementBase {
       if ($slide_data['auto_animate_restart']) {
         $slide['#attributes']['data-auto-animate-restart'] = TRUE;
       }
+      if (isset($slide_data['autoslide'])) {
+        $slide['#attributes']['data-autoslide'] = $slide_data['autoslide'];
+      }
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }
