@@ -176,7 +176,8 @@ class Presentation extends ConfigEntityBase {
   }
 
   public function addSlide() {
-    $key = time();
+    $uuid_service = \Drupal::service('uuid');
+    $key = $uuid_service->generate();
     $this->slides[$key] = [
       'content' => '',
       'type' => 'html',
