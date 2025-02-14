@@ -114,7 +114,7 @@ class Slide extends FormElementBase {
 
     $element['autoslide'] = [
       '#type' => 'textfield',
-      '#title' => t('Auto-Slide Druation'),
+      '#title' => t('Auto-Slide Duration'),
       '#default_value' => $element['#default_value']['autoslide'] ?? '',
       '#limit_validation_errors' => [],
       '#description' => t('Number of milliseconds to run this slide in Auto-Slide mode. Read more about this feature in <a href="https://revealjs.com/auto-slide/">this page</a>.'),
