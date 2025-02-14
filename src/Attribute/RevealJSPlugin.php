@@ -12,7 +12,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
  *
  * Plugin Namespace: Plugin\RevealJSPlugin
  *
- * For a working example, see \Drupal\present\Plugin\RevealJSPlugin\BackgroundAudio.
+ * For a working example, see \Drupal\present\Plugin\RevealJSPlugin\Markdown.
  *
  * @see \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager
  * @see \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface
