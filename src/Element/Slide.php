@@ -120,6 +120,13 @@ class Slide extends FormElementBase {
       '#description' => t('Number of milliseconds to run this slide in Auto-Slide mode. Read more about this feature in <a href="https://revealjs.com/auto-slide/">this page</a>.'),
     ];
 
+    $element['transition'] = [
+      '#type' => 'textfield',
+      '#title' => t('Transition'),
+      '#default_value' => $element['#default_value']['transition'] ?? 'fade',
+      '#description' => t('Enter transition effect for this slide. Please read documentation for more <a href="https://revealjs.com/transitions/" target="_blank">options</a>.'),
+    ];
+
     $element['override_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),

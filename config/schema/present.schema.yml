@@ -76,3 +76,6 @@ present.presentation.*:
           autoslide:
             type: number
             label: 'Auto-Slide Duration'
+          transition:
+            type: string
+            label: 'Transition'
