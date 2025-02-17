@@ -93,11 +93,11 @@ class RevealJSPresentation extends RenderElementBase {
       if (isset($slide_data['autoslide'])) {
         $slide['#attributes']['data-autoslide'] = $slide_data['autoslide'];
       }
-      if (!empty($slide_data['transition'])) {
-        $slide['#attributes']['data-transition'] = $slide_data['transition'];
+      if (!empty($slide_data['transition']['in']) && !empty($slide_data['transition']['out'])) {
+        $slide['#attributes']['data-transition'] = $slide_data['transition']['in'] . '-in ' . $slide_data['transition']['out'] . '-out';
       }
-      if (!empty($slide_data['transition_speed'])) {
-        $slide['#attributes']['data-transition-speed'] = $slide_data['transition_speed'];
+      if (!empty($slide_data['transition']['speed'])) {
+        $slide['#attributes']['data-transition-speed'] = $slide_data['transition']['speed'];
       }
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);

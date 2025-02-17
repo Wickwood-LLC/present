@@ -77,8 +77,15 @@ present.presentation.*:
             type: number
             label: 'Auto-Slide Duration'
           transition:
-            type: string
+            type: mapping
             label: 'Transition'
-          transition_speed:
-            type: number
-            label: 'Transition Speed'
+            mapping:
+              in:
+                type: string
+                label: 'In'
+              out:
+                type: string
+                label: 'Out'
+              speed:
+                type: number
+                label: 'Speed'

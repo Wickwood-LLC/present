@@ -121,16 +121,44 @@ class Slide extends FormElementBase {
     ];
 
     $element['transition'] = [
-      '#type' => 'textfield',
+      '#type' => 'details',
       '#title' => t('Transition'),
-      '#default_value' => $element['#default_value']['transition'] ?? 'fade',
-      '#description' => t('Enter transition effect for this slide. Please read documentation for more <a href="https://revealjs.com/transitions/" target="_blank">options</a>.'),
+      '#open' => TRUE,
     ];
 
-    $element['transition_speed'] = [
+    $element['transition']['help'] = [
+      '#description' => t('Select transition effect and speed for this slide. Please read documentation for more <a href="https://revealjs.com/transitions/" target="_blank">options</a>.'),
+    ];
+
+    $transitions = [
+      'none' => t('None'),
+      'fade' => t('Fade'),
+      'slide' => t('Slide'),
+      'convex' => t('Convex'),
+      'concave' => t('Concave'),
+      'zoom' => t('Zoom'),
+    ];
+
+    $element['transition']['in'] = [
+      '#type' => 'select',
+      '#title' => t('Transition In'),
+      '#default_value' => $element['#default_value']['transition']['in'] ?? 'fade',
+      '#options' => $transitions,
+      '#description' => t('Select transition in effect for this slide.'),
+    ];
+
+    $element['transition']['out'] = [
+      '#type' => 'select',
+      '#title' => t('Transition Out'),
+      '#default_value' => $element['#default_value']['transition']['out'] ?? 'fade',
+      '#options' => $transitions,
+      '#description' => t('Select transition out effect for this slide.'),
+    ];
+
+    $element['transition']['speed'] = [
       '#type' => 'select',
       '#title' => t('Transition Speed'),
-      '#default_value' => $element['#default_value']['transition_speed'] ?? 'default',
+      '#default_value' => $element['#default_value']['transition']['speed'] ?? 'default',
       '#options' => [
         'default' => t('Default'),
         'fast' => t('Fast'),
