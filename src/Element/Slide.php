@@ -124,12 +124,17 @@ class Slide extends FormElementBase {
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),
     ];
+    $element['override_revealjs_config_options']['help'] = [
+      '#markup' => '<p>' . t('You can override Reveal.js configuration options on specific events. For example, you can disbale controls on slidechanged event.') . '</p>'
+        . '<p>' . t('You can override any of the <a href="https://revealjs.com/config/" target="_blank">global configuration</a> options here.') . '</p>'
+        . '<p>' . t('The configuration options should be in YAML format.') . '</p>'
+    ];
 
     $slide_events = static::slideEvents();
     foreach ($slide_events as $event_name => $event_label) {
       $element['override_revealjs_config_options'][$event_name] = [
         '#type' => 'textarea',
-        '#title' => t('Override Configuration Options on %event_label Event', ['%event_label' => $event_label]),
+        '#title' => t('On %event_label Event', ['%event_label' => $event_label]),
         '#default_value' => $element['#default_value']['override_revealjs_config_options'][$event_name] ?? '',
         '#limit_validation_errors' => [],
         '#description' => t('Specify configuration options to be overriden for this slide on %event_label event.', ['%event_label' => $event_label]),
