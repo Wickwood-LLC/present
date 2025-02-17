@@ -127,6 +127,18 @@ class Slide extends FormElementBase {
       '#description' => t('Enter transition effect for this slide. Please read documentation for more <a href="https://revealjs.com/transitions/" target="_blank">options</a>.'),
     ];
 
+    $element['transition_speed'] = [
+      '#type' => 'select',
+      '#title' => t('Transition Speed'),
+      '#default_value' => $element['#default_value']['transition_speed'] ?? 'default',
+      '#options' => [
+        'default' => t('Default'),
+        'fast' => t('Fast'),
+        'slow' => t('Slow'),
+      ],
+      '#description' => t('Select transition speed for this slide.'),
+    ];
+
     $element['override_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),

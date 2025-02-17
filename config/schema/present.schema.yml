@@ -79,3 +79,6 @@ present.presentation.*:
           transition:
             type: string
             label: 'Transition'
+          transition_speed:
+            type: number
+            label: 'Transition Speed'
