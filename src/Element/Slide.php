@@ -120,25 +120,25 @@ class Slide extends FormElementBase {
       '#description' => t('Number of milliseconds to run this slide in Auto-Slide mode. Read more about this feature in <a href="https://revealjs.com/auto-slide/">this page</a>.'),
     ];
 
-    $element['ovrride_revealjs_config_options'] = [
+    $element['override_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),
     ];
 
     $slide_events = static::slideEvents();
     foreach ($slide_events as $event_name => $event_label) {
-      $element['ovrride_revealjs_config_options'][$event_name] = [
+      $element['override_revealjs_config_options'][$event_name] = [
         '#type' => 'textarea',
         '#title' => t('Override Configuration Options on %event_label Event', ['%event_label' => $event_label]),
-        '#default_value' => $element['#default_value']['ovrride_revealjs_config_options'][$event_name] ?? '',
+        '#default_value' => $element['#default_value']['override_revealjs_config_options'][$event_name] ?? '',
         '#limit_validation_errors' => [],
         '#description' => t('Specify configuration options to be overriden for this slide on %event_label event.', ['%event_label' => $event_label]),
         '#attributes' => [
           'data-yaml-editor' => 'true',
         ],
       ];
-      if (!empty($element['#default_value']['ovrride_revealjs_config_options'][$event_name])) {
-        $element['ovrride_revealjs_config_options']['#open'] = TRUE;
+      if (!empty($element['#default_value']['override_revealjs_config_options'][$event_name])) {
+        $element['override_revealjs_config_options']['#open'] = TRUE;
       }
     }
 
@@ -169,13 +169,13 @@ class Slide extends FormElementBase {
       }
     }
 
-    foreach ($value['ovrride_revealjs_config_options'] as $event_name => $config_options_string) {
+    foreach ($value['override_revealjs_config_options'] as $event_name => $config_options_string) {
       try {
         $revealjs_config_options = Yaml::parse($config_options_string);
       }
       catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
         $form_state->setError(
-          $element['ovrride_revealjs_config_options'][$event_name],
+          $element['override_revealjs_config_options'][$event_name],
           t(
             'Not in a valid YAML format: %message',
             [

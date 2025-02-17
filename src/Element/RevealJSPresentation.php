@@ -71,7 +71,7 @@ class RevealJSPresentation extends RenderElementBase {
 
       $override_config_options = [];
       foreach (Slide::slideEvents() as $event_name => $event_label) {
-        $override_config_options[$event_name] = Yaml::parse($slide_data['ovrride_revealjs_config_options'][$event_name]);
+        $override_config_options[$event_name] = Yaml::parse($slide_data['override_revealjs_config_options'][$event_name]);
       }
 
       $slide = [
