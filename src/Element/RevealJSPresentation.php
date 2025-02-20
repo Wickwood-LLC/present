@@ -134,6 +134,12 @@ class RevealJSPresentation extends RenderElementBase {
       if (!empty($background['video']['muted'])) {
         $slide['#attributes']['data-background-video-muted'] = $background['video']['muted'];
       }
+      if (!empty($background['iframe'])) {
+        $slide['#attributes']['data-background-iframe'] = $background['iframe'];
+      }
+      if (!empty($background['transition'])) {
+        $slide['#attributes']['data-background-transition'] = $background['transition'];
+      }
 
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);

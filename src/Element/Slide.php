@@ -122,7 +122,7 @@ class Slide extends FormElementBase {
 
     $element['transition'] = [
       '#type' => 'details',
-      '#title' => t('Transition'),
+      '#title' => t('Content Transition'),
       '#open' => TRUE,
     ];
 
@@ -252,6 +252,19 @@ class Slide extends FormElementBase {
       '#title' => t('Iframe'),
       '#default_value' => $element['#default_value']['background']['iframe'] ?? '',
       '#description' => t('Enter background iframe URL for this slide. Please enable the "Interactive" option above to allow users to interact with the iframe.'),
+    ];
+    $element['background']['transition'] = [
+      '#type' => 'select',
+      '#title' => t('Transition'),
+      '#default_value' => $element['#default_value']['background']['transition'] ?? 'fade',
+      '#options' => [
+        'fade' => t('Fade'),
+        'slide' => t('Slide'),
+        'convex' => t('Convex'),
+        'concave' => t('Concave'),
+        'zoom' => t('Zoom'),
+      ],
+      '#description' => t('Select the background transition effect for this slide.'),
     ];
 
     $element['override_revealjs_config_options'] = [
