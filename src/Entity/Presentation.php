@@ -38,11 +38,11 @@ use Symfony\Component\Yaml\Yaml;
  *     "status" = "status",
  *   },
  *   links = {
- *     "add-form" = "/admin/structure/presentation/add",
- *     "edit-form" = "/admin/structure/presentation/{presentation}/edit",
- *     "delete-form" = "/admin/structure/presentation/{presentation}/delete",
- *     "duplicate-form" = "/admin/structure/presentation/{presentation}/duplicate",
- *     "collection" = "/admin/structure/presentation",
+ *     "add-form" = "/admin/content/presentation/add",
+ *     "edit-form" = "/admin/content/presentation/{presentation}/edit",
+ *     "delete-form" = "/admin/content/presentation/{presentation}/delete",
+ *     "duplicate-form" = "/admin/content/presentation/{presentation}/duplicate",
+ *     "collection" = "/admin/content/presentation",
  *   },
  *   config_export = {
  *     "id",

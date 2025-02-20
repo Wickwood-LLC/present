@@ -7,7 +7,7 @@ present.settings:
     _permission: 'administer site configuration'
 
 entity.presentation.collection:
-  path: '/admin/structure/presentation'
+  path: '/admin/content/presentation'
   defaults:
     _entity_list: 'presentation'
     _title: 'Presentations'
@@ -15,7 +15,7 @@ entity.presentation.collection:
     _permission: 'administer presentations'
 
 entity.presentation.add_form:
-  path: '/admin/structure/presentation/add'
+  path: '/admin/content/presentation/add'
   defaults:
     _entity_form: 'presentation.add'
     _title: 'Add Presentation'
@@ -23,7 +23,7 @@ entity.presentation.add_form:
     _permission: 'administer presentations'
 
 entity.presentation.edit_form:
-  path: '/admin/structure/presentation/{presentation}/edit'
+  path: '/admin/content/presentation/{presentation}/edit'
   defaults:
     _entity_form: 'presentation.edit'
     _title: 'Edit Presentaiton'
@@ -31,7 +31,7 @@ entity.presentation.edit_form:
     _permission: 'administer presentations'
 
 entity.presentation.duplicate_form:
-  path: '/admin/structure/presentation/{presentation}/duplicate'
+  path: '/admin/content/presentation/{presentation}/duplicate'
   defaults:
     _entity_form: 'presentation.duplicate'
     _title: 'Duplicate Presentaiton'
@@ -39,7 +39,7 @@ entity.presentation.duplicate_form:
     _permission: 'administer presentations'
 
 entity.presentation.delete_form:
-  path: '/admin/structure/presentation/{presentation}/delete'
+  path: '/admin/content/presentation/{presentation}/delete'
   defaults:
     _entity_form: 'presentation.delete'
     _title: 'Delete Presentations'

@@ -8,4 +8,4 @@ entity.presentation.collection:
   title: 'Presentations'
   route_name: entity.presentation.collection
   description: 'Manage Presentations.'
-  parent: system.admin_structure
+  parent: system.admin_content
