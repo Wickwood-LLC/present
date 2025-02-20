@@ -150,11 +150,11 @@ class Presentation extends ConfigEntityBase {
   /**
    * Get the theme set for this presentation.
    *
-   * @return string
+   * @return string | null
    *   The theme set for this presentation.
    * @see https://revealjs.com/themes/
    */
-  public function getTheme(): string {
+  public function getTheme(): string | null {
     return $this->revealjs_theme;
   }
 
