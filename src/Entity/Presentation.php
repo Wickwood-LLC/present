@@ -214,6 +214,30 @@ class Presentation extends ConfigEntityBase {
   }
 
   /**
+   * Get a slide by key.
+   *
+   * @param string $key
+   *  Key of the slide
+   * @return array
+   *  The slide data array.
+   */
+  public function getSlide($key) {
+    return $this->slides[$key];
+  }
+
+  /**
+   * Set a slide by key.
+   *
+   * @param string $key
+   *  Key of the slide
+   * @param array $slide
+   *  The slide data array.
+   */
+  public function setSlide(string $key, array $slide) {
+    $this->slides[$key] = $slide;
+  }
+
+  /**
    * Move a slide to new positon.
    *
    * @param sttring $key
