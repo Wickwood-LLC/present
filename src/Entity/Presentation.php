@@ -148,24 +148,53 @@ class Presentation extends ConfigEntityBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Get the theme set for this presentation.
+   *
+   * @return string
+   *   The theme set for this presentation.
+   * @see https://revealjs.com/themes/
    */
-  public function getTheme() {
+  public function getTheme(): string {
     return $this->revealjs_theme;
   }
 
+  /**
+   * Get the plugins set for this presentation.
+   *
+   * @return array
+   *   The plugins set for this presentation.
+   */
   public function getPlugins(): array {
     return $this->revealjs_plugins;
   }
 
+  /**
+   * Get the plugin settings set for this presentation.
+   *
+   * @return array
+   *   The plugin settings set for this presentation.
+   */
   public function getPluginSettings(): array {
     return $this->revealjs_plugin_settings;
   }
 
+  /**
+   * Get the config options set for this presentation.
+   * @see https://revealjs.com/config/
+   *
+   * @return string
+   *  The config options set for this presentation in YAML format.
+   */
   public function getConfigOptions() {
     return $this->revealjs_config_options;
   }
 
+  /**
+   * Get the config options set for this presentation as an array.
+   *
+   * @return array
+   *   The config options set for this presentation as an array.
+   */
   public function getConfigOptionsArray(): array {
     return Yaml::parse($this->revealjs_config_options) ?? [];
   }
@@ -185,6 +214,17 @@ class Presentation extends ConfigEntityBase {
     return $this->events_to_track;
   }
 
+  /**
+   * Add a new slide to the presentation.
+   *
+   * @param array $slide_data
+   *   The slide data.
+   * @param int $position
+   *   The position to insert the slide at.
+   *  If not set, the slide will be added to the end.
+   * @return string
+   *   The UUID key of the slide.
+   */
   public function addSlide($slide_data = [], int $position = NULL) {
     $uuid_service = \Drupal::service('uuid');
     $key = $uuid_service->generate();
@@ -205,10 +245,22 @@ class Presentation extends ConfigEntityBase {
     return $key;
   }
 
+  /**
+   * Remove a slide from the presentation.
+   *
+   * @param string $key
+   *  The key of the slide to remove.
+   */
   public function removeSlide($key) {
     unset($this->slides[$key]);
   }
 
+  /**
+   * Get all slides.
+   *
+   * @return array
+   *  The slides array.
+   */
   public function getSlides() {
     return $this->slides;
   }
@@ -252,6 +304,12 @@ class Presentation extends ConfigEntityBase {
     $this->slides = array_merge($part_2, $part_1, $this->slides);
   }
 
+  /**
+   * Get the list of events supported revealjs.
+   *
+   * @return array
+   *  List of events.
+   */
   public static function events(): array {
     return [
       'ready' => t('Ready'),
@@ -261,6 +319,12 @@ class Presentation extends ConfigEntityBase {
     ];
   }
 
+  /**
+   * Get plugin instances enabled on this presentation.
+   *
+   * @return array
+   *  List of plugin instances. Keyed by plugin id.
+   */
   public function getPluginInstances() {
     /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
     $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
