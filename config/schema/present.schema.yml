@@ -59,14 +59,30 @@ present.presentation.*:
             type: string
             label: 'Type of Content'
           auto_animate:
-            type: boolean
+            type: mapping
             label: 'Auto Animate'
-          auto_animate_id:
-            type: string
-            label: 'Auto Animate ID'
-          auto_animate_restart:
-            type: boolean
-            label: 'Auto Animate Restart'
+            mapping:
+              enabled:
+                type: boolean
+                label: 'Enabled'
+              easing:
+                type: string
+                label: 'Easing'
+              unmatched:
+                type: boolean
+                label: 'Unmatched'
+              duration:
+                type: number
+                label: 'Duration'
+              delay:
+                type: number
+                label: 'Delay'    
+              id:
+                type: string
+                label: 'Auto Animate ID'
+              restart:
+                type: boolean
+                label: 'Auto Animate Restart'
           override_revealjs_config_options:
             type: sequence
             label: 'Override Config Options of Slide on Events'

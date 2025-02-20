@@ -81,14 +81,24 @@ class RevealJSPresentation extends RenderElementBase {
           'data-slide-number' => $slide_number,
         ],
       ];
-      if ($slide_data['auto_animate']) {
+      if (isset($slide_data['auto_animate']['enabled']) && $slide_data['auto_animate']['enabled']) {
         $slide['#attributes']['data-auto-animate'] = TRUE;
-      }
-      if (!empty($slide_data['auto_animate_id'])) {
-        $slide['#attributes']['data-auto-animate-id'] = $slide_data['auto_animate_id'];
-      }
-      if ($slide_data['auto_animate_restart']) {
-        $slide['#attributes']['data-auto-animate-restart'] = TRUE;
+
+        $auto_animate = $slide_data['auto_animate'];
+        if (!empty($auto_animate['easing'])) {
+          $slide['#attributes']['data-auto-animate-easing'] = $auto_animate['easing'];
+        }
+        if (!empty($auto_animate['unmatched'])) {
+          $slide['#attributes']['data-auto-animate-unmatched'] = TRUE;
+        }
+        $slide['#attributes']['data-auto-animate-duration'] = $auto_animate['duration'];
+        $slide['#attributes']['data-auto-animate-delay'] = $auto_animate['delay'];
+        if (!empty($auto_animate['id'])) {
+          $slide['#attributes']['data-auto-animate-id'] = $auto_animate['id'];
+        }
+        if ($slide_data['auto_animate_restart']) {
+          $slide['#attributes']['data-auto-animate-restart'] = TRUE;
+        }
       }
       if (isset($slide_data['autoslide'])) {
         $slide['#attributes']['data-autoslide'] = $slide_data['autoslide'];

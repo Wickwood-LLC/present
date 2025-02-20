@@ -54,6 +54,9 @@ class Slide extends FormElementBase {
 
     $id_prefix = implode('-', $element['#parents']);
     $wrapper_id = Html::getUniqueId($id_prefix . '-ajax-wrapper');
+    $parents = $element['#parents'];
+    $state_parent_name = array_shift($parents);
+    $state_parent_name .= '[' . implode('][', $parents) . ']';
 
     $element = [
       '#tree' => TRUE,
@@ -89,27 +92,87 @@ class Slide extends FormElementBase {
     }
 
     $element['auto_animate'] = [
-      '#type' => 'checkbox',
+      '#type' => 'details',
       '#title' => t('Auto-Animate'),
-      '#default_value' => $element['#default_value']['auto_animate'] ?? FALSE,
-      '#limit_validation_errors' => [],
-      '#description' => t('Enable Auto-Animate in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
+      '#open' => $element['#default_value']['auto_animate']['enabled'] ?? FALSE,
     ];
 
-    $element['auto_animate_id'] = [
-      '#type' => 'textfield',
-      '#title' => t('Auto-Animate ID'),
-      '#default_value' => $element['#default_value']['auto_animate_id'] ?? FALSE,
-      '#limit_validation_errors' => [],
-      '#description' => t('Enter Auto-Animate ID of this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
+    $element['auto_animate']['help'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => t('Read more about this feature at: <a href="https://revealjs.com/auto-animate/" target="_blank">https://revealjs.com/auto-animate/</a>.'),
     ];
 
-    $element['auto_animate_restart'] = [
+    $element['auto_animate']['enabled'] = [
       '#type' => 'checkbox',
-      '#title' => t('Auto-Animate Restart'),
-      '#default_value' => $element['#default_value']['auto_animate_restart'] ?? FALSE,
+      '#title' => t('Enabled'),
+      '#default_value' => $element['#default_value']['auto_animate']['enabled'] ?? FALSE,
       '#limit_validation_errors' => [],
-      '#description' => t('Enable Auto-Animate Restart in this slide. Read more about this feature in <a href="https://revealjs.com/auto-animate/">this page</a>.'),
+      '#description' => t('Enable Auto-Animate in this slide.'),
+    ];
+
+    $auto_animate_states = [
+      'visible' => [
+        ':input[name="' . $state_parent_name . '[auto_animate][enabled]"]' => ['checked' => TRUE],
+      ],
+    ];
+
+    $element['auto_animate']['easing'] = [
+      '#type' => 'textfield',
+      '#title' => t('Easing'),
+      '#default_value' => $element['#default_value']['auto_animate']['easing'] ?? '',
+      '#limit_validation_errors' => [],
+      '#description' => t('Enter Auto-Animate Easing of this slide.'),
+      '#states' => $auto_animate_states,
+    ];
+
+    $element['auto_animate']['unmatched'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Unmatched'),
+      '#default_value' => $element['#default_value']['auto_animate']['unmatched'] ?? FALSE,
+      '#limit_validation_errors' => [],
+      '#description' => t('Enable or disable Auto-Animate Unmatched in this slide.'),
+      '#states' => $auto_animate_states,
+    ];
+
+    $element['auto_animate']['duration'] = [
+      '#type' => 'number',
+      '#title' => t('Duration'),
+      '#default_value' => $element['#default_value']['auto_animate']['duration'] ?? 1.0,
+      '#min' => 0.1,
+      '#step' => 0.1,
+      '#limit_validation_errors' => [],
+      '#description' => t('Enter Auto-Animate Duration of this slide.'),
+      '#states' => $auto_animate_states,
+    ];
+
+    $element['auto_animate']['delay'] = [
+      '#type' => 'number',
+      '#title' => t('Delay'),
+      '#default_value' => $element['#default_value']['auto_animate']['delay'] ?? 0.0,
+      '#min' => 0.0,
+      '#step' => 0.1,
+      '#limit_validation_errors' => [],
+      '#description' => t('Enter Auto-Animate Delay of this slide.'),
+      '#states' => $auto_animate_states,
+    ];
+
+    $element['auto_animate']['id'] = [
+      '#type' => 'textfield',
+      '#title' => t('ID'),
+      '#default_value' => $element['#default_value']['auto_animate']['id'] ?? '',
+      '#limit_validation_errors' => [],
+      '#description' => t('Enter Auto-Animate ID of this slide.'),
+      '#states' => $auto_animate_states,
+    ];
+
+    $element['auto_animate']['restart'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Restart'),
+      '#default_value' => $element['#default_value']['auto_animate']['restart'] ?? FALSE,
+      '#limit_validation_errors' => [],
+      '#description' => t('Enable Auto-Animate Restart in this slide.'),
+      '#states' => $auto_animate_states,
     ];
 
     $element['autoslide'] = [
