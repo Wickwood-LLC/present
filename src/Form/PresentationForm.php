@@ -119,7 +119,7 @@ class PresentationForm extends EntityForm {
       '#type' => 'textarea',
       '#title' => $this->t('Configuration Options'),
       '#default_value' => $presentation->getConfigOptions(),
-      '#description' => $this->t('Specify configuration options to be used for initializing the slides. This should be entered in YAML format. Dcoumentation about all possible options can be <a href="https://revealjs.com/config/">found at</a>.'),
+      '#description' => $this->t('Specify default configuration options for all slides to be used for initializing the presentation. This should be entered in YAML format. Documentation about all possible options can be found at: <a href="https://revealjs.com/config/" target="_blank">https://revealjs.com/config/</a>.'),
     ];
 
     $form['events_to_track'] = [
