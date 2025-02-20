@@ -167,6 +167,93 @@ class Slide extends FormElementBase {
       '#description' => t('Select transition speed for this slide.'),
     ];
 
+    $element['background'] = [
+      '#type' => 'details',
+      '#title' => t('Background'),
+    ];
+    $element['background']['color'] = [
+      '#type' => 'color',
+      '#title' => t('Color'),
+      '#default_value' => $element['#default_value']['background']['color'] ?? '#ffffff',
+      '#description' => t('Select background color for this slide.'),
+    ];
+    $element['background']['gradient'] = [
+      '#type' => 'textfield',
+      '#title' => t('Gradient'),
+      '#default_value' => $element['#default_value']['background']['gradient'] ?? NULL,
+      '#description' => t('Enter background gradient for this slide. You may use online tool like <a href="https://cssgradient.io/">https://cssgradient.io/</a> to generate the code to use here.'),
+    ];
+    $element['background']['image'] = [
+      '#type' => 'textfield',
+      '#title' => t('Image'),
+      '#default_value' => $element['#default_value']['background']['image'] ?? '',
+      '#description' => t('Enter background image URL for this slide.'),
+    ];
+    $element['background']['size'] = [
+      '#type' => 'textfield',
+      '#title' => t('Size'),
+      '#default_value' => $element['#default_value']['background']['size'] ?? '',
+      '#description' => t('Enter background size for this slide.'),
+    ];
+    $element['background']['position'] = [
+      '#type' => 'textfield',
+      '#title' => t('Position'),
+      '#default_value' => $element['#default_value']['background']['position'] ?? '',
+      '#description' => t('Enter background position for this slide.'),
+    ];
+    $element['background']['repeat'] = [
+      '#type' => 'textfield',
+      '#title' => t('Repeat'),
+      '#default_value' => $element['#default_value']['background']['repeat'] ?? '',
+      '#description' => t('Enter background repeat for this slide.'),
+    ];
+    $element['background']['opacity'] = [
+      '#type' => 'number',
+      '#title' => t('Opacity'),
+      '#default_value' => $element['#default_value']['background']['opacity'] ?? '',
+      '#description' => t('Enter background opacity for this slide.'),
+      '#min' => 0,
+      '#max' => 1,
+      '#step' => 0.01,
+    ];
+    $element['background']['interactive'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Interactive'),
+      '#default_value' => $element['#default_value']['background']['interactive'] ?? false,
+      '#description' => t('Make the background interactive. Usually usefor iframe backgrounds.'),
+    ];
+
+    $element['background']['video'] = [
+      '#type' => 'details',
+      '#title' => t('Video'),
+      '#open' => TRUE,
+    ];
+
+    $element['background']['video']['source'] = [
+      '#type' => 'textfield',
+      '#title' => t('Video'),
+      '#default_value' => $element['#default_value']['background']['video'] ?? '',
+      '#description' => t('Enter background video URL for this slide.'),
+    ];
+    $element['background']['video']['loop'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Loop'),
+      '#default_value' => $element['#default_value']['background']['video']['loop'] ?? false,
+      '#description' => t('Loop the video.'),
+    ];
+    $element['background']['video']['muted'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Muted'),
+      '#default_value' => $element['#default_value']['background']['video']['muted'] ?? false,
+      '#description' => t('Mute the video.'),
+    ];
+    $element['background']['iframe'] = [
+      '#type' => 'textfield',
+      '#title' => t('Iframe'),
+      '#default_value' => $element['#default_value']['background']['iframe'] ?? '',
+      '#description' => t('Enter background iframe URL for this slide. Please enable the "Interactive" option above to allow users to interact with the iframe.'),
+    ];
+
     $element['override_revealjs_config_options'] = [
       '#type' => 'details',
       '#title' => t('Override Configuration Options on Events'),

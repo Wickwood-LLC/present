@@ -99,6 +99,42 @@ class RevealJSPresentation extends RenderElementBase {
       if (!empty($slide_data['transition']['speed'])) {
         $slide['#attributes']['data-transition-speed'] = $slide_data['transition']['speed'];
       }
+
+      $background = $slide_data['background'];
+      if (!empty($background['color'])) {
+        $slide['#attributes']['data-background-color'] = $background['color'];
+      }
+      if (!empty($background['gradient'])) {
+        $slide['#attributes']['data-background-gradient'] = $background['gradient'];
+      }
+      if (!empty($background['image'])) {
+        $slide['#attributes']['data-background-image'] = $background['image'];
+      }
+      if (!empty($background['size'])) {
+        $slide['#attributes']['data-background-size'] = $background['size'];
+      }
+      if (!empty($background['position'])) {
+        $slide['#attributes']['data-background-position'] = $background['position'];
+      }
+      if (!empty($background['repeat'])) {
+        $slide['#attributes']['data-background-repeat'] = $background['repeat'];
+      }
+      if (!empty($background['opacity'])) {
+        $slide['#attributes']['data-background-opacity'] = $background['opacity'];
+      }
+      if (!empty($background['interactive'])) {
+        $slide['#attributes']['data-backgound-interactive'] = $background['interactive'];
+      }
+      if (!empty($background['video']['source'])) {
+        $slide['#attributes']['data-background-video'] = $background['video']['source'];
+      }
+      if (!empty($background['video']['loop'])) {
+        $slide['#attributes']['data-background-video-loop'] = $background['video']['loop'];
+      }
+      if (!empty($background['video']['muted'])) {
+        $slide['#attributes']['data-background-video-muted'] = $background['video']['muted'];
+      }
+
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }

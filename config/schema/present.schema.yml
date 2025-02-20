@@ -89,3 +89,47 @@ present.presentation.*:
               speed:
                 type: number
                 label: 'Speed'
+          background:
+            type: mapping
+            label: 'Background'
+            mapping:
+              color:
+                type: string
+                label: 'Color'
+              gradient:
+                type: string
+                label: 'Gradient'
+              image:
+                type: string
+                label: 'Image'
+              size:
+                type: string
+                label: 'Size'
+              position:
+                type: string
+                label: 'Position'
+              repeat:
+                type: string
+                label: 'Repeat'
+              opacity:
+                type: number
+                label: 'Opacity'
+              interactive:
+                type: boolean
+                label: 'Interactive'
+              video:
+                type: mapping
+                label: 'Video'
+                mapping:
+                  source:
+                    type: string
+                    label: 'Video Source'
+                  loop:
+                    type: boolean
+                    label: 'Video Loop'
+                  video_:
+                    type: number
+                    label: 'Video Speed'
+              iframe:
+                type: string
+                label: 'iframe'
