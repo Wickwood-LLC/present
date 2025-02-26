@@ -117,6 +117,8 @@ class Presentation extends ConfigEntityBase {
    */
   protected $slides = [];
 
+  protected $plugin_instances = [];
+
   /**
    * {@inheritdoc}
    */
@@ -329,13 +331,13 @@ class Presentation extends ConfigEntityBase {
     /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
     $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
 
-    $plugins = [];
     foreach ($this->revealjs_plugins as $plugin_id) {
-      // $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
-      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
-      $plugin = $revealjs_plugin_manager->createInstance($plugin_id);
-      $plugins[$plugin_id] = $plugin;
+      if (!isset($this->plugin_instances[$plugin_id])) {
+        /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPlugin $plugin */
+        $plugin = $revealjs_plugin_manager->getPlugin($plugin_id, $this);
+        $this->plugin_instances[$plugin_id] = $plugin;
+      }
     }
-    return $plugins;
+    return $this->plugin_instances;
   }
 }
