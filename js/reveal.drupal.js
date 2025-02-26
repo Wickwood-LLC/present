@@ -60,6 +60,12 @@
             .execute();
           });
         });
+
+        const resizeObserver = new ResizeObserver((entries) => {
+          reveal_deck.layout();
+        });
+
+        resizeObserver.observe(element);
       })
     },
   };
