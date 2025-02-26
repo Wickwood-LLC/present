@@ -110,7 +110,7 @@ class RevealJSPresentation extends RenderElementBase {
         $slide['#attributes']['data-transition-speed'] = $slide_data['transition']['speed'];
       }
 
-      $background = $slide_data['background'];
+      $background = $slide_data['background'] ?? [];
       if (!empty($background['color'])) {
         $slide['#attributes']['data-background-color'] = $background['color'];
       }
@@ -184,22 +184,13 @@ class RevealJSPresentation extends RenderElementBase {
       $config_options['plugins'] = [];
     }
 
-    /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager */
-    $revealjs_plugin_manager = \Drupal::service('plugin.manager.revealjs_plugins');
-
     $plugin_libraries = [];
     $plugins = [];
-    foreach ($presentation->getPlugins() as $plugin_id) {
+    foreach ($presentation->getPluginInstances() as $plugin_id => $plugin) {
       /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface $plugin */
-      // $plugin_def = $revealjs_plugin_manager->getDefinition($plugin_id);
-      $plugin = $revealjs_plugin_manager->getPlugin($plugin_id, $presentation);
       $plugin_libraries[] = $plugin->getLibraryName();
       $config_options['plugins'][] = $plugin->getRevealJSPluginName();
       $plugins[$plugin_id] = $plugin;
-    }
-
-    foreach ($plugins as $plugin) {
-      /** @var \Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginInterface $plugin */
       $plugin->alterRevealJSConfig($config_options);
     }
 
