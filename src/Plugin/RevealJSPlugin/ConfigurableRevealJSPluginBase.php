@@ -40,6 +40,7 @@ abstract class ConfigurableRevealJSPluginBase extends RevealJSPluginBase impleme
   public function setConfiguration(array $configuration): void {
     $this->configuration = NestedArray::mergeDeep(
       $this->defaultConfiguration(),
+      $this->configuration,
       $configuration
     );
   }
