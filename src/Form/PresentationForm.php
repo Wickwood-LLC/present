@@ -221,7 +221,7 @@ class PresentationForm extends EntityForm {
       ],
       '#submit' => [[static::class, 'addSlideSubmit']],
     ];
-    
+
     $form['plugin_settings'] = [
       '#type' => 'vertical_tabs',
       '#title' => $this->t('Plugin settings'),
@@ -358,7 +358,7 @@ class PresentationForm extends EntityForm {
     parent::validateForm($form, $form_state);
     /** @var \Drupal\present\Entity\Presentation */
     $presentation = $form_state->get('presentation');
-    
+
     $definitions = $this->pluginManager->getDefinitions();
 
     $revealjs_plugin_settings = [];
@@ -372,7 +372,7 @@ class PresentationForm extends EntityForm {
           $subform_state = SubformState::createForSubform($subform, $form, $form_state);
           $plugin->validateConfigurationForm($subform, $subform_state);
           $plugin->submitConfigurationForm($subform, $subform_state);
-  
+
           $revealjs_plugin_settings[$plugin_id] = $plugin->getConfiguration();
         }
       }
@@ -429,7 +429,14 @@ class PresentationForm extends EntityForm {
       ]));
     }
 
-    $form_state->setRedirectUrl($entity->toUrl('collection'));
+    $triggering_button = $form_state->getTriggeringElement();
+    if ($triggering_button['#name'] === 'save_and_continue') {
+      $form_state->setRedirectUrl($entity->toUrl('edit-form'));
+      $form_state->setIgnoreDestination();
+    }
+    else {
+      $form_state->setRedirectUrl($entity->toUrl('collection'));
+    }
   }
 
   /**
@@ -452,7 +459,7 @@ class PresentationForm extends EntityForm {
       $definition = $this->pluginManager->getDefinition($plugin_id);
       if ($plugin instanceof ConfigurableInterface) {
         /** @var \Drupal\present\Plugin\RevealJSPlugin\ConfigurableRevealJSPluginBase $plugin */
-        
+
         $plugin_settings_form = [];
         $form['revealjs_plugin_settings'][$plugin_id] = [
           '#type' => 'details',
@@ -466,6 +473,14 @@ class PresentationForm extends EntityForm {
         $form['revealjs_plugin_settings'][$plugin_id] += $plugin->buildConfigurationForm($plugin_settings_form, $form_state);
       }
     }
+  }
+
+  public function actions(array $form, FormStateInterface $form_state) {
+    $actions = parent::actions($form, $form_state);
+    $actions['save_and_continue'] = $actions['submit'];
+    $actions['save_and_continue']['#name'] = 'save_and_continue';
+    $actions['save_and_continue']['#value'] = $this->t('Save and continue');
+    return $actions;
   }
 
 }
