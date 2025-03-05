@@ -111,7 +111,7 @@ class RevealJSPresentation extends RenderElementBase {
       }
 
       $background = $slide_data['background'] ?? [];
-      if (!empty($background['color'])) {
+      if (isset($background['color_enabled']) && $background['color_enabled'] && !empty($background['color'])) {
         $slide['#attributes']['data-background-color'] = $background['color'];
       }
       if (!empty($background['gradient'])) {

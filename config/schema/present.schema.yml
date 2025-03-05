@@ -109,6 +109,9 @@ present.presentation.*:
             type: mapping
             label: 'Background'
             mapping:
+              color_enabled:
+                type: boolean
+                label: 'Color Enabled'
               color:
                 type: string
                 label: 'Color'

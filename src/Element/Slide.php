@@ -234,11 +234,22 @@ class Slide extends FormElementBase {
       '#type' => 'details',
       '#title' => t('Background'),
     ];
+    $element['background']['color_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Background Color'),
+      '#default_value' => $element['#default_value']['background']['color_enabled'] ?? FALSE,
+      '#description' => t('Check this box to enable background color for this slide.'),
+    ];
     $element['background']['color'] = [
       '#type' => 'color',
       '#title' => t('Color'),
       '#default_value' => $element['#default_value']['background']['color'] ?? '#ffffff',
       '#description' => t('Select background color for this slide.'),
+      '#states' => [
+        'visible' => [
+          ':input[name="' . $state_parent_name . '[background][color_enabled]"]' => ['checked' => TRUE],
+        ],
+      ],
     ];
     $element['background']['gradient'] = [
       '#type' => 'textfield',
