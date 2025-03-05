@@ -52,6 +52,8 @@ class Slide extends FormElementBase {
   public static function processSlide(array &$element, FormStateInterface $form_state, array &$complete_form) {
     $value = $element['#value'];
 
+    $config = \Drupal::config('present.settings');
+
     $id_prefix = implode('-', $element['#parents']);
     $wrapper_id = Html::getUniqueId($id_prefix . '-ajax-wrapper');
     $parents = $element['#parents'];
@@ -75,7 +77,8 @@ class Slide extends FormElementBase {
       $element['content'] = [
         '#type' => 'text_format',
         '#title' => t('Content'),
-        '#format' => 'full_html',
+        '#format' => $config->get('slide_text_format'),
+        '#allowed_formats' => [$config->get('slide_text_format')],
         '#default_value' => $element['#default_value']['content'],
         '#limit_validation_errors' => [],
         '#description' => t('Enter HTML of slide content.'),

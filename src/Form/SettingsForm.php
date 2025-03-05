@@ -59,6 +59,23 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Select theme to be used by default. Theme previews can be <a href="https://revealjs.com/themes/">seen at</a>.'),
     ];
 
+    // Retrieve all available text formats
+    $formats = filter_formats();
+
+    // Prepare options for the select field
+    $text_format_options = [];
+    foreach ($formats as $format) {
+      $text_format_options[$format->id()] = $format->label();
+    }
+
+    $form['slide_text_format'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Slide text format'),
+      '#default_value' => $this->config->get('slide_text_format'),
+      '#options' => $text_format_options,
+      '#description' => $this->t('Select text format to be used by default.'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -69,6 +86,7 @@ class SettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $this->config
       ->set('revealjs_theme', $values['revealjs_theme'])
+      ->set('slide_text_format', $values['slide_text_format'])
       ->save();
 
     parent::submitForm($form, $form_state);

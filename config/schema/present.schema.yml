@@ -7,6 +7,9 @@ present.settings:
     revealjs_theme:
       type: string
       label: 'Reveal.js Theme'
+    slide_text_format:
+      type: string
+      label: 'Slide text format'
 
 present.presentation.*:
   type: config_entity
