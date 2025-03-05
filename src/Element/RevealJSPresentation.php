@@ -61,6 +61,8 @@ class RevealJSPresentation extends RenderElementBase {
       throw new Exception(t('A valid presentation object is required'));
     }
 
+    $config = \Drupal::config('present.settings');
+
     /** @var \Drupal\present\Entity\Presentation $presentation */
 
     $slides = [];
@@ -154,9 +156,11 @@ class RevealJSPresentation extends RenderElementBase {
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
         $slide['#content'] = Yaml::parse($slide_data['content']);
       }
-      else {
+      else if ($slide_data['type'] == Slide::TYPE_HTML_RAW) {
         $slide['#content'] = [
-          '#markup' => Markup::create($slide_data['content']),
+          '#type' => 'processed_text',
+          '#text' => $slide_data['content'],
+          '#format' => $config->get('slide_text_format'),
         ];
       }
       $slides[] = $slide;
@@ -200,7 +204,8 @@ class RevealJSPresentation extends RenderElementBase {
       $element['#attributes']['class'] = [];
     }
     $element['#attributes']['class'][] = 'reveal';
-    $theme = $element['#options']['theme'] ?? \Drupal::config('present.settings')->get('revealjs_theme');
+
+    $theme = $element['#options']['theme'] ?? $config->get('revealjs_theme');
     if (!in_array($theme, array_keys(static::revealThemes()))) {
       $theme = 'black';
     }
