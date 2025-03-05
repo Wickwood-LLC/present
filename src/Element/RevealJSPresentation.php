@@ -96,7 +96,7 @@ class RevealJSPresentation extends RenderElementBase {
         if (!empty($auto_animate['id'])) {
           $slide['#attributes']['data-auto-animate-id'] = $auto_animate['id'];
         }
-        if ($slide_data['auto_animate_restart']) {
+        if (!empty($auto_animate['restart'])) {
           $slide['#attributes']['data-auto-animate-restart'] = TRUE;
         }
       }
