@@ -40,6 +40,7 @@ use Symfony\Component\Yaml\Yaml;
  *   links = {
  *     "add-form" = "/admin/content/presentation/add",
  *     "edit-form" = "/admin/content/presentation/{presentation}/edit",
+ *     "preview" = "/admin/content/presentation/{presentation}/preview",
  *     "delete-form" = "/admin/content/presentation/{presentation}/delete",
  *     "duplicate-form" = "/admin/content/presentation/{presentation}/duplicate",
  *     "collection" = "/admin/content/presentation",

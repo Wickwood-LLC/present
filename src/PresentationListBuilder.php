@@ -31,4 +31,17 @@ class PresentationListBuilder extends ConfigEntityListBuilder {
     return $row + parent::buildRow($entity);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity) {
+    $operations = parent::getDefaultOperations($entity);
+    $operations['preview'] = [
+      'title' => $this->t('Preview'),
+      'weight' => 10,
+      'url' => $entity->toUrl('preview'),
+    ];
+    return $operations;
+  }
+
 }

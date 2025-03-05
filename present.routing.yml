@@ -30,6 +30,14 @@ entity.presentation.edit_form:
   requirements:
     _permission: 'administer presentations'
 
+entity.presentation.preview:
+  path: '/admin/content/presentation/{presentation}/preview'
+  defaults:
+    _controller: '\Drupal\present\Controller\PresentationController::preview'
+    _title_callback: '\Drupal\present\Controller\PresentationController::previewTitle'
+  requirements:
+    _permission: 'administer presentations'
+
 entity.presentation.duplicate_form:
   path: '/admin/content/presentation/{presentation}/duplicate'
   defaults:

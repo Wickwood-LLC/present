@@ -4,6 +4,7 @@ namespace Drupal\present\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\present\Entity\Presentation;
 use Drupal\present\Event\PresentationEvent;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,39 @@ class PresentationController extends ControllerBase {
 
     $response = new AjaxResponse();
     return $response;
+  }
+
+  /**
+   * Preview a presentation.
+   *
+   * @param \Drupal\present\Entity\Presentation $presentation
+   *   The presentation to preview.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function preview(Presentation $presentation) {
+    return [
+      '#type' => 'revealjs_presentation',
+      '#presentation' => $presentation,
+      '#attributes' => [
+        // Allow the presentation to be resized.
+        'style' => ['margin: auto; resize: both;'],
+      ]
+    ];
+  }
+
+  /**
+   * Title for the preview page.
+   *
+   * @param \Drupal\present\Entity\Presentation $presentation
+   *   The presentation to preview.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The title.
+   */
+  public function previewTitle(Presentation $presentation) {
+    return $this->t('<em>Preview Presentation</em> @title', ['@title' => $presentation->label(),]);
   }
 
 }

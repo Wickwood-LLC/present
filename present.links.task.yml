@@ -2,3 +2,8 @@ entity.presentation.collection:
   title: 'Presentations'
   route_name: entity.presentation.collection
   base_route: system.admin_content
+
+entity.presentation.preview:
+  route_name: entity.presentation.preview
+  title: 'Preview'
+  base_route: entity.presentation.edit_form
