@@ -66,27 +66,29 @@ class Slide extends FormElementBase {
       '#wrapper_id' => $wrapper_id,
     ] + $element;
     $element['type'] = [
-      '#type' => 'select',
-      '#title' => t('Type'),
-      '#options' => [
-        static::TYPE_RENDER_ARRAY => t('Render Array'),
-        static::TYPE_HTML_RAW => t('Raw HTML'),
-      ],
-      '#default_value' => $element['#default_value']['type'] ?? static::TYPE_RENDER_ARRAY,
-      '#description' => t('Select type of content you are entering below. Render Array should be entered in YAML format.'),
-      '#ajax' => [
-        'callback' => [get_called_class(), 'ajaxRefresh'],
-        'wrapper' => $wrapper_id,
-      ],
+      '#type' => 'hidden',
+      '#value' => $element['#default_value']['type'],
     ];
-    $element['content'] = [
-      '#type' => 'textarea',
-      '#title' => t('Content'),
-      '#default_value' => $element['#default_value']['content'],
-      '#limit_validation_errors' => [],
-    ];
+
     $type = $value['type'] ?? $element['#default_value']['type'];
+    if ($type == static::TYPE_HTML_RAW) {
+      $element['content'] = [
+        '#type' => 'text_format',
+        '#title' => t('Content'),
+        '#format' => 'full_html',
+        '#default_value' => $element['#default_value']['content'],
+        '#limit_validation_errors' => [],
+        '#description' => t('Enter HTML of slide content.'),
+      ];
+    }
     if ($type == static::TYPE_RENDER_ARRAY) {
+      $element['content'] = [
+        '#type' => 'textarea',
+        '#title' => t('Content'),
+        '#default_value' => $element['#default_value']['content'],
+        '#limit_validation_errors' => [],
+        '#description' => t('Enter Render array in YAML format of slide content.'),
+      ];
       // To get support from the https://www.drupal.org/project/yaml_editor module.
       $element['content']['#attributes']['data-yaml-editor'] = 'true';
     }
@@ -377,6 +379,8 @@ class Slide extends FormElementBase {
   public static function validateSlide(&$element, FormStateInterface $form_state, &$complete_form) {
     $value = $element['#value'];
 
+    $form_state->setValueForElement($element, $value);
+
     if ($value['type'] == static::TYPE_RENDER_ARRAY) {
       try {
         $test = Yaml::parse($value['content']);
@@ -413,23 +417,36 @@ class Slide extends FormElementBase {
     }
   }
 
-  /**
-   * Ajax callback.
-   */
-  public static function ajaxRefresh(array $form, FormStateInterface $form_state) {
-    $triggering_element = $form_state->getTriggeringElement();
-    $parents = $triggering_element['#array_parents'];
-    array_pop($parents);
-    $slide_element = NestedArray::getValue($form, $parents);
+  // /**
+  //  * Ajax callback.
+  //  */
+  // public static function ajaxRefresh(array $form, FormStateInterface $form_state) {
+  //   $triggering_element = $form_state->getTriggeringElement();
+  //   $parents = $triggering_element['#array_parents'];
+  //   array_pop($parents);
+  //   $slide_element = NestedArray::getValue($form, $parents);
 
-    return $slide_element;
-  }
+  //   return $slide_element;
+  // }
 
   public static function slideEvents() {
     return [
       'slidechanged' => t('Slide Changed'),
       'slidetransitionend' => t('Slide Transition End'),
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
+    if (is_array($input)) {
+      if (is_array($input['content']) && isset($input['content']['value'])) {
+        $input['content'] = $input['content']['value'];
+      }
+      return $input;
+    }
+    return $element['#default_value'];
   }
 
 }

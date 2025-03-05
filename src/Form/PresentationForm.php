@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\SubformState;
 use Drupal\present\Element\RevealJSPresentation;
+use Drupal\present\Element\Slide;
 use Drupal\present\Entity\Presentation;
 use Drupal\present\Plugin\RevealJSPlugin\RevealJSPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -210,16 +211,28 @@ class PresentationForm extends EntityForm {
       $slide_number++;
     }
 
-    $form['add_slide'] = [
+    $form['add_html_slide'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Add Slide'),
+      '#value' => $this->t('Add HTML Slide'),
       '#limit_validation_errors' => [],
       '#ajax' => [
         'callback' => '::addSlideCallback', // AJAX callback method.
         'wrapper' => $slides_wrapper_id,
         'event' => 'click', // The event triggering the AJAX request.
       ],
-      '#submit' => [[static::class, 'addSlideSubmit']],
+      '#submit' => [[static::class, 'addHtmlSlideSubmit']],
+    ];
+
+    $form['add_render_array_slide'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Add Render Array Slide'),
+      '#limit_validation_errors' => [],
+      '#ajax' => [
+        'callback' => '::addSlideCallback', // AJAX callback method.
+        'wrapper' => $slides_wrapper_id,
+        'event' => 'click', // The event triggering the AJAX request.
+      ],
+      '#submit' => [[static::class, 'addRenderArraySlideSubmit']],
     ];
 
     $form['plugin_settings'] = [
@@ -250,12 +263,26 @@ class PresentationForm extends EntityForm {
   /**
    * Submission handler for the "Add Slide" button.
    */
-  public static function addSlideSubmit(array $form, FormStateInterface $form_state) {
+  public static function addHtmlSlideSubmit(array $form, FormStateInterface $form_state) {
     $button = $form_state->getTriggeringElement();
 
     /** @var \Drupal\present\Entity\Presentation */
     $presentation = $form_state->get('presentation');
-    $presentation->addSlide();
+    $presentation->addSlide(['type' => Slide::TYPE_HTML_RAW]);
+    $form_state->set('presentation', $presentation);
+
+    $form_state->setRebuild();
+  }
+
+  /**
+   * Submission handler for the "Add Slide" button.
+   */
+  public static function addRenderArraySlideSubmit(array $form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+
+    /** @var \Drupal\present\Entity\Presentation */
+    $presentation = $form_state->get('presentation');
+    $presentation->addSlide(['type' => Slide::TYPE_RENDER_ARRAY]);
     $form_state->set('presentation', $presentation);
 
     $form_state->setRebuild();
