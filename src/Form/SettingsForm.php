@@ -70,7 +70,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['slide_text_format'] = [
       '#type' => 'select',
-      '#title' => $this->t('Slide text format'),
+      '#title' => $this->t('Default Text Tormat for Slides'),
       '#default_value' => $this->config->get('slide_text_format'),
       '#options' => $text_format_options,
       '#description' => $this->t('Select text format to be used by default.'),
