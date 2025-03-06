@@ -76,7 +76,7 @@ class Slide extends FormElementBase {
       $element['content'] = [
         '#type' => 'text_format',
         '#title' => t('Content'),
-        '#format' => $element['#default_value']['content']['format'],
+        '#format' => $element['#default_value']['content']['format'] ?? $config->get('slide_text_format'),
         // '#allowed_formats' => [$config->get('slide_text_format')],
         '#default_value' => $element['#default_value']['content']['value'],
         '#limit_validation_errors' => [],
