@@ -84,7 +84,7 @@ class Slide extends FormElementBase {
       ];
     }
     if ($type == static::TYPE_RENDER_ARRAY) {
-      $element['content'] = [
+      $element['content']['value'] = [
         '#type' => 'textarea',
         '#title' => t('Content'),
         '#default_value' => $element['#default_value']['content']['value'],
