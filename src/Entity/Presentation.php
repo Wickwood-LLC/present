@@ -232,7 +232,10 @@ class Presentation extends ConfigEntityBase {
     $uuid_service = \Drupal::service('uuid');
     $key = $uuid_service->generate();
     $slide = $slide_data + [
-      'content' => '',
+      'content' => [
+        'value' => '',
+        'format' => NULL,
+      ],
       'type' => 'html',
     ] ;
     if (isset($position)) {
