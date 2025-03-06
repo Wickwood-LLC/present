@@ -4,7 +4,6 @@ namespace Drupal\present\Element;
 
 use Drupal\Core\Render\Attribute\RenderElement;
 use Drupal\Core\Render\Element\RenderElementBase;
-use Drupal\Core\Render\Markup;
 use Drupal\present\Entity\Presentation;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
@@ -154,13 +153,13 @@ class RevealJSPresentation extends RenderElementBase {
       }
 
       if ($slide_data['type'] == Slide::TYPE_RENDER_ARRAY) {
-        $slide['#content'] = Yaml::parse($slide_data['content']);
+        $slide['#content'] = Yaml::parse($slide_data['content']['value']);
       }
       else if ($slide_data['type'] == Slide::TYPE_HTML_RAW) {
         $slide['#content'] = [
           '#type' => 'processed_text',
-          '#text' => $slide_data['content'],
-          '#format' => $config->get('slide_text_format'),
+          '#text' => $slide_data['content']['value'],
+          '#format' => $slide_data['content']['format'],
         ];
       }
       $slides[] = $slide;

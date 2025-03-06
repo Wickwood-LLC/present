@@ -1,0 +1,36 @@
+<?php
+
+use Drupal\present\Element\Slide;
+
+/** 
+ * @file
+ * Install file for the Present module.
+ */
+
+
+/**
+ * Update the slide content to support new structure.
+ */
+function present_update_10001(&$sandbox) {
+  $config = \Drupal::configFactory()->getEditable('present.settings');
+
+  $default_slide_text_format = $config->get('slide_text_format');
+  
+
+  $presentation_storage = \Drupal::entityTypeManager()->getStorage('presentation');
+  $presentations = $presentation_storage->loadMultiple();
+  foreach ($presentations as $presentation) {
+    /** @var \Drupal\present\Entity\Presentation $presentation */
+    $slides = $presentation->getSlides();
+    foreach ($slides as $key => $slide) {
+      $content = $slide['content'];
+      $slide['content'] = [];
+      $slide['content']['value'] = $content;
+      if ($slide['type'] == Slide::TYPE_HTML_RAW) {
+        $slide['content']['format'] = $default_slide_text_format;
+      }
+      $presentation->setSlide($key, $slide);
+    }
+    $presentation->save();
+  }
+}

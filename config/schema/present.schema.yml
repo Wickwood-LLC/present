@@ -9,7 +9,7 @@ present.settings:
       label: 'Reveal.js Theme'
     slide_text_format:
       type: string
-      label: 'Slide text format'
+      label: 'Default Text Format for Slides'
 
 present.presentation.*:
   type: config_entity
@@ -56,8 +56,15 @@ present.presentation.*:
         label: 'Slide'
         mapping:
           content:
-            type: string
+            type: mapping
             label: 'Content'
+            mapping:
+              value:
+                type: text
+                label: 'Value'
+              format:
+                type: string
+                label: 'Format'
           type:
             type: string
             label: 'Type of Content'

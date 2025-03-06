@@ -77,9 +77,9 @@ class Slide extends FormElementBase {
       $element['content'] = [
         '#type' => 'text_format',
         '#title' => t('Content'),
-        '#format' => $config->get('slide_text_format'),
-        '#allowed_formats' => [$config->get('slide_text_format')],
-        '#default_value' => $element['#default_value']['content'],
+        '#format' => $element['#default_value']['content']['format'],
+        // '#allowed_formats' => [$config->get('slide_text_format')],
+        '#default_value' => $element['#default_value']['content']['value'],
         '#limit_validation_errors' => [],
         '#description' => t('Enter HTML of slide content.'),
       ];
@@ -88,7 +88,7 @@ class Slide extends FormElementBase {
       $element['content'] = [
         '#type' => 'textarea',
         '#title' => t('Content'),
-        '#default_value' => $element['#default_value']['content'],
+        '#default_value' => $element['#default_value']['content']['value'],
         '#limit_validation_errors' => [],
         '#description' => t('Enter Render array in YAML format of slide content.'),
       ];
@@ -386,11 +386,11 @@ class Slide extends FormElementBase {
 
     if ($value['type'] == static::TYPE_RENDER_ARRAY) {
       try {
-        $test = Yaml::parse($value['content']);
+        $test = Yaml::parse($value['content']['value']);
       }
       catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
           $form_state->setError(
-          $element['content'],
+          $element['content']['value'],
           t(
             'Not in a valid YAML format: %message',
             [
@@ -444,9 +444,6 @@ class Slide extends FormElementBase {
    */
   public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
     if (is_array($input)) {
-      if (is_array($input['content']) && isset($input['content']['value'])) {
-        $input['content'] = $input['content']['value'];
-      }
       return $input;
     }
     return $element['#default_value'];
