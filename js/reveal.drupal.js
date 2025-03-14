@@ -66,6 +66,30 @@
         });
 
         resizeObserver.observe(element);
+
+
+        window.addEventListener(
+          "message",
+          (event) => {
+            if (event.data.type && event.data.type == 'present') {
+              // Allow the reveal.js to be resized.
+              if (event.data.method == 'height') {
+                element.style.height = event.data.height + 'px';
+                reveal_deck.layout();
+              }
+              else if (event.data.method == 'width') {
+                element.style.width = event.data.width + 'px';
+                reveal_deck.layout();
+              }
+              else if (event.data.method == 'size') {
+                element.style.width = event.data.width + 'px';
+                element.style.height = event.data.height + 'px';
+                reveal_deck.layout();
+              }
+            }
+          },
+          false,
+        );
       })
     },
   };
